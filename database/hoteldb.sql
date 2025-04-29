@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2025 at 06:40 PM
+-- Generation Time: Apr 29, 2025 at 06:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -56,6 +56,53 @@ INSERT INTO `room_type` (`id`, `title`, `detail`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shifts`
+--
+
+CREATE TABLE `shifts` (
+  `shift_id` int(11) NOT NULL,
+  `staff_id` int(11) NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shifts`
+--
+
+INSERT INTO `shifts` (`shift_id`, `staff_id`, `start_time`, `end_time`, `date_start`, `date_end`) VALUES
+(1, 1, '08:00:00', '17:00:00', '2025-04-29', '2025-04-29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staffs`
+--
+
+CREATE TABLE `staffs` (
+  `staff_id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `position` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `profile` varchar(250) NOT NULL,
+  `shift_type` varchar(50) NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `staffs`
+--
+
+INSERT INTO `staffs` (`staff_id`, `name`, `position`, `address`, `profile`, `shift_type`, `phone_number`, `email`, `password`) VALUES
+(1, 'Armando Raguindin', 'Waiter', 'Roxas', 'staff_68103f481191d4.67828560.png', 'Morning', '639685340012', 'armando@gmail.com', '202cb962ac59075b964b07152d234b70');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -74,7 +121,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `address`, `email`, `password`, `role`, `phone`) VALUES
-(3, 'Mark Lester Raguindin', 'Roxas, Isabela', 'suguitanmark123@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', '639360991034'),
+(3, 'Mark Lester Raguindin', 'Cauayan', 'suguitanmark123@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', '639360991034'),
 (4, 'Jean Dominque Bulusan', 'Rizal', 'jean@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034');
 
 --
@@ -93,6 +140,19 @@ ALTER TABLE `rooms`
 --
 ALTER TABLE `room_type`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `shifts`
+--
+ALTER TABLE `shifts`
+  ADD PRIMARY KEY (`shift_id`),
+  ADD KEY `staff_id` (`staff_id`);
+
+--
+-- Indexes for table `staffs`
+--
+ALTER TABLE `staffs`
+  ADD PRIMARY KEY (`staff_id`);
 
 --
 -- Indexes for table `users`
@@ -117,6 +177,18 @@ ALTER TABLE `room_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `shifts`
+--
+ALTER TABLE `shifts`
+  MODIFY `shift_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `staffs`
+--
+ALTER TABLE `staffs`
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -131,6 +203,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `rooms`
   ADD CONSTRAINT `fk_room_type` FOREIGN KEY (`room_type_id`) REFERENCES `room_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `shifts`
+--
+ALTER TABLE `shifts`
+  ADD CONSTRAINT `shifts_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `staffs` (`staff_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
