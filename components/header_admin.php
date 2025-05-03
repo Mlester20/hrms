@@ -23,7 +23,8 @@
                         <li><a class="dropdown-item" href="manageRooms.php"><i class="fas fa-door-closed"></i> Rooms</a></li>
                         <li><a class="dropdown-item" href="roomType.php"><i class="fas fa-door-open"></i> Room type</a></li>
                         <li><a class="dropdown-item" href="staffs.php"><i class="fas fa-users"></i> Manage Staffs</a></li>
-                        <li><a class="dropdown-item" href="shifts.php"><i class="fas fa-users"></i> Shifts</a></li>
+                        <li><a class="dropdown-item" href="shifts.php"><i class="fas fa-clock"></i> Shifts</a></li>
+                        <li><a class="dropdown-item" href="banners.php"><i class="fas fa-users"></i> Banners</a></li>
                     </ul>
                 </li>
 

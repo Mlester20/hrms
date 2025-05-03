@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Fetch all rooms with their room type
-$query = "SELECT rooms.id, rooms.title, rooms.room_type_id, rooms.images, room_type.title AS room_type_title 
+$query = "SELECT rooms.id, rooms.title, rooms.room_type_id, rooms.images, rooms.price, room_type.title AS room_type_title 
           FROM rooms 
           INNER JOIN room_type ON rooms.room_type_id = room_type.id";
 $result = $con->query($query);
@@ -65,6 +65,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
                     <th>Title</th>
                     <th>Room Type</th>
                     <th>Images</th>
+                    <th>Price</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -75,16 +76,26 @@ $roomTypesResult = $con->query($roomTypesQuery);
                         <td><?php echo htmlspecialchars($row['title']); ?></td>
                         <td><?php echo htmlspecialchars($row['room_type_title']); ?></td>
                         <td>
-                            <img src="../uploads/<?php echo htmlspecialchars($row['images']); ?>" alt="Room Image" style="width: 100px; height: auto;">
+                            <?php
+                            $imagesArray = json_decode($row['images'], true);
+                            if (!empty($imagesArray)) {
+                                echo '<img src="../uploads/' . htmlspecialchars($imagesArray[0]) . '" alt="Room Image" style="width: 100px; height: auto;">';
+                            } else {
+                                echo 'No image available';
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php echo htmlspecialchars($row['price']); ?>
                         </td>
                         <td>
                             <!-- Edit Button -->
                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editRoomModal<?php echo $row['id']; ?>">
-                                <i class="fas fa-edit"></i> Edit
+                                <i class="fas fa-edit"></i>
                             </button>
                             <!-- Delete Button -->
                             <a href="../controllers/roomsController.php?deleteRoom=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this room?')">
-                                <i class="fas fa-trash"></i> Delete
+                                <i class="fas fa-trash"></i>
                             </a>
                         </td>
                     </tr>
@@ -156,7 +167,11 @@ $roomTypesResult = $con->query($roomTypesQuery);
                         </div>
                         <div class="mb-3">
                             <label for="images" class="form-label">Images</label>
-                            <input type="file" class="form-control" id="images" name="images" required>
+                            <input type="file" class="form-control" id="images" name="images[]" multiple required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="price" name="price" required>
                         </div>
                     </div>
                     <div class="modal-footer">

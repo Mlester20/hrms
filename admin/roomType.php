@@ -56,11 +56,11 @@ $result = $con->query($query);
                         <td>
                             <!-- Edit Button -->
                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editRoomTypeModal<?php echo $row['id']; ?>">
-                                <i class="fas fa-edit"></i> Edit
+                                <i class="fas fa-edit"></i> 
                             </button>
                             <!-- Delete Button -->
                             <a href="../controllers/roomTypeController.php?deleteRoomType=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this room type?')">
-                                <i class="fas fa-trash"></i> Delete
+                                <i class="fas fa-trash"></i> 
                             </a>
                         </td>
                     </tr>

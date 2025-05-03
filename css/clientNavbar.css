@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+.login-card {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.login-card h4 {
+    color: #8e44ad;
+    font-weight: 600;
+}
+
+.social-login .btn-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    color: #8e44ad;
+    border: 1px solid rgba(142, 68, 173, 0.3);
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.social-login .btn-circle:hover {
+    background-color: rgba(142, 68, 173, 0.1);
+    transform: translateY(-2px);
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.divider span {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 0 10px;
+    color: #777;
+    font-size: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+.divider:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 0;
+}
+
+.input-group-text {
+    color: #8e44ad;
+    border-color: rgba(142, 68, 173, 0.3);
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.form-control {
+    border-color: rgba(142, 68, 173, 0.3);
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(142, 68, 173, 0.25);
+    border-color: #8e44ad;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-get-started {
+    background-color: #8e44ad;
+    border-color: #8e44ad;
+    font-weight: 500;
+    padding: 10px;
+    transition: all 0.3s;
+}
+
+.btn-get-started:hover {
+    background-color: #7d3c98;
+    border-color: #7d3c98;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(125, 60, 152, 0.4);
+}
+
+.register-link, .login-link {
+    color: #8e44ad;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.register-link:hover, .login-link:hover {
+    color: #7d3c98;
+    text-decoration: underline;
+}
+
+header {
+    background-color: rgba(29, 12, 12, 0.5); 
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+header h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: #fff;
+}
