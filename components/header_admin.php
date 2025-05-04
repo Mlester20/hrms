@@ -25,6 +25,7 @@
                         <li><a class="dropdown-item" href="staffs.php"><i class="fas fa-users"></i> Manage Staffs</a></li>
                         <li><a class="dropdown-item" href="shifts.php"><i class="fas fa-clock"></i> Shifts</a></li>
                         <li><a class="dropdown-item" href="banners.php"><i class="fas fa-users"></i> Banners</a></li>
+                        <li><a class="dropdown-item" href="description.php"><i class="fas fa-users"></i> Description</a></li>
                     </ul>
                 </li>
 
