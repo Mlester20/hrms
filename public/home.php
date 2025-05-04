@@ -141,6 +141,149 @@ if ($result) {
         </div>
     </section>
 
+
+    <!-- Restaurant Section -->
+    <section class="restaurant-section py-5">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h5>EXQUISITE DINING EXPERIENCE</h5>
+                <h2>Our Restaurant</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="restaurant-content">
+                        <h3>Seeds Restaurant</h3>
+                        <p class="restaurant-tagline">Taste the difference in every bite</p>
+                        <p class="restaurant-description">
+                            Indulge in a culinary journey at Seeds Restaurant, where our expert chefs create masterpieces using locally-sourced ingredients. Our menu features a perfect blend of international cuisine and local flavors, ensuring a memorable dining experience for our guests.
+                        </p>
+                        <div class="restaurant-features">
+                            <div class="feature-item">
+                                <i class="fas fa-utensils"></i>
+                                <span>Fine Dining</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-glass-cheers"></i>
+                                <span>Premium Bar</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-leaf"></i>
+                                <span>Organic Ingredients</span>
+                            </div>
+                        </div>
+                        <div class="restaurant-hours mt-4">
+                            <h4>Opening Hours</h4>
+                            <ul class="list-unstyled">
+                                <li><strong>Breakfast:</strong> 6:30 AM - 10:30 AM</li>
+                                <li><strong>Lunch:</strong> 12:00 PM - 2:30 PM</li>
+                                <li><strong>Dinner:</strong> 6:00 PM - 10:30 PM</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary mt-3">View Menu</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="restaurant-images">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="image-container rounded overflow-hidden">
+                                    <img src="../images/loginbg.jpg" alt="Restaurant Interior" class="img-fluid restaurant-img">
+                                    <div class="image-overlay">
+                                        <span>Restaurant Interior</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="image-container rounded overflow-hidden">
+                                    <img src="../images/loginbg.jpg" alt="Signature Dish" class="img-fluid restaurant-img">
+                                    <div class="image-overlay">
+                                        <span>Signature Dish</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="image-container rounded overflow-hidden">
+                                    <img src="../images/restaurant.jpg" alt="Restaurant View" class="img-fluid restaurant-img">
+                                    <div class="image-overlay">
+                                        <span>Restaurant View</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Special Offers Carousel -->
+            <div class="special-offers mt-5">
+                <h3 class="text-center mb-4">Special Offers</h3>
+                <div id="specialOffersCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#specialOffersCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#specialOffersCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#specialOffersCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <img src="../images/loginbg.jpg" class="d-block w-100 rounded" alt="Special Offer 1">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="offer-content p-4">
+                                        <h4>Weekend Brunch Special</h4>
+                                        <p>Enjoy our special weekend brunch buffet with a complimentary glass of champagne. Perfect for family gatherings and special occasions.</p>
+                                        <p class="offer-price">$35 per person</p>
+                                        <button class="btn btn-outline-primary">Book a Table</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <img src="../images/loginbg.jpg" class="d-block w-100 rounded" alt="Special Offer 2">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="offer-content p-4">
+                                        <h4>Date Night Package</h4>
+                                        <p>Romantic dinner for two featuring a 3-course meal with wine pairing. Perfect for anniversaries and special celebrations.</p>
+                                        <p class="offer-price">$120 per couple</p>
+                                        <button class="btn btn-outline-primary">Book a Table</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <img src="../images/loginbg.jpg" class="d-block w-100 rounded" alt="Special Offer 3">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="offer-content p-4">
+                                        <h4>Business Lunch</h4>
+                                        <p>Quick and delicious 2-course business lunch with coffee. Available Monday to Friday from 12:00 PM to 2:00 PM.</p>
+                                        <p class="offer-price">$22 per person</p>
+                                        <button class="btn btn-outline-primary">Book a Table</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#specialOffersCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#specialOffersCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Our Favorite Rooms Section -->
     <section class="favorite-rooms-section">
         <div class="container">

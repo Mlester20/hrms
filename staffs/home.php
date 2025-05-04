@@ -38,7 +38,7 @@ if (!isset($_SESSION['staff_id'])) {
         
 
         // Fetch shift data
-        $query = "SELECT start_time, end_time, date_start, date_end 
+        $query = "SELECT start_time, end_time, date_start, date_end, status 
                   FROM shifts 
                   WHERE staff_id = ?";
         $stmt = $con->prepare($query);
@@ -50,12 +50,13 @@ if (!isset($_SESSION['staff_id'])) {
             echo "<h4 class='text-center text-muted'>Your Shift Schedule</h4>";
             echo "<div class='table-responsive mt-3'>";
             echo "<table class='table table-hover table-bordered'>";
-            echo "<thead class='table-dark text-center'>
+            echo "<thead class='table-light text-center'>
                     <tr>
                         <th>Date Start</th>
                         <th>Date End</th>
                         <th>Start Time</th>
                         <th>End Time</th>
+                        <th>Status</th>
                     </tr>
                   </thead><tbody>";
 
@@ -69,6 +70,7 @@ if (!isset($_SESSION['staff_id'])) {
                         <td>" . htmlspecialchars($row['date_end']) . "</td>
                         <td>" . htmlspecialchars($start_time) . "</td>
                         <td>" . htmlspecialchars($end_time) . "</td>
+                        <td>" . htmlspecialchars($row['status']) . "</td>
                       </tr>";
             }
 

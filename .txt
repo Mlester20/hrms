@@ -1,297 +1,88 @@
-<?php
-session_start();
-include '../components/config.php';
 
-// Check if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
-
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> <?php include '../components/title.php'; ?> </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../css/customAdminHeader.css">
-    <link rel="stylesheet" href="../css/clientNavbar.css">
-    <link rel="stylesheet" href="../css/home.css">
-</head>
-<body>
-    
-    <?php include '../components/header.php'; ?>
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1>Explore! Discover! Live!</h1>
-            <p>The best hotel for your family!</p>
-            <button class="book-now-btn">BOOK OUR ROOMS</button>
-        </div>
-    </section>
-
-    <!-- Booking Form -->
-    <section class="booking-form-container">
-        <div class="booking-form">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Check in</label>
-                    <div class="input-with-icon">
-                        <i class="far fa-calendar-alt"></i>
-                        <input type="text" placeholder="dd/mm/yyyy">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Check out</label>
-                    <div class="input-with-icon">
-                        <i class="far fa-calendar-alt"></i>
-                        <input type="text" placeholder="dd/mm/yyyy">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Guests</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-user"></i>
-                        <input type="text" value="2 Persons">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Beds</label>
-                    <div class="counter-input">
-                        <span class="counter-btn">-</span>
-                        <span class="counter-value">1</span>
-                        <span class="counter-btn">+</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Baths</label>
-                    <div class="counter-input">
-                        <span class="counter-btn">-</span>
-                        <span class="counter-value">1</span>
-                        <span class="counter-btn">+</span>
-                    </div>
-                </div>
-                <div class="form-group search-btn-container">
-                    <button class="search-btn"><i class="fas fa-search"></i> Search</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Hotel Section -->
-    <section class="about-hotel-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="about-content">
-                        <h5>WELCOME TO ROMANCY</h5>
-                        <h2>Our Hotel has been present for over 20 years.</h2>
-                        <p class="main-subtitle">We make the best for all our customers.</p>
-                        <p class="about-description">
-                            Our objective at Romancy is to bring together our visitor's activities and spirits with our own, communicating enthusiasm and sincerity in the food we share. Official Chef and Owner Philippe Massoud expertly creates a blend of Lebanese, Levantine, Mediterranean influenced food divided in each New York morning. Delightful herbs and flavors, connected to Nature's parity and ancient arabic potions.
-                        </p>
-                        <div class="ceo-signature">
-                            <div class="ceo-img">
-                                <img src="../images/ceo.jpg" alt="CEO">
-                            </div>
-                            <div class="signature-details">
-                                <h4>John Smith</h4>
-                                <p>CEO Romancy</p>
-                                <img src="../images/signature.png" alt="Signature" class="signature-img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="about-images">
-                        <div class="img-top">
-                            <img src="../images/hotel-view.jpg" alt="Hotel View" class="img-fluid">
-                        </div>
-                        <div class="img-bottom">
-                            <img src="../images/hotel-service.jpg" alt="Hotel Service" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Our Favorite Rooms Section -->
-    <section class="favorite-rooms-section">
-        <div class="container">
-            <div class="section-title text-center">
-                <h5>THE BEST IN YOUR FAMILY OR FRIENDS </h5>
-                <h2>Our Budget Friendly Rooms</h2>
-            </div>
-            <div class="room-gallery">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <img src="../images/room1.jpg" alt="Room 1" class="img-fluid">
-                            <div class="room-info">
-                                <h3>Deluxe Room</h3>
-                                <p>From $120 per night</p>
-                                <a href="#" class="room-details-btn">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <img src="../images/room2.jpg" alt="Room 2" class="img-fluid">
-                            <div class="room-info">
-                                <h3>Executive Suite</h3>
-                                <p>From $180 per night</p>
-                                <a href="#" class="room-details-btn">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="room-card">
-                            <img src="../images/room3.jpg" alt="Room 3" class="img-fluid">
-                            <div class="room-info">
-                                <h3>Family Room</h3>
-                                <p>From $150 per night</p>
-                                <a href="#" class="room-details-btn">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <?php include '../components/footer.php'; ?>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const counterBtns = document.querySelectorAll('.counter-btn');
-            
-            counterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const counterContainer = this.parentElement;
-                    const valueElement = counterContainer.querySelector('.counter-value');
-                    let value = parseInt(valueElement.textContent);
-                    
-                    if (this.textContent === '+') {
-                        value++;
-                    } else if (this.textContent === '-' && value > 1) {
-                        value--;
-                    }
-                    
-                    valueElement.textContent = value;
-                });
-            });
-        });
-    </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-<!-- filepath: c:\xampp\htdocs\HotelSystem\public\home.php -->
-<section class="favorite-rooms-section">
-    <div class="container">
-        <div class="section-title text-center">
-            <h5>THE BEST IN YOUR FAMILY OR FRIENDS</h5>
-            <h2>Our Budget Friendly Rooms</h2>
-        </div>
-        <div class="room-gallery">
-            <div class="row" id="room-gallery-container">
-                <!-- Dynamic content will be injected here -->
-            </div>
-        </div>
-    </div>
-</section>
-
-<script>
     document.addEventListener('DOMContentLoaded', function () {
-        const roomGalleryContainer = document.getElementById('room-gallery-container');
+        const tablesContainer = document.querySelector('.tables-container');
+        const reservationForm = document.getElementById('tableReservationForm');
+        const selectedTableIdInput = document.getElementById('selectedTableId');
+        const reserveButton = document.getElementById('reserveButton');
 
-        // Fetch room data from the API
-        fetch('../api/getRooms.php')
-            .then(response => response.json())
-            .then(rooms => {
-                rooms.forEach(room => {
-                    const roomCard = document.createElement('div');
-                    roomCard.classList.add('col-md-4');
+        // Fetch tables and render them
+        function fetchTables() {
+            fetch('../api/tableBooking.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        tablesContainer.innerHTML = '';
+                        data.tables.forEach(table => {
+                            const tableDiv = document.createElement('div');
+                            tableDiv.className = `table-item ${table.capacity}-seater ${table.status}`;
+                            tableDiv.dataset.tableId = table.table_id;
+                            tableDiv.dataset.capacity = table.capacity;
+                            tableDiv.dataset.location = table.location;
+                            tableDiv.style.top = `${table.position_y}px`;
+                            tableDiv.style.left = `${table.position_x}px`;
 
-                    // Create swiper container
-                    const swiperContainer = document.createElement('div');
-                    swiperContainer.classList.add('swiper-container');
+                            tableDiv.innerHTML = `
+                                <div class="table-top">
+                                    <span class="table-number">${table.table_number}</span>
+                                </div>
+                                <div class="table-info">
+                                    <span>${table.capacity} seats</span>
+                                </div>
+                            `;
 
-                    // Create swiper wrapper
-                    const swiperWrapper = document.createElement('div');
-                    swiperWrapper.classList.add('swiper-wrapper');
+                            if (table.status === 'available') {
+                                tableDiv.addEventListener('click', () => selectTable(table));
+                            }
 
-                    // Add images to swiper
-                    room.images.forEach(image => {
-                        const swiperSlide = document.createElement('div');
-                        swiperSlide.classList.add('swiper-slide');
-                        const img = document.createElement('img');
-                        img.src = `../images/${image}`;
-                        img.alt = room.title;
-                        img.classList.add('img-fluid');
-                        swiperSlide.appendChild(img);
-                        swiperWrapper.appendChild(swiperSlide);
-                    });
-
-                    swiperContainer.appendChild(swiperWrapper);
-
-                    // Room info
-                    const roomInfo = `
-                        <div class="room-info">
-                            <h3>${room.title}</h3>
-                            <p>From $${room.price} per night</p>
-                            <a href="#" class="room-details-btn">View Details</a>
-                        </div>
-                    `;
-
-                    // Append swiper and room info to the card
-                    roomCard.innerHTML = `
-                        <div class="room-card">
-                            ${swiperContainer.outerHTML}
-                            ${roomInfo}
-                        </div>
-                    `;
-
-                    roomGalleryContainer.appendChild(roomCard);
+                            tablesContainer.appendChild(tableDiv);
+                        });
+                    } else {
+                        alert('Error fetching tables: ' + data.error);
+                    }
                 });
+        }
 
-                // Initialize swiper
-                const swipers = document.querySelectorAll('.swiper-container');
-                swipers.forEach(swiper => {
-                    new Swiper(swiper, {
-                        loop: true,
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
-                        pagination: {
-                            el: '.swiper-pagination',
-                            clickable: true,
-                        },
-                    });
-                });
+        // Select a table
+        function selectTable(table) {
+            selectedTableIdInput.value = table.table_id;
+            document.getElementById('displayTableId').textContent = table.table_number;
+            document.getElementById('displayTableCapacity').textContent = table.capacity;
+            document.getElementById('displayTableLocation').textContent = table.location;
+
+            document.querySelector('.selected-table-info').classList.remove('d-none');
+            reserveButton.disabled = false;
+
+            // Highlight selected table
+            document.querySelectorAll('.table-item').forEach(item => item.classList.remove('selected'));
+            document.querySelector(`[data-table-id="${table.table_id}"]`).classList.add('selected');
+        }
+
+        // Handle reservation form submission
+        reservationForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(reservationForm);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('../api/tableBooking.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             })
-            .catch(error => console.error('Error fetching rooms:', error));
-    });
-</script>
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Reservation successful!');
+                        fetchTables();
+                        reservationForm.reset();
+                        document.querySelector('.selected-table-info').classList.add('d-none');
+                        reserveButton.disabled = true;
+                    } else {
+                        alert('Error making reservation: ' + data.error);
+                    }
+                });
+        });
 
-<!-- Include Swiper CSS and JS -->
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        // Initial fetch
+        fetchTables();
+    });

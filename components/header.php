@@ -14,10 +14,15 @@
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="bookings.php">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="bookingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-book"></i> My Bookings
                     </a>
+                    <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
+                        <li><a class="dropdown-item" href="restaurantTableBooking.php">Book a Table</a></li>
+                        <li><a class="dropdown-item" href="#">Past Bookings</a></li>
+                        <li><a class="dropdown-item" href="#">Cancelled Bookings</a></li>
+                    </ul>
                 </li>
 
                 <li class="nav-item dropdown">

@@ -315,7 +315,221 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Restaurant Section Styles */
+.restaurant-section {
+    background-color: #f8f9fa;
+    padding: 80px 0;
+}
 
+.restaurant-section .section-title h5 {
+    color: #d4af37;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.restaurant-section .section-title h2 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.restaurant-section .section-title h2:after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 3px;
+    background-color: #d4af37;
+    margin: 15px auto 0;
+}
+
+.restaurant-content h3 {
+    color: #343a40;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.restaurant-tagline {
+    color: #6c757d;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.restaurant-description {
+    margin-bottom: 25px;
+    line-height: 1.8;
+}
+
+.restaurant-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.feature-item i {
+    color: #d4af37;
+    font-size: 18px;
+}
+
+.restaurant-hours h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #343a40;
+}
+
+.restaurant-hours ul li {
+    margin-bottom: 5px;
+}
+
+.btn-primary {
+    background-color: #d4af37;
+    border-color: #d4af37;
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #c19b2b;
+    border-color: #c19b2b;
+}
+
+.btn-outline-primary {
+    color: #d4af37;
+    border-color: #d4af37;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+    background-color: #d4af37;
+    border-color: #d4af37;
+    color: white;
+}
+
+.restaurant-images .image-container {
+    position: relative;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.restaurant-images .image-container:hover {
+    transform: translateY(-5px);
+}
+
+.restaurant-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Special Offers Carousel */
+.special-offers {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+}
+
+.special-offers h3 {
+    color: #343a40;
+    font-weight: 700;
+    position: relative;
+}
+
+.special-offers h3:after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: #d4af37;
+    margin: 15px auto 0;
+}
+
+.offer-content h4 {
+    color: #343a40;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.offer-price {
+    color: #d4af37;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 15px 0;
+}
+
+.carousel-indicators button {
+    background-color: #d4af37;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: #d4af37;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .restaurant-section {
+        padding: 60px 0;
+    }
+    
+    .restaurant-section .section-title h2 {
+        font-size: 32px;
+    }
+    
+    .restaurant-content {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .restaurant-section {
+        padding: 40px 0;
+    }
+    
+    .restaurant-section .section-title h2 {
+        font-size: 28px;
+    }
+    
+    .offer-content {
+        padding: 15px !important;
+    }
+    
+    .carousel-item .row {
+        flex-direction: column;
+    }
+    
+    .carousel-item .col-md-6:last-child {
+        margin-top: 20px;
+    }
+}
 
 /* Favorite Rooms Section */
 .favorite-rooms-section {

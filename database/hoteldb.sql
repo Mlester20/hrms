@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2025 at 12:05 PM
+-- Generation Time: May 04, 2025 at 07:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -68,6 +68,32 @@ INSERT INTO `description` (`description_id`, `description_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `restaurant_tables`
+--
+
+CREATE TABLE `restaurant_tables` (
+  `table_id` int(11) NOT NULL,
+  `table_number` int(11) NOT NULL,
+  `capacity` int(11) NOT NULL,
+  `position_x` int(11) NOT NULL,
+  `position_y` int(11) NOT NULL,
+  `location` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `restaurant_tables`
+--
+
+INSERT INTO `restaurant_tables` (`table_id`, `table_number`, `capacity`, `position_x`, `position_y`, `location`) VALUES
+(1, 1, 2, 50, 100, 'Window'),
+(2, 2, 4, 150, 100, 'Center'),
+(3, 3, 6, 250, 100, 'Corner'),
+(4, 4, 4, 350, 100, 'Center'),
+(5, 5, 2, 450, 100, 'Window');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rooms`
 --
 
@@ -119,15 +145,16 @@ CREATE TABLE `shifts` (
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
   `date_start` date NOT NULL,
-  `date_end` date NOT NULL
+  `date_end` date NOT NULL,
+  `status` enum('pending','done') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `shifts`
 --
 
-INSERT INTO `shifts` (`shift_id`, `staff_id`, `start_time`, `end_time`, `date_start`, `date_end`) VALUES
-(1, 1, '08:00:00', '17:00:00', '2025-04-29', '2025-04-29');
+INSERT INTO `shifts` (`shift_id`, `staff_id`, `start_time`, `end_time`, `date_start`, `date_end`, `status`) VALUES
+(2, 1, '01:50:00', '13:50:00', '2025-05-05', '2025-05-05', 'pending');
 
 -- --------------------------------------------------------
 
@@ -153,6 +180,23 @@ CREATE TABLE `staffs` (
 
 INSERT INTO `staffs` (`staff_id`, `name`, `position`, `address`, `profile`, `shift_type`, `phone_number`, `email`, `password`) VALUES
 (1, 'Armando Raguindin', 'Waiter', 'Roxas', 'staff_68103f481191d4.67828560.png', 'Morning', '639685340012', 'armando@gmail.com', '202cb962ac59075b964b07152d234b70');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `table_reservations`
+--
+
+CREATE TABLE `table_reservations` (
+  `reservation_id` int(11) NOT NULL,
+  `table_id` int(11) NOT NULL,
+  `reservation_date` date NOT NULL,
+  `time_slot` time NOT NULL,
+  `guest_count` int(11) NOT NULL,
+  `special_requests` text DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `status` enum('pending','done') DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -202,6 +246,13 @@ ALTER TABLE `description`
   ADD PRIMARY KEY (`description_id`);
 
 --
+-- Indexes for table `restaurant_tables`
+--
+ALTER TABLE `restaurant_tables`
+  ADD PRIMARY KEY (`table_id`),
+  ADD UNIQUE KEY `table_number` (`table_number`);
+
+--
 -- Indexes for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -226,6 +277,14 @@ ALTER TABLE `shifts`
 --
 ALTER TABLE `staffs`
   ADD PRIMARY KEY (`staff_id`);
+
+--
+-- Indexes for table `table_reservations`
+--
+ALTER TABLE `table_reservations`
+  ADD PRIMARY KEY (`reservation_id`),
+  ADD KEY `table_id` (`table_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -256,6 +315,12 @@ ALTER TABLE `description`
   MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `restaurant_tables`
+--
+ALTER TABLE `restaurant_tables`
+  MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -271,13 +336,19 @@ ALTER TABLE `room_type`
 -- AUTO_INCREMENT for table `shifts`
 --
 ALTER TABLE `shifts`
-  MODIFY `shift_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `shift_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `staffs`
 --
 ALTER TABLE `staffs`
   MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `table_reservations`
+--
+ALTER TABLE `table_reservations`
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -306,6 +377,13 @@ ALTER TABLE `rooms`
 --
 ALTER TABLE `shifts`
   ADD CONSTRAINT `shifts_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `staffs` (`staff_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `table_reservations`
+--
+ALTER TABLE `table_reservations`
+  ADD CONSTRAINT `table_reservations_ibfk_1` FOREIGN KEY (`table_id`) REFERENCES `restaurant_tables` (`table_id`),
+  ADD CONSTRAINT `table_reservations_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

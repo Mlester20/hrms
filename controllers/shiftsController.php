@@ -9,10 +9,11 @@ if (isset($_POST['addShift'])) {
     $end_time = $_POST['end_time'];
     $date_start = $_POST['date_start'];
     $date_end = $_POST['date_end'];
+    $status = 'pending'; // Default status
 
-    $query = "INSERT INTO shifts (staff_id, start_time, end_time, date_start, date_end) VALUES (?, ?, ?, ?, ?)";
+    $query = "INSERT INTO shifts (staff_id, start_time, end_time, date_start, date_end, status) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("issss", $staff_id, $start_time, $end_time, $date_start, $date_end);
+    $stmt->bind_param("isssss", $staff_id, $start_time, $end_time, $date_start, $date_end, $status);
 
     if ($stmt->execute()) {
         $_SESSION['success'] = "Shift added successfully!";
@@ -33,10 +34,11 @@ if (isset($_POST['updateShift'])) {
     $end_time = $_POST['end_time'];
     $date_start = $_POST['date_start'];
     $date_end = $_POST['date_end'];
+    $status = $_POST['status'];
 
-    $query = "UPDATE shifts SET staff_id = ?, start_time = ?, end_time = ?, date_start = ?, date_end = ? WHERE shift_id = ?";
+    $query = "UPDATE shifts SET staff_id = ?, start_time = ?, end_time = ?, date_start = ?, date_end = ?, status = ? WHERE shift_id = ?";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("issssi", $staff_id, $start_time, $end_time, $date_start, $date_end, $shift_id);
+    $stmt->bind_param("isssssi", $staff_id, $start_time, $end_time, $date_start, $date_end, $status, $shift_id);
 
     if ($stmt->execute()) {
         $_SESSION['success'] = "Shift updated successfully!";
@@ -61,6 +63,25 @@ if (isset($_GET['deleteShift'])) {
         $_SESSION['success'] = "Shift deleted successfully!";
     } else {
         $_SESSION['error'] = "Failed to delete shift.";
+    }
+
+    $stmt->close();
+    header('Location: ../admin/shifts.php');
+    exit();
+}
+
+// Handle Mark as Done
+if (isset($_GET['markDone'])) {
+    $shift_id = $_GET['markDone'];
+
+    $query = "UPDATE shifts SET status = 'done' WHERE shift_id = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("i", $shift_id);
+
+    if ($stmt->execute()) {
+        $_SESSION['success'] = "Shift marked as done!";
+    } else {
+        $_SESSION['error'] = "Failed to mark shift as done.";
     }
 
     $stmt->close();

@@ -27,6 +27,7 @@ $staffResult = $con->query($staffQuery);
     <title>Shifts - <?php include '../components/title.php'; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/customAdminHeader.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
@@ -65,6 +66,7 @@ $staffResult = $con->query($staffQuery);
                     <th>End Time</th>
                     <th>Date Start</th>
                     <th>Date End</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -78,7 +80,14 @@ $staffResult = $con->query($staffQuery);
                         <td><?php echo htmlspecialchars($row['end_time']); ?></td>
                         <td><?php echo htmlspecialchars($row['date_start']); ?></td>
                         <td><?php echo htmlspecialchars($row['date_end']); ?></td>
+                        <td><?php echo ucfirst($row['status']); ?></td>
                         <td>
+                            <!-- Mark as Done Button -->
+                            <?php if ($row['status'] === 'pending'): ?>
+                                <a href="../controllers/shiftsController.php?markDone=<?php echo $row['shift_id']; ?>" class="btn btn-success btn-sm">
+                                    <i class="fas fa-check"></i> Mark as Done
+                                </a>
+                            <?php endif; ?>
                             <!-- Edit Button -->
                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editShiftModal<?php echo $row['shift_id']; ?>">
                                 <i class="fas fa-edit"></i> Edit
