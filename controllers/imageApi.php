@@ -2,7 +2,7 @@
 include '../components/config.php';
 
 $query = "SELECT id, title, room_type_id, images, price FROM rooms";
-$result = $conn->query($query);
+$result = $con->query($query);
 
 $rooms = [];
 if ($result->num_rows > 0) {

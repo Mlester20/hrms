@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2025 at 07:52 PM
+-- Generation Time: May 06, 2025 at 05:48 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -31,6 +31,33 @@ CREATE TABLE `banner` (
   `banner_id` int(11) NOT NULL,
   `banner_img` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `booking_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `check_in_date` date NOT NULL,
+  `check_out_date` date NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `status` enum('pending','confirmed','canceled','completed') DEFAULT 'pending',
+  `payment_status` enum('unpaid','partially_paid','paid') DEFAULT 'unpaid',
+  `special_requests` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `created_at`, `updated_at`) VALUES
+(7, 4, 6, '2025-05-13', '2025-05-14', 1500.00, 'pending', '', '', '2025-05-06 15:40:37', '2025-05-06 15:40:37');
 
 -- --------------------------------------------------------
 
@@ -233,6 +260,14 @@ ALTER TABLE `banner`
   ADD PRIMARY KEY (`banner_id`);
 
 --
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`booking_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `room_id` (`room_id`);
+
+--
 -- Indexes for table `concerns`
 --
 ALTER TABLE `concerns`
@@ -303,6 +338,12 @@ ALTER TABLE `banner`
   MODIFY `banner_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `concerns`
 --
 ALTER TABLE `concerns`
@@ -359,6 +400,13 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `concerns`

@@ -235,7 +235,9 @@ if ($result) {
                                         <h4>Weekend Brunch Special</h4>
                                         <p>Enjoy our special weekend brunch buffet with a complimentary glass of champagne. Perfect for family gatherings and special occasions.</p>
                                         <p class="offer-price">$35 per person</p>
-                                        <button class="btn btn-outline-primary">Book a Table</button>
+                                        <a href="restaurantTableBooking.php" class="btn btn-primary btn-lg d-inline-block mt-3">
+                                            <i class="fas fa-utensils"></i> Book a Table
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +252,9 @@ if ($result) {
                                         <h4>Date Night Package</h4>
                                         <p>Romantic dinner for two featuring a 3-course meal with wine pairing. Perfect for anniversaries and special celebrations.</p>
                                         <p class="offer-price">$120 per couple</p>
-                                        <button class="btn btn-outline-primary">Book a Table</button>
+                                        <a href="restaurantTableBooking.php" class="btn btn-primary btn-lg d-inline-block mt-3">
+                                            <i class="fas fa-utensils"></i> Book a Table
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -265,7 +269,9 @@ if ($result) {
                                         <h4>Business Lunch</h4>
                                         <p>Quick and delicious 2-course business lunch with coffee. Available Monday to Friday from 12:00 PM to 2:00 PM.</p>
                                         <p class="offer-price">$22 per person</p>
-                                        <button class="btn btn-outline-primary">Book a Table</button>
+                                        <a href="restaurantTableBooking.php" class="btn btn-primary btn-lg d-inline-block mt-3">
+                                            <i class="fas fa-utensils"></i> Book a Table
+                                        </a>
                                     </div>
                                 </div>
                             </div>

@@ -149,6 +149,9 @@ function displayAvailableRooms(rooms, searchParams) {
     // Clear previous content
     roomsContainer.innerHTML = '';
     
+    // DEBUG: Log the rooms data to console
+    console.log('Rooms data:', rooms);
+    
     if (rooms.length === 0) {
         // No rooms found
         roomsContainer.innerHTML = `
@@ -165,12 +168,11 @@ function displayAvailableRooms(rooms, searchParams) {
     }
     
     // Display each room
-    rooms.forEach(room => {
+    rooms.forEach((room, index) => {
         const roomCard = document.createElement('div');
         roomCard.className = 'col-md-6 col-lg-4 mb-4';
         
-        const imagePath = '../uploads';
-        // Use the first image from the array or a placeholder if none exist
+        const imagePath = '../uploads/';
         const firstImage = room.images_array.length > 0 ? 
             imagePath + room.images_array[0] : 
             'https://via.placeholder.com/300x200?text=No+Image';
@@ -178,7 +180,7 @@ function displayAvailableRooms(rooms, searchParams) {
         roomCard.innerHTML = `
             <div class="room-card">
                 <div class="room-image">
-                    <img src="${firstImage}" alt="${room.title}">
+                    <img src="${firstImage}" alt="${room.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Image+Error'; console.error('Failed to load image: ' + this.src);">
                     <div class="room-type-badge">${room.room_type}</div>
                 </div>
                 <div class="room-body">
@@ -195,7 +197,7 @@ function displayAvailableRooms(rooms, searchParams) {
                         $${room.price} <span class="room-price-unit">per night</span>
                     </div>
                     <div class="total-price mb-3">
-                        <strong>Total for ${room.nights} nights:</strong> $${room.total_price}
+                        <strong>Total for ${room.nights} nights:</strong> ₱${room.total_price}
                     </div>
                     <button class="btn btn-primary btn-book" data-room-id="${room.id}" data-room-title="${room.title}" 
                             data-room-type="${room.room_type}" data-room-price="${room.price}" data-total-price="${room.total_price}" 
@@ -221,22 +223,15 @@ function displayAvailableRooms(rooms, searchParams) {
  * Reset search form and results
  */
 function resetSearch() {
-    // Reset form
     document.getElementById('bookingSearchForm').reset();
-    
-    // Clear rooms container
     document.getElementById('available-rooms-container').innerHTML = '';
-    
-    // Clear URL parameters
     history.pushState({}, '', window.location.pathname);
-    
-    // Clear status message
+
     const statusMessageContainer = document.querySelector('.booking-status-message');
     statusMessageContainer.classList.remove('error', 'success');
     statusMessageContainer.style.display = 'none';
     statusMessageContainer.textContent = '';
     
-    // Initialize date pickers again
     const datePickerOptions = {
         minDate: "today",
         dateFormat: "Y-m-d",
@@ -262,7 +257,6 @@ function openBookingModal(roomData, searchParams) {
     const modal = document.getElementById('bookingModal');
     const modalInstance = new bootstrap.Modal(modal);
     
-    // Set hidden form fields
     document.getElementById('room_id').value = roomData.roomId;
     document.getElementById('modal_check_in_date').value = searchParams.check_in_date;
     document.getElementById('modal_check_out_date').value = searchParams.check_out_date;
@@ -275,8 +269,7 @@ function openBookingModal(roomData, searchParams) {
     modal.querySelector('.nights-count').textContent = `Duration: ${roomData.nights} night${roomData.nights > 1 ? 's' : ''}`;
     modal.querySelector('.room-price').textContent = `Price per night: $${roomData.roomPrice}`;
     modal.querySelector('.total-price-display').textContent = `Total: $${roomData.totalPrice}`;
-    
-    // Show modal
+
     modalInstance.show();
 }
 
@@ -351,33 +344,24 @@ function submitBooking() {
             // Update booking reference in confirmation modal
             document.getElementById('booking_reference').textContent = data.data.booking_reference;
             
-            // Show confirmation modal
             const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
             confirmationModal.show();
-            
-            // Reset form
             form.reset();
             
-            // Refresh available rooms
             searchAvailableRooms();
         } else {
-            // Show error message
             alert(data.message || 'An error occurred while processing your booking.');
         }
     })
     .catch(error => {
         console.error('Error submitting booking:', error);
         alert('An error occurred while processing your booking. Please try again.');
-        
-        // Re-enable submit button
+
         submitButton.disabled = false;
         submitButton.innerHTML = originalButtonText;
     });
 }
 
-/**
- * Format date in user-friendly format
- */
 function formatDate(dateString) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
