@@ -4,11 +4,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="footer-widget">
-                        <h3>Romancy Hotel & Resort</h3>
+                        <h3>Mark's Hotel & Restaurant</h3>
                         <p>Explore, discover, and experience luxury like never before.</p>
                         <div class="contact-info">
                             <p><i class="fas fa-map-marker-alt"></i> 123 Hotel Street, City, Country</p>
-                            <p><i class="fas fa-phone"></i> +022 345 6789</p>
+                            <p><i class="fas fa-phone"></i> +63 960 991 304</p>
                             <p><i class="fas fa-envelope"></i> contact@mark020.com</p>
                         </div>
                     </div>

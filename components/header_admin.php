@@ -26,6 +26,7 @@
                         <li><a class="dropdown-item" href="shifts.php"><i class="fas fa-clock"></i> Shifts</a></li>
                         <li><a class="dropdown-item" href="banners.php"><i class="fas fa-users"></i> Banners</a></li>
                         <li><a class="dropdown-item" href="description.php"><i class="fas fa-users"></i> Description</a></li>
+                        <li><a class="dropdown-item" href="specialOffers.php"><i class="fas fa-users"></i> Special Offers</a></li>
                     </ul>
                 </li>
 
@@ -35,7 +36,7 @@
                         <i class="fas fa-calendar"></i> Bookings
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="entriesDropdown">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-door-open"></i> Room Bookings</a></li>
+                        <li><a class="dropdown-item" href="room_reservations.php"><i class="fas fa-door-open"></i> Room Bookings</a></li>
                         <li><a class="dropdown-item" href="tablesReservation.php"><i class="fas fa-utensils"></i> Restaurant Reservations</a></li>
                     </ul>
                 </li>

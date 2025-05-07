@@ -20,6 +20,10 @@ if ($result) {
     echo "Error fetching descriptions: " . mysqli_error($con);
 }
 
+$offers_query = "SELECT * FROM special_offers ORDER BY offers_id";
+$offers_result = mysqli_query($con, $offers_query);
+$offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -45,54 +49,6 @@ if ($result) {
             <h1>Explore! Discover! Live!</h1>
             <p>The best hotel for your family!</p>
             <button class="book-now-btn">BOOK OUR ROOMS</button>
-        </div>
-    </section>
-
-    <!-- Booking Form -->
-    <section class="booking-form-container">
-        <div class="booking-form">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Check in</label>
-                    <div class="input-with-icon">
-                        <i class="far fa-calendar-alt"></i>
-                        <input type="text" placeholder="dd/mm/yyyy">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Check out</label>
-                    <div class="input-with-icon">
-                        <i class="far fa-calendar-alt"></i>
-                        <input type="text" placeholder="dd/mm/yyyy">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Guests</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-user"></i>
-                        <input type="text" value="2 Persons">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Beds</label>
-                    <div class="counter-input">
-                        <span class="counter-btn">-</span>
-                        <span class="counter-value">1</span>
-                        <span class="counter-btn">+</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Baths</label>
-                    <div class="counter-input">
-                        <span class="counter-btn">-</span>
-                        <span class="counter-value">1</span>
-                        <span class="counter-btn">+</span>
-                    </div>
-                </div>
-                <div class="form-group search-btn-container">
-                    <button class="search-btn"><i class="fas fa-search"></i> Search</button>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -219,74 +175,64 @@ if ($result) {
             <div class="special-offers mt-5">
                 <h3 class="text-center mb-4">Special Offers</h3>
                 <div id="specialOffersCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <!-- Dynamic Indicators -->
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#specialOffersCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#specialOffersCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#specialOffersCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <?php foreach($offers as $key => $offer): ?>
+                            <button type="button" 
+                                    data-bs-target="#specialOffersCarousel" 
+                                    data-bs-slide-to="<?php echo $key; ?>" 
+                                    <?php echo $key === 0 ? 'class="active" aria-current="true"' : ''; ?>
+                                    aria-label="Slide <?php echo $key + 1; ?>">
+                            </button>
+                        <?php endforeach; ?>
                     </div>
+
+                    <!-- Dynamic Carousel Items -->
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <img src="../images/loginbg.jpg" class="d-block w-100 rounded" alt="Special Offer 1">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="offer-content p-4">
-                                        <h4>Weekend Brunch Special</h4>
-                                        <p>Enjoy our special weekend brunch buffet with a complimentary glass of champagne. Perfect for family gatherings and special occasions.</p>
-                                        <p class="offer-price">$35 per person</p>
-                                        <a href="restaurantTableBooking.php" class="btn btn-primary btn-lg d-inline-block mt-3">
-                                            <i class="fas fa-utensils"></i> Book a Table
-                                        </a>
+                        <?php foreach($offers as $key => $offer): ?>
+                            <div class="carousel-item <?php echo $key === 0 ? 'active' : ''; ?>">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <img src="../uploads/<?php echo htmlspecialchars($offer['image']); ?>" 
+                                            class="d-block w-100 rounded" 
+                                            alt="<?php echo htmlspecialchars($offer['title']); ?>">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="offer-content p-4">
+                                            <h4><?php echo htmlspecialchars($offer['title']); ?></h4>
+                                            <p><?php echo htmlspecialchars($offer['description']); ?></p>
+                                            <p class="offer-price">₱<?php echo number_format($offer['price'], 2); ?></p>
+                                            <a href="restaurantTableBooking.php" class="btn btn-primary btn-lg d-inline-block mt-3">
+                                                <i class="fas fa-utensils"></i> Book a Table
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <img src="../images/loginbg.jpg" class="d-block w-100 rounded" alt="Special Offer 2">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="offer-content p-4">
-                                        <h4>Date Night Package</h4>
-                                        <p>Romantic dinner for two featuring a 3-course meal with wine pairing. Perfect for anniversaries and special celebrations.</p>
-                                        <p class="offer-price">$120 per couple</p>
-                                        <a href="restaurantTableBooking.php" class="btn btn-primary btn-lg d-inline-block mt-3">
-                                            <i class="fas fa-utensils"></i> Book a Table
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <img src="../images/loginbg.jpg" class="d-block w-100 rounded" alt="Special Offer 3">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="offer-content p-4">
-                                        <h4>Business Lunch</h4>
-                                        <p>Quick and delicious 2-course business lunch with coffee. Available Monday to Friday from 12:00 PM to 2:00 PM.</p>
-                                        <p class="offer-price">$22 per person</p>
-                                        <a href="restaurantTableBooking.php" class="btn btn-primary btn-lg d-inline-block mt-3">
-                                            <i class="fas fa-utensils"></i> Book a Table
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#specialOffersCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#specialOffersCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+
+                    <!-- Only show controls if there are multiple offers -->
+                    <?php if(count($offers) > 1): ?>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#specialOffersCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#specialOffersCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    <?php endif; ?>
                 </div>
+
+                <!-- Show message if no offers are available -->
+                <?php if(empty($offers)): ?>
+                    <div class="alert alert-info text-center">
+                        No special offers available at the moment.
+                    </div>
+                <?php endif; ?>
             </div>
+            
         </div>
     </section>
 

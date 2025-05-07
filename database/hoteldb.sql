@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2025 at 05:48 PM
+-- Generation Time: May 07, 2025 at 01:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -57,7 +57,7 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `created_at`, `updated_at`) VALUES
-(7, 4, 6, '2025-05-13', '2025-05-14', 1500.00, 'pending', '', '', '2025-05-06 15:40:37', '2025-05-06 15:40:37');
+(9, 4, 6, '2025-05-07', '2025-05-08', 1500.00, 'confirmed', 'paid', '', '2025-05-07 11:02:10', '2025-05-07 11:13:46');
 
 -- --------------------------------------------------------
 
@@ -186,6 +186,28 @@ INSERT INTO `shifts` (`shift_id`, `staff_id`, `start_time`, `end_time`, `date_st
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `special_offers`
+--
+
+CREATE TABLE `special_offers` (
+  `offers_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` varchar(2500) NOT NULL,
+  `image` varchar(50) NOT NULL,
+  `price` varchar(5000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `special_offers`
+--
+
+INSERT INTO `special_offers` (`offers_id`, `title`, `description`, `image`, `price`) VALUES
+(1, 'Date Night Package', 'Romantic dinner for two featuring a 3-course meal with wine pairing. Perfect for anniversaries and special celebrations.', '1746612490_restaurant.jpg', '2000'),
+(2, 'Business Lunch', 'Quick and delicious 2-course business lunch with coffee. Available Monday to Friday from 12:00 PM to 2:00 PM.\r\n\r\n', '1746612814_restaurant.jpg', '5000');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `staffs`
 --
 
@@ -224,6 +246,13 @@ CREATE TABLE `table_reservations` (
   `user_id` int(11) NOT NULL,
   `status` enum('pending','done') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `table_reservations`
+--
+
+INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_date`, `time_slot`, `guest_count`, `special_requests`, `user_id`, `status`) VALUES
+(9, 5, '2025-05-08', '12:00:00', 2, '', 4, 'pending');
 
 -- --------------------------------------------------------
 
@@ -308,6 +337,12 @@ ALTER TABLE `shifts`
   ADD KEY `staff_id` (`staff_id`);
 
 --
+-- Indexes for table `special_offers`
+--
+ALTER TABLE `special_offers`
+  ADD PRIMARY KEY (`offers_id`);
+
+--
 -- Indexes for table `staffs`
 --
 ALTER TABLE `staffs`
@@ -380,6 +415,12 @@ ALTER TABLE `shifts`
   MODIFY `shift_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `special_offers`
+--
+ALTER TABLE `special_offers`
+  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `staffs`
 --
 ALTER TABLE `staffs`
@@ -389,7 +430,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `table_reservations`
 --
 ALTER TABLE `table_reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

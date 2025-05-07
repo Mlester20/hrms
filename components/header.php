@@ -14,17 +14,24 @@
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="roomBookings.php">
-                        <i class="fas fa-bed"></i> Book a Room
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="bookingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-book"></i> Bookings
                     </a>
+                    <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
+                        <li><a class="dropdown-item" href="restaurantTableBooking.php">Book a Table</a></li>
+                        <li><a class="dropdown-item" href="roomBookings.php">Book a Room</a></li>
+                        
+                    </ul>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="bookingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-book"></i> My Bookings
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
-                        <li><a class="dropdown-item" href="restaurantTableBooking.php">Book a Table</a></li>
+                        <li><a class="dropdown-item" href="bookings.php">My Room Bookings</a></li>
                         <li><a class="dropdown-item" href="#">Past Bookings</a></li>
                         <li><a class="dropdown-item" href="#">Cancelled Bookings</a></li>
                     </ul>
