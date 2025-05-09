@@ -21,19 +21,6 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="../css/clientNavbar.css">
     <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="../css/bookings.css">
-
-<style>
-.modal-dialog-scrollable .modal-content {
-    max-height: 90vh;
-}
-
-/* Ensure the image doesn't overflow */
-.modal-body img.room-image {
-    max-width: 100%;
-    height: auto;
-}
-</style>
 </head>
 <body>
     <?php include '../components/header.php'; ?>
@@ -115,7 +102,7 @@ if (!isset($_SESSION['user_id'])) {
                     
                     <!-- Details Modal -->
                     <div class="modal fade" id="detailsModal<?php echo $booking['booking_id']; ?>" tabindex="-1" aria-labelledby="detailsModalLabel<?php echo $booking['booking_id']; ?>" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="detailsModalLabel<?php echo $booking['booking_id']; ?>">
@@ -126,9 +113,16 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-md-5">
+                                            <?php if (isset($firstImage)): ?>
                                             <img src="../uploads/<?php echo $firstImage; ?>" 
-                                            alt="<?php echo $booking['room_title']; ?>" class="room-image mb-4">
-                                                 
+                                                alt="<?php echo $booking['room_title']; ?>" class="img-fluid rounded mb-4">
+                                            <?php else: ?>
+                                            <div class="text-center p-4 bg-light mb-4 rounded">
+                                                <i class="fas fa-hotel fa-3x text-muted"></i>
+                                                <p class="mt-2">Room image</p>
+                                            </div>
+                                            <?php endif; ?>
+                                                
                                             <div class="card mb-4">
                                                 <div class="card-header bg-primary text-white">
                                                     <i class="fas fa-info-circle me-2"></i>Booking Status
@@ -244,8 +238,9 @@ if (!isset($_SESSION['user_id'])) {
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Keep My Booking</button>
                                     <form method="POST">
                                         <input type="hidden" name="booking_id" value="<?php echo $booking['booking_id']; ?>">
-                                        <button type="submit" name="cancel_booking" class="btn btn-danger">
-                                            <i class="fas fa-times-circle me-1"></i>Yes, Cancel Booking
+                                        <button type="button" class="btn btn-danger cancel-btn"
+                                                data-bs-booking-id="<?php echo $booking['booking_id']; ?>">
+                                            <i class="fas fa-times-circle me-1"></i>Cancel Booking
                                         </button>
                                     </form>
                                 </div>
@@ -278,5 +273,24 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.cancel-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const bookingId = this.getAttribute('data-bs-booking-id');
+                const detailsModal = document.getElementById('detailsModal' + bookingId);
+                const cancelModal = new bootstrap.Modal(document.getElementById('cancelModal' + bookingId));
+
+                // Hide the details modal first
+                const bsDetailsModal = bootstrap.Modal.getInstance(detailsModal);
+                bsDetailsModal.hide();
+
+                // Then show the cancel modal after a short delay
+                setTimeout(() => {
+                    cancelModal.show();
+                }, 300); // enough time for fade-out animation
+            });
+        });
+
+    </script>
 </body>
 </html>

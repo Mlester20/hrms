@@ -37,7 +37,9 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="entriesDropdown">
                         <li><a class="dropdown-item" href="room_reservations.php"><i class="fas fa-door-open"></i> Room Bookings</a></li>
+                        <li><a class="dropdown-item" href="canceledBooks.php"><i class="fas fa-utensils"></i> Cancelled Books</a></li>
                         <li><a class="dropdown-item" href="tablesReservation.php"><i class="fas fa-utensils"></i> Restaurant Reservations</a></li>
+
                     </ul>
                 </li>
 
