@@ -1,6 +1,4 @@
 <?php
-session_start();
-include '../components/config.php';
 include '../controllers/fetchBookings.php';
 
 // Check if the user is logged in
@@ -19,8 +17,8 @@ if (!isset($_SESSION['user_id'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/customAdminHeader.css">
-    <link rel="stylesheet" href="../css/clientNavbar.css">
     <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/modal.css">
 </head>
 <body>
     <?php include '../components/header.php'; ?>
@@ -29,7 +27,6 @@ if (!isset($_SESSION['user_id'])) {
         <div class="row mb-4">
             <div class="col-12">
                 <h1 class="text-center mb-4">My Bookings</h1>
-                <p class="text-center text-muted">View and manage all your reservations</p>
             </div>
         </div>
         
@@ -204,7 +201,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <?php if (strtolower($booking['booking_status']) == 'pending' || strtolower($booking['booking_status']) == 'confirmed'): ?>
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal<?php echo $booking['booking_id']; ?>" data-bs-dismiss="modal">
+                                        <button type="button" class="btn btn-danger" onclick="openCancelModal(<?= $booking['booking_id']; ?>)" data-bs-dismiss="modal">
                                             <i class="fas fa-times-circle me-1"></i>Cancel Booking
                                         </button>
                                     <?php endif; ?>
@@ -235,15 +232,15 @@ if (!isset($_SESSION['user_id'])) {
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Keep My Booking</button>
-                                    <form method="POST">
-                                        <input type="hidden" name="booking_id" value="<?php echo $booking['booking_id']; ?>">
-                                        <button type="button" class="btn btn-danger cancel-btn"
-                                                data-bs-booking-id="<?php echo $booking['booking_id']; ?>">
-                                            <i class="fas fa-times-circle me-1"></i>Cancel Booking
-                                        </button>
-                                    </form>
-                                </div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Keep My Booking</button>
+                                <form action="../controllers/fetchBookings.php" method="POST">
+                                    <input type="hidden" name="booking_id" value="<?php echo $booking['booking_id']; ?>">
+                                    <input type="hidden" name="cancel_booking" value="1">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-times-circle me-1"></i>Cancel Booking
+                                    </button>
+                                </form>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -272,25 +269,6 @@ if (!isset($_SESSION['user_id'])) {
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script>
-        document.querySelectorAll('.cancel-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const bookingId = this.getAttribute('data-bs-booking-id');
-                const detailsModal = document.getElementById('detailsModal' + bookingId);
-                const cancelModal = new bootstrap.Modal(document.getElementById('cancelModal' + bookingId));
-
-                // Hide the details modal first
-                const bsDetailsModal = bootstrap.Modal.getInstance(detailsModal);
-                bsDetailsModal.hide();
-
-                // Then show the cancel modal after a short delay
-                setTimeout(() => {
-                    cancelModal.show();
-                }, 300); // enough time for fade-out animation
-            });
-        });
-
-    </script>
+    <script src="../js/modal.js"></script>
 </body>
 </html>

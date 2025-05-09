@@ -1,22 +1,36 @@
 <?php
+session_start();
+include '../components/config.php';
+
+if (!isset($user_id)) {
+    if (isset($_SESSION['user_id'])) {
+        $user_id = $_SESSION['user_id'];
+    } else {
+        die("User not authenticated");
+    }
+}
+
 $user_id = $_SESSION['user_id'];
 
 // Process booking cancellation if requested
 if (isset($_POST['cancel_booking']) && isset($_POST['booking_id'])) {
     $booking_id = $_POST['booking_id'];
     
-    // Update booking status to cancelled
-    $cancel_query = "UPDATE bookings SET status = 'Cancelled' WHERE booking_id = ? AND user_id = ?";
+    // Update booking status to canceled (match your enum value)
+    $cancel_query = "UPDATE bookings SET status = 'canceled' WHERE booking_id = ? AND user_id = ?";
     $cancel_stmt = mysqli_prepare($con, $cancel_query);
     mysqli_stmt_bind_param($cancel_stmt, 'ii', $booking_id, $user_id);
     
     if (mysqli_stmt_execute($cancel_stmt)) {
         $success_message = "Booking #" . $booking_id . " has been cancelled successfully.";
     } else {
-        $error_message = "Failed to cancel booking. Please try again.";
+        $error_message = "Failed to cancel booking. Please try again. Error: " . mysqli_error($con);
     }
     
     mysqli_stmt_close($cancel_stmt);
+
+    header('location: ../public/bookings.php');
+    exit();
 }
 
 // Query to fetch only bookings for the current user
@@ -54,7 +68,7 @@ function getStatusBadgeClass($status) {
             return 'bg-success';
         case 'pending':
             return 'bg-warning text-dark';
-        case 'cancelled':
+        case 'canceled': // Note: changed from 'cancelled' to match your enum
             return 'bg-danger';
         case 'completed':
             return 'bg-info';
@@ -86,5 +100,4 @@ function calculateNights($checkin, $checkout) {
     $interval = $checkin_date->diff($checkout_date);
     return $interval->days;
 }
-
 ?>

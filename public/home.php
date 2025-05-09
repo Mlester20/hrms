@@ -38,6 +38,7 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
     <link rel="stylesheet" href="../css/clientNavbar.css">
     <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="../css/animation.css">
 </head>
 <body>
     
@@ -45,7 +46,7 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
 
     <!-- Hero Section -->
     <section class="hero-section">
-        <div class="hero-content" id="heroContent">
+        <div class="hero-content fade-in" id="heroContent">
             <h1>Explore! Discover! Live!</h1>
             <p>The best hotel for your family!</p>
             <button class="book-now-btn">BOOK OUR ROOMS</button>
@@ -88,9 +89,6 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
                         <div class="img-top">
                             <img src="../images/loginbg.jpg" alt="Hotel View" class="img-fluid">
                         </div>
-                        <div class="img-bottom">
-                            <img src="../images/loginbg.jpg" alt="Hotel Service" class="img-fluid">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -108,7 +106,7 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
             
             <div class="row">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="restaurant-content">
+                    <div class="restaurant-content fade-in-left">
                         <h3>Seeds Restaurant</h3>
                         <p class="restaurant-tagline">Taste the difference in every bite</p>
                         <p class="restaurant-description">
@@ -144,7 +142,7 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="image-container rounded overflow-hidden">
-                                    <img src="../images/loginbg.jpg" alt="Restaurant Interior" class="img-fluid restaurant-img">
+                                    <img src="../images/interior.jpg" alt="Restaurant Interior" class="img-fluid restaurant-img">
                                     <div class="image-overlay">
                                         <span>Restaurant Interior</span>
                                     </div>
@@ -152,7 +150,7 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
                             </div>
                             <div class="col-md-6">
                                 <div class="image-container rounded overflow-hidden">
-                                    <img src="../images/loginbg.jpg" alt="Signature Dish" class="img-fluid restaurant-img">
+                                    <img src="../images/dish.jpg" alt="Signature Dish" class="img-fluid restaurant-img">
                                     <div class="image-overlay">
                                         <span>Signature Dish</span>
                                     </div>
@@ -239,7 +237,7 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
     <!-- Our Favorite Rooms Section -->
     <section class="favorite-rooms-section">
         <div class="container">
-            <div class="section-title text-center">
+            <div class="section-title text-center fade-in">
                 <h5>THE BEST IN YOUR FAMILY OR FRIENDS</h5>
                 <h2>Our Gallery</h2>
             </div>

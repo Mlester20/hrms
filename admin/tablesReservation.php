@@ -64,7 +64,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <th>Guest Count</th>
                     <th>Special Requests</th>
                     <th>Reserved By</th>
-                    <th>Email</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -80,7 +79,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                             <td><?php echo $reservation['guest_count']; ?></td>
                             <td><?php echo $reservation['special_requests'] ?: 'None'; ?></td>
                             <td><?php echo $reservation['name']; ?></td>
-                            <td><?php echo $reservation['email']; ?></td>
                             <td><?php echo ucfirst($reservation['status']); ?></td>
                             <td>
                                 <button class="btn btn-success btn-sm mark-done" data-id="<?php echo $reservation['reservation_id']; ?>">Mark as Done</button>

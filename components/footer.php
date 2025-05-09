@@ -45,7 +45,7 @@
         </div>
         <div class="copyright">
             <div class="container">
-                <p>&copy; 2025 Romancy Hotel & Resort. All Rights Reserved.</p>
+                <p>&copy; 2025 Mark's Hotel & Resort. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
