@@ -1,7 +1,6 @@
 <?php
 include '../components/config.php';
 
-// Error handling - prevent PHP errors from being displayed in the output
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 

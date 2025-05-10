@@ -147,6 +147,10 @@ if ($reservationResult) {
                             <label for="timeSlot" class="form-label">Time</label>
                             <select class="form-select" id="timeSlot" name="time_slot" required>
                                 <option value="">Select time</option>
+                                <option value="07:00">07:00 AM</option>
+                                <option value="08:00">08:00 AM</option>
+                                <option value="09:00">09:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
                                 <option value="11:00">11:00 AM</option>
                                 <option value="12:00">12:00 PM</option>
                                 <option value="13:00">1:00 PM</option>

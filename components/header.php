@@ -32,7 +32,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
                         <li><a class="dropdown-item" href="bookings.php">My Room Bookings</a></li>
-                        <li><a class="dropdown-item" href="#">Past Bookings</a></li>
+                        <li><a class="dropdown-item" href="tableBookings.php">My Table Bookings</a></li>
                         <li><a class="dropdown-item" href="#">Cancelled Bookings</a></li>
                     </ul>
                 </li>

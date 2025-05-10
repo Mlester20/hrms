@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 include '../components/config.php';
 
 // Get all menu items
-$query = "SELECT * FROM restaurant_menu ORDER BY menu_id DESC";
+$query = "SELECT * FROM restaurant_menu ORDER BY menu_id DESC LIMIT 3";
 $result = mysqli_query($con, $query);
 
 $menu_items = [];

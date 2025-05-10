@@ -16,7 +16,7 @@ if (!isset($con) || $con->connect_error) {
 
 try {
     // Perform query
-    $query = "SELECT id, title, room_type_id, images, price FROM rooms ORDER BY id DESC";
+    $query = "SELECT id, title, room_type_id, images, price FROM rooms ORDER BY id DESC limit 3";
     $result = $con->query($query);
     
     $rooms = [];

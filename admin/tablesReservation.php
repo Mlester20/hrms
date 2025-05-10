@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../components/config.php';
+include '../controllers/fetchTablesReservation.php';
 
 // Check if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
@@ -8,35 +9,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Fetch reserved tables with relational data
-$query = "
-    SELECT 
-        r.reservation_id,
-        r.reservation_date,
-        r.time_slot,
-        r.guest_count,
-        r.special_requests,
-        r.status, -- Include the status column
-        t.table_number,
-        t.capacity,
-        u.name,
-        u.email
-    FROM table_reservations r
-    INNER JOIN restaurant_tables t ON r.table_id = t.table_id
-    INNER JOIN users u ON r.user_id = u.user_id
-    ORDER BY r.reservation_date, r.time_slot
-";
 
-$result = mysqli_query($con, $query);
-
-if (!$result) {
-    die('Error fetching reservations: ' . mysqli_error($con));
-}
-
-$reservations = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    $reservations[] = $row;
-}
 ?>
 
 <!DOCTYPE html>
@@ -66,6 +39,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <th>Reserved By</th>
                     <th>Status</th>
                     <th>Actions</th>
+                    <th>Print</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,9 +55,11 @@ while ($row = mysqli_fetch_assoc($result)) {
                             <td><?php echo $reservation['name']; ?></td>
                             <td><?php echo ucfirst($reservation['status']); ?></td>
                             <td>
-                                <button class="btn btn-success btn-sm mark-done" data-id="<?php echo $reservation['reservation_id']; ?>">Mark as Done</button>
-                                <button class="btn btn-danger btn-sm delete-reservation" data-id="<?php echo $reservation['reservation_id']; ?>">Delete</button>
-                                <button class="btn btn-primary btn-sm print-receipt" data-id="<?php echo $reservation['reservation_id']; ?>">Print Receipt</button>
+                                <button class="btn btn-success btn-sm mark-done" data-id="<?php echo $reservation['reservation_id']; ?>"> <i class="fas fa-check"></i> </button>
+                                <button class="btn btn-danger btn-sm delete-reservation" data-id="<?php echo $reservation['reservation_id']; ?>"> <i class="fas fa-trash"></i> </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm print-receipt" data-id="<?php echo $reservation['reservation_id']; ?>"><i class="fas fa-receipt"></i></button>
                             </td>
                         </tr>
                     <?php endforeach; ?>

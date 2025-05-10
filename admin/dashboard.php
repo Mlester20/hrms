@@ -125,33 +125,80 @@ $table_stats = getTableReservationsStats($con);
                     label: 'Number of Bookings',
                     data: bookingsData.map(item => item.count),
                     borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }, {
-                    label: 'Revenue (₱)',
-                    data: bookingsData.map(item => item.revenue),
-                    borderColor: 'rgb(255, 99, 132)',
-                    tension: 0.1,
-                    yAxisID: 'y1'
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    fill: true,
+                    borderWidth: 3,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointBackgroundColor: 'rgb(75, 192, 192)'
                 }]
             },
             options: {
                 responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Number of Bookings'
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14
+                            }
                         }
                     },
-                    y1: {
-                        position: 'right',
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: {
+                            size: 16
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
                         beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            },
+                            stepSize: 1
+                        },
                         title: {
                             display: true,
-                            text: 'Revenue (₱)'
+                            text: 'Number of Bookings',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 10
+                            }
                         }
                     }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
                 }
             }
         });
