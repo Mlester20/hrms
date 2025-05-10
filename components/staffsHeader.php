@@ -10,24 +10,26 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="home.php">
-                        <i class="fas fa-home"></i> Home
+                    <a class="nav-link d-flex align-items-center" aria-current="page" href="home.php">
+                        <i class="fas fa-home me-1"></i> Home
                     </a>
                 </li>
-                
-
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?>
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="<?php echo htmlspecialchars('../uploads/' . basename($_SESSION['profile'])); ?>" 
+                            alt="Profile" 
+                            class="rounded-circle" 
+                            style="width: 32px; height: 32px; object-fit: cover;">
+                        <?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="profile.php"><i class="fas fa-cog"></i> Settings</a></li>
-                        
                         <li><a class="dropdown-item" href="logout.php" onclick="return confirm('Are you sure you want to logout?')">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a></li>
                     </ul>
                 </li>
+
             </ul>
         </div>
     </div>
@@ -47,3 +49,34 @@
 
     window.addEventListener('resize', updateNavbarTitle);
 </script>
+
+<style>
+/* Add these styles to fix the alignment issue */
+.navbar-nav .nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+}
+
+/* Keep your existing styles */
+.nav-link img.rounded-circle {
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    margin-right: 8px; /* Add some spacing between image and text */
+}
+
+.nav-link:hover img.rounded-circle {
+    border-color: #007bff;
+    transform: scale(1.1);
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+</style>
