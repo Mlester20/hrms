@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg custom-navbar">
     <div class="container-fluid">
-        <img src="../images/remove.png" alt="" class="me-3" style="height: 50px;">
+        <img src="../images/final.png" alt="" class="me-3" style="height: 50px;">
         <a class="navbar-brand" id="navbarTitle" href="home.php">
             Hotel & Restaurant Management System
         </a>

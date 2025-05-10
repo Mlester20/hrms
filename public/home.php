@@ -237,7 +237,7 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
     <!-- Our Favorite Rooms Section -->
     <section class="favorite-rooms-section">
         <div class="container">
-            <div class="section-title text-center fade-in">
+            <div class="section-title text-center">
                 <h5>THE BEST IN YOUR FAMILY OR FRIENDS</h5>
                 <h2>Our Gallery</h2>
             </div>
@@ -248,6 +248,27 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
             </div>
         </div>
     </section>
+
+    <div class="container my-5">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="card-title text-center text-muted">Our Delicious Menu</h1>
+                <p class="lead">Explore our carefully crafted dishes made with the freshest ingredients</p>
+            </div>
+        </div>
+
+        
+        <!-- Menu content will be loaded here -->
+        <div id="menuContainer" class="row g-4">
+            <div class="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 
     <?php include '../components/footer.php'; ?>
 
@@ -260,5 +281,6 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
     <script src="../js/bannerSwipper.js"></script>
     <script src="../js/booking.js"></script>
     <script src="../js/animation.js"></script>
+    <script src="../js/Menus.js"></script>
 </body>
 </html>

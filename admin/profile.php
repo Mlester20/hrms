@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
 
-        <h3 class="text-center text-muted">Profile Informatio</h3>
+        <h3 class="text-center text-muted">Profile Information</h3>
         <div class="card mx-auto mt-4" style="max-width: 800px;">
             <div class="card-body">
                 <form action="profile.php" method="POST">

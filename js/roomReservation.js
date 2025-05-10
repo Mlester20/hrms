@@ -194,7 +194,7 @@ function displayAvailableRooms(rooms, searchParams) {
                         <span class="ms-3"><i class="fas fa-tv"></i> TV</span>
                     </div>
                     <div class="room-price">
-                        $${room.price} <span class="room-price-unit">per night</span>
+                        ₱${room.price} <span class="room-price-unit">per night</span>
                     </div>
                     <div class="total-price mb-3">
                         <strong>Total for ${room.nights} nights:</strong> ₱${room.total_price}
@@ -267,8 +267,8 @@ function openBookingModal(roomData, searchParams) {
     modal.querySelector('.room-type').textContent = `Type: ${roomData.roomType}`;
     modal.querySelector('.booking-dates').textContent = `Dates: ${formatDate(searchParams.check_in_date)} - ${formatDate(searchParams.check_out_date)}`;
     modal.querySelector('.nights-count').textContent = `Duration: ${roomData.nights} night${roomData.nights > 1 ? 's' : ''}`;
-    modal.querySelector('.room-price').textContent = `Price per night: $${roomData.roomPrice}`;
-    modal.querySelector('.total-price-display').textContent = `Total: $${roomData.totalPrice}`;
+    modal.querySelector('.room-price').textContent = `Price per night: ₱${roomData.roomPrice}`;
+    modal.querySelector('.total-price-display').textContent = `Total: ₱${roomData.totalPrice}`;
 
     modalInstance.show();
 }
