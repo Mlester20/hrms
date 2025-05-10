@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg custom-navbar">
     <div class="container-fluid">
-        <img src="../images/remove.png" alt="" class="me-3" style="height: 50px;">
+        <img src="../images/final.png" alt="" class="me-3" style="height: 50px;">
         <a class="navbar-brand" id="navbarTitle" href="dashboard.php">
             Hotel & Restaurant Management System
         </a>
@@ -24,10 +24,11 @@
                         <li><a class="dropdown-item" href="roomType.php"><i class="fas fa-door-open"></i> Room type</a></li>
                         <li><a class="dropdown-item" href="staffs.php"><i class="fas fa-users"></i> Manage Staffs</a></li>
                         <li><a class="dropdown-item" href="shifts.php"><i class="fas fa-clock"></i> Shifts</a></li>
-                        <li><a class="dropdown-item" href="banners.php"><i class="fas fa-users"></i> Banners</a></li>
+                        <li><a class="dropdown-item" href="concerns.php"><i class="fas fa-users"></i> Customer's Concern</a></li>
                         <li><a class="dropdown-item" href="description.php"><i class="fas fa-book"></i> Description</a></li>
                         <li><a class="dropdown-item" href="specialOffers.php"><i class="fas fa-users"></i> Special Offers</a></li>
                         <li><a class="dropdown-item" href="restaurantMenu.php"><i class="fas fa-utensils"></i> Restaurant Menus</a></li>
+                        <li><a class="dropdown-item" href="manageTables.php"><i class="fas fa-table"></i> Manage Restaurant Tables</a></li>
                     </ul>
                 </li>
 
