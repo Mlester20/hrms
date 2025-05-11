@@ -14,13 +14,14 @@
                         <i class="fas fa-home me-1"></i> Home
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" aria-current="page" href="tasks.php">
+                        <i class="fas fa-tasks me-1"></i> My Tasks
+                    </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="<?php echo htmlspecialchars('../uploads/' . basename($_SESSION['profile'])); ?>" 
-                            alt="Profile" 
-                            class="rounded-circle" 
-                            style="width: 32px; height: 32px; object-fit: cover;">
-                        <?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?>
+                        <i class="fas fa-user me-1"></i> <?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="profile.php"><i class="fas fa-cog"></i> Settings</a></li>

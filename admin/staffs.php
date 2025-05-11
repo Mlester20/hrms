@@ -60,7 +60,6 @@ $result = $con->query($query);
                     <th>Shift Type</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    <th>Profile</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -74,9 +73,6 @@ $result = $con->query($query);
                         <td><?php echo htmlspecialchars($row['shift_type']); ?></td>
                         <td><?php echo htmlspecialchars($row['phone_number']); ?></td>
                         <td><?php echo htmlspecialchars($row['email']); ?></td>
-                        <td>
-                            <img src="../uploads/<?php echo htmlspecialchars($row['profile']); ?>" alt="Profile Image" style="width: 50px; height: 50px; object-fit: cover;">
-                        </td>
                         <td>
                             <!-- Edit Button -->
                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editStaffModal<?php echo $row['staff_id']; ?>">

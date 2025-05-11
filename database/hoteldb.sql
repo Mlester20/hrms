@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2025 at 01:14 PM
+-- Generation Time: May 11, 2025 at 05:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -52,13 +52,6 @@ CREATE TABLE `bookings` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ;
 
---
--- Dumping data for table `bookings`
---
-
-INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `created_at`, `updated_at`) VALUES
-(9, 4, 6, '2025-05-07', '2025-05-08', 1500.00, 'confirmed', 'paid', '', '2025-05-07 11:02:10', '2025-05-07 11:13:46');
-
 -- --------------------------------------------------------
 
 --
@@ -95,6 +88,27 @@ INSERT INTO `description` (`description_id`, `description_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `restaurant_menu`
+--
+
+CREATE TABLE `restaurant_menu` (
+  `menu_id` int(11) NOT NULL,
+  `menu_name` varchar(255) NOT NULL,
+  `menu_description` varchar(500) NOT NULL,
+  `image` varchar(500) NOT NULL,
+  `price` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `restaurant_menu`
+--
+
+INSERT INTO `restaurant_menu` (`menu_id`, `menu_name`, `menu_description`, `image`, `price`) VALUES
+(9, 'Italian Pasta', 'Good 2-4 persons', '6820ad1831b26.jpg', 2500);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `restaurant_tables`
 --
 
@@ -116,7 +130,9 @@ INSERT INTO `restaurant_tables` (`table_id`, `table_number`, `capacity`, `positi
 (2, 2, 4, 150, 100, 'Center'),
 (3, 3, 6, 250, 100, 'Corner'),
 (4, 4, 4, 350, 100, 'Center'),
-(5, 5, 2, 450, 100, 'Window');
+(5, 5, 2, 450, 100, 'Window'),
+(6, 6, 10, 550, 100, 'Center'),
+(7, 7, 5, 650, 100, 'Corner');
 
 -- --------------------------------------------------------
 
@@ -139,7 +155,8 @@ CREATE TABLE `rooms` (
 INSERT INTO `rooms` (`id`, `title`, `room_type_id`, `images`, `price`) VALUES
 (5, 'Room 2', 5, '[\"room_6815e9a3bc7b74.38249271.jpg\",\"room_6815e9a3bcd876.43427399.jpg\"]', '1500'),
 (6, 'Room 1', 5, '[\"room_6815ea106c7152.73864788.jpg\",\"room_6815ea106cb153.70063731.jpg\"]', '1500'),
-(7, 'Room 3', 5, '[\"room_68172f9bb476f1.95935670.jpg\",\"room_68172f9bb4d1c2.96168563.jpg\",\"room_68172f9bb50ae2.42324066.jpg\"]', '1500');
+(7, 'Room 3', 5, '[\"room_68172f9bb476f1.95935670.jpg\",\"room_68172f9bb4d1c2.96168563.jpg\",\"room_68172f9bb50ae2.42324066.jpg\"]', '1500'),
+(8, 'Room 4', 6, '[\"room_681f765d1e5a40.24006654.jpg\",\"room_681f765d1ecdf7.90503933.jpg\",\"room_681f765d1f3272.17751895.jpg\"]', '2500');
 
 -- --------------------------------------------------------
 
@@ -158,7 +175,8 @@ CREATE TABLE `room_type` (
 --
 
 INSERT INTO `room_type` (`id`, `title`, `detail`) VALUES
-(5, 'Delux', 'Delux');
+(5, 'Delux', 'Delux'),
+(6, 'Triple Room', 'Triple Room');
 
 -- --------------------------------------------------------
 
@@ -181,7 +199,7 @@ CREATE TABLE `shifts` (
 --
 
 INSERT INTO `shifts` (`shift_id`, `staff_id`, `start_time`, `end_time`, `date_start`, `date_end`, `status`) VALUES
-(2, 1, '01:50:00', '13:50:00', '2025-05-05', '2025-05-05', 'pending');
+(2, 1, '01:50:00', '13:50:00', '2025-05-05', '2025-05-05', 'done');
 
 -- --------------------------------------------------------
 
@@ -228,7 +246,7 @@ CREATE TABLE `staffs` (
 --
 
 INSERT INTO `staffs` (`staff_id`, `name`, `position`, `address`, `profile`, `shift_type`, `phone_number`, `email`, `password`) VALUES
-(1, 'Armando Raguindin', 'Waiter', 'Roxas', 'staff_68103f481191d4.67828560.png', 'Morning', '639685340012', 'armando@gmail.com', '202cb962ac59075b964b07152d234b70');
+(1, 'Armando Raguindin', 'Technician', 'Roxas', '', 'Morning', '639685340012', 'armando@gmail.com', '202cb962ac59075b964b07152d234b70');
 
 -- --------------------------------------------------------
 
@@ -252,7 +270,31 @@ CREATE TABLE `table_reservations` (
 --
 
 INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_date`, `time_slot`, `guest_count`, `special_requests`, `user_id`, `status`) VALUES
-(9, 5, '2025-05-08', '12:00:00', 2, '', 4, 'pending');
+(9, 5, '2025-05-08', '12:00:00', 2, '', 4, 'done');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `staff_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `deadline` datetime DEFAULT NULL,
+  `status` enum('Pending','In Progress','Done') DEFAULT 'Pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `staff_id`, `title`, `description`, `deadline`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'AC repair', 'Maintenance of Aircon at Room 3 and Room 4', '2025-05-09 17:00:00', 'Pending', '2025-05-11 14:38:03', '2025-05-11 14:38:03');
 
 -- --------------------------------------------------------
 
@@ -276,7 +318,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `name`, `address`, `email`, `password`, `role`, `phone`) VALUES
 (3, 'Mark Lester Raguindin', 'Cauayan', 'suguitanmark123@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', '639360991034'),
-(4, 'Jean Dominque Bulusan', 'Rizal', 'jean@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034');
+(4, 'Jean Dominque Bulusan', 'Rizal', 'jean@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
+(5, 'Mark Lester', 'Roxas, Isabela', 'suguitanmark123@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'user', '09360991034'),
+(6, 'Mark Lester', 'Roxas, Isabela', 'raguindin.lester20@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034');
 
 --
 -- Indexes for dumped tables
@@ -308,6 +352,12 @@ ALTER TABLE `concerns`
 --
 ALTER TABLE `description`
   ADD PRIMARY KEY (`description_id`);
+
+--
+-- Indexes for table `restaurant_menu`
+--
+ALTER TABLE `restaurant_menu`
+  ADD PRIMARY KEY (`menu_id`);
 
 --
 -- Indexes for table `restaurant_tables`
@@ -357,6 +407,13 @@ ALTER TABLE `table_reservations`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `staff_id` (`staff_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -382,7 +439,7 @@ ALTER TABLE `bookings`
 -- AUTO_INCREMENT for table `concerns`
 --
 ALTER TABLE `concerns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `description`
@@ -391,28 +448,34 @@ ALTER TABLE `description`
   MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `restaurant_menu`
+--
+ALTER TABLE `restaurant_menu`
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `restaurant_tables`
 --
 ALTER TABLE `restaurant_tables`
-  MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `room_type`
 --
 ALTER TABLE `room_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `shifts`
 --
 ALTER TABLE `shifts`
-  MODIFY `shift_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `shift_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `special_offers`
@@ -424,19 +487,25 @@ ALTER TABLE `special_offers`
 -- AUTO_INCREMENT for table `staffs`
 --
 ALTER TABLE `staffs`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `table_reservations`
 --
 ALTER TABLE `table_reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -473,6 +542,12 @@ ALTER TABLE `shifts`
 ALTER TABLE `table_reservations`
   ADD CONSTRAINT `table_reservations_ibfk_1` FOREIGN KEY (`table_id`) REFERENCES `restaurant_tables` (`table_id`),
   ADD CONSTRAINT `table_reservations_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `staffs` (`staff_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

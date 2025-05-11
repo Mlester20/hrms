@@ -29,6 +29,7 @@
                         <li><a class="dropdown-item" href="specialOffers.php"><i class="fas fa-users"></i> Special Offers</a></li>
                         <li><a class="dropdown-item" href="restaurantMenu.php"><i class="fas fa-utensils"></i> Restaurant Menus</a></li>
                         <li><a class="dropdown-item" href="manageTables.php"><i class="fas fa-table"></i> Manage Restaurant Tables</a></li>
+                        <li><a class="dropdown-item" href="employeeTask.php"><i class="fas fa-notes"></i> Add Employee Task</a></li>
                     </ul>
                 </li>
 

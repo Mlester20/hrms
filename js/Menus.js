@@ -64,8 +64,9 @@ function createMenuCard(item) {
     const col = document.createElement('div');
     col.className = 'col-md-6 col-lg-4';
     
-    const imageUrl = item.image ? '../uploads' + item.image : '../images/default-food.jpg';
-    
+    const filename = item.image?.replace(/^\/+/, ''); // remove any starting slashes
+    const imageUrl = filename ? `../uploads/${filename}` : '../images/default-food.jpg';
+
     col.innerHTML = `
         <div class="card menu-card">
             <img src="${imageUrl}" class="card-img-top menu-image" alt="${item.menu_name}">

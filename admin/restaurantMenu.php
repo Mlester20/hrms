@@ -8,56 +8,54 @@ if(!isset($_SESSION['user_id'])){
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Create new menu item
-    if (isset($_POST['add_menu'])) {
-        $menu_name = mysqli_real_escape_string($con, $_POST['menu_name']);
-        $menu_description = mysqli_real_escape_string($con, $_POST['menu_description']);
-        $price = mysqli_real_escape_string($con, $_POST['price']);
+if (isset($_POST['add_menu'])) {
+    $menu_name = mysqli_real_escape_string($con, $_POST['menu_name']);
+    $menu_description = mysqli_real_escape_string($con, $_POST['menu_description']);
+    $price = mysqli_real_escape_string($con, $_POST['price']);
+    
+    // Image upload handling
+    $image = '';
+    if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+        $filename = $_FILES['image']['name'];
+        $filetype = pathinfo($filename, PATHINFO_EXTENSION);
         
-        // Image upload handling
-        $image = '';
-        if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-            $allowed = ['jpg', 'jpeg', 'png', 'webp'];
-            $filename = $_FILES['image']['name'];
-            $filetype = pathinfo($filename, PATHINFO_EXTENSION);
+        // Verify file extension
+        if(in_array(strtolower($filetype), $allowed)) {
+            // Create unique filename
+            $new_filename = uniqid() . '.' . $filetype;
+            $upload_dir = '../uploads/';
             
-            // Verify file extension
-            if(in_array(strtolower($filetype), $allowed)) {
-                // Create unique filename
-                $new_filename = uniqid() . '.' . $filetype;
-                $upload_dir = '../uploads';
-                
-                // Create directory if it doesn't exist
-                if (!file_exists($upload_dir)) {
-                    mkdir($upload_dir, 0777, true);
-                }
-                
-                $upload_path = $upload_dir . $new_filename;
-                
-                // Upload the file
-                if(move_uploaded_file($_FILES['image']['tmp_name'], $upload_path)) {
-                    $image = $new_filename;
-                } else {
-                    $error = "Failed to upload image";
-                }
-            } else {
-                $error = "Invalid file type. Only JPG, JPEG, PNG and WEBP files are allowed.";
+            // Create directory if it doesn't exist
+            if (!file_exists($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
             }
-        }
-
-        // Insert menu item
-        if(!isset($error)) {
-            $sql = "INSERT INTO restaurant_menu (menu_name, menu_description, image, price) VALUES ('$menu_name', '$menu_description', '$image', '$price')";
-            if (mysqli_query($con, $sql)) {
-                $_SESSION['success'] = "Menu item added successfully";
-                header("Location: " . $_SERVER['PHP_SELF']);
-                exit();
+            
+            $upload_path = $upload_dir . $new_filename;
+            
+            // Upload the file
+            if(move_uploaded_file($_FILES['image']['tmp_name'], $upload_path)) {
+                $image = $new_filename;
             } else {
-                $error = "Error: " . mysqli_error($con);
+                $error = "Failed to upload image";
             }
+        } else {
+            $error = "Invalid file type. Only JPG, JPEG, PNG and WEBP files are allowed.";
         }
     }
+
+    // Insert menu item
+    if(!isset($error)) {
+        $sql = "INSERT INTO restaurant_menu (menu_name, menu_description, image, price) VALUES ('$menu_name', '$menu_description', '$image', '$price')";
+        if (mysqli_query($con, $sql)) {
+            $_SESSION['success'] = "Menu item added successfully";
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            $error = "Error: " . mysqli_error($con);
+        }
+    }
+}
     
     // Update menu item
     if (isset($_POST['update_menu'])) {
@@ -142,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-}
+
 
 $edit_menu = null;
 if(isset($_GET['edit']) && !empty($_GET['edit'])) {
@@ -294,7 +292,7 @@ $menu_items = mysqli_query($con, $query);
                                                 <td><?php echo $item['menu_id']; ?></td>
                                                 <td>
                                                     <?php if($item['image']): ?>
-                                                        <img src="../uploads<?php echo $item['image']; ?>" class="menu-img" alt="<?php echo $item['menu_name']; ?>">
+                                                        <img src="../uploads/<?php echo $item['image']; ?>" class="menu-img" alt="<?php echo $item['menu_name']; ?>">
                                                     <?php else: ?>
                                                         <span class="text-muted">No image</span>
                                                     <?php endif; ?>
