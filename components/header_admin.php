@@ -52,7 +52,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="profile.php"><i class="fas fa-cog"></i> Settings</a></li>
-                        
+                        <li><a class="dropdown-item" href="#" id="themeToggle">
+                            <i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span>
+                            </a>
+                        </li>
                         <li><a class="dropdown-item" href="logout.php" onclick="return confirm('Are you sure you want to logout?')">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a></li>

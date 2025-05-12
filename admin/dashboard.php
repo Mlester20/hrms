@@ -18,89 +18,99 @@ $table_stats = getTableReservationsStats($con);
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | <?php include '../components/title.php'; ?> </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8y+4g5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8y+4g5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e5c" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/customAdminHeader.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/customAdminHeader.css">
     <style>
+        body {
+            background-color: #f4f6f9;
+        }
         .dashboard-card {
-            transition: transform 0.2s;
-            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
         .dashboard-card:hover {
             transform: translateY(-5px);
         }
-        canvas {
-            max-height: 300px;
-            width: 100% !important;
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
         }
-        @media (max-width: 767.98px) {
-            .chart-container {
-                margin-bottom: 2rem;
-            }
+        canvas {
+            max-height: 400px;
+            width: 100% !important;
         }
     </style>
 </head>
 <body>
+
     <?php include '../components/header_admin.php'; ?>
-
-    <div class="container py-5">
-        <!-- Stats Cards -->
-        <div class="row mb-4">
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="card dashboard-card bg-primary text-white">
-                    <div class="card-body">
-                        <h5 class="card-title">Today's Bookings</h5>
-                        <h2 class="mb-0"><?php echo $stats['today_bookings']; ?></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="card dashboard-card bg-success text-white">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Revenue</h5>
-                        <h2 class="mb-0">₱<?php echo number_format($stats['total_revenue'], 2); ?></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="card dashboard-card bg-warning text-white">
-                    <div class="card-body">
-                        <h5 class="card-title">Pending Tables</h5>
-                        <h2 class="mb-0"><?php echo $stats['pending_tables']; ?></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="card dashboard-card bg-info text-white">
-                    <div class="card-body">
-                        <h5 class="card-title">Active Bookings</h5>
-                        <h2 class="mb-0"><?php echo $stats['active_bookings']; ?></h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Charts -->
+    
+    <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-md-8 mb-4">
-                <div class="card shadow">
-                    <div class="card-header">
-                        <h5 class="mb-0">Room Bookings Overview</h5>
+            <!-- Campaign Overview Column -->
+            <div class="col-md-8">
+                <div class="row mb-4">
+                    <div class="col-md-3 col-6">
+                        <div class="card dashboard-card bg-primary text-white mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title"> <i class="fas fa-book"></i> Booked</h6>
+                                <h3 class="mb-0"><?php echo $stats['today_bookings']; ?></h3>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <canvas id="bookingsChart"></canvas>
+                    <div class="col-md-3 col-6">
+                        <div class="card dashboard-card bg-success text-white mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title"> <i class="fas fa-users"></i> Total Users</h6>
+                                <h3 class="mb-0"> <?php echo $stats['total_users']; ?> </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card dashboard-card bg-warning text-white mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title"> <i class="fas fa-table"></i> Pending Tables</h6>
+                                <h3 class="mb-0"> <?php echo $stats['pending_tables']; ?> </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card dashboard-card bg-info text-white mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title"> <i class="fas fa-coins"></i> Revenue</h6>
+                                <h3 class="mb-0">₱<?php echo number_format($stats['total_revenue'], 2); ?></h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Campaign Overview Chart -->
+                <div class="chart-container mb-4">
+                    <canvas id="campaignOverviewChart"></canvas>
+                </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-header">
-                        <h5 class="mb-0">Table Reservations Status</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="tableReservationsChart"></canvas>
-                    </div>
+
+            <!-- Revenue Stat Column -->
+            <div class="col-md-4">
+                <div class="chart-container">
+                    <h5 class="text-center mb-4">Revenue Stat</h5>
+                    <canvas id="revenueStatChart"></canvas>
+                    <!-- <div class="text-center mt-3">
+                        <h4>Total Revenue this Month</h4>
+                        <h3 class="text-primary">₱<?php echo number_format($stats['total_revenue'], 2); ?></h3>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -111,116 +121,85 @@ $table_stats = getTableReservationsStats($con);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
-        // Convert PHP data to JavaScript
+        // Campaign Overview Chart
+        const campaignCtx = document.getElementById('campaignOverviewChart').getContext('2d');
         const bookingsData = <?php echo json_encode($bookings_data); ?>;
-        const tableStats = <?php echo json_encode($table_stats); ?>;
 
-        // Bookings Chart
-        const bookingsCtx = document.getElementById('bookingsChart').getContext('2d');
-        new Chart(bookingsCtx, {
+        new Chart(campaignCtx, {
             type: 'line',
             data: {
                 labels: bookingsData.map(item => item.date),
-                datasets: [{
-                    label: 'Number of Bookings',
-                    data: bookingsData.map(item => item.count),
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                    fill: true,
-                    borderWidth: 3,
-                    tension: 0.3,
-                    pointRadius: 4,
-                    pointBackgroundColor: 'rgb(75, 192, 192)'
-                }]
+                datasets: [
+                    {
+                        label: 'Booked',
+                        data: bookingsData.map(item => item.count),
+                        borderColor: '#FF4081',
+                        backgroundColor: 'rgba(255, 64, 129, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Visited',
+                        data: bookingsData.map(item => Math.floor(item.count * 1.1)), // Example calculation
+                        borderColor: '#00BCD4',
+                        backgroundColor: 'rgba(0, 188, 212, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 14
-                            }
-                        }
+                    title: {
+                        display: true,
+                        text: 'Bookings Overview'
                     },
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        titleFont: {
-                            size: 16
-                        },
-                        bodyFont: {
-                            size: 14
-                        },
-                        padding: 12
+                    legend: {
+                        position: 'top'
                     }
                 },
                 scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 12
-                            }
-                        }
-                    },
                     y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        },
-                        ticks: {
-                            font: {
-                                size: 12
-                            },
-                            stepSize: 1
-                        },
-                        title: {
-                            display: true,
-                            text: 'Number of Bookings',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 10
-                            }
-                        }
+                        beginAtZero: true
                     }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index'
-                },
-                hover: {
-                    mode: 'nearest',
-                    intersect: true
                 }
             }
         });
+        // Revenue Stat Chart
+        const revenueCtx = document.getElementById('revenueStatChart').getContext('2d');
+        const tableStatsData = <?php echo json_encode($table_stats); ?>;
 
-        // Table Reservations Chart
-        const tableCtx = document.getElementById('tableReservationsChart').getContext('2d');
-        new Chart(tableCtx, {
+        // Prepare data for the chart
+        const labels = tableStatsData.map(item => item.status.charAt(0).toUpperCase() + item.status.slice(1));
+        const counts = tableStatsData.map(item => parseInt(item.count));
+        const colors = {
+            'Pending': '#FF4081',
+            'Approved': '#4CAF50',
+            'Rejected': '#1E88E5',
+            'Completed': '#00BCD4'
+        };
+
+        const backgroundColor = labels.map(label => colors[label] || '#9C27B0');
+
+        new Chart(revenueCtx, {
             type: 'doughnut',
             data: {
-                labels: tableStats.map(item => item.status.toUpperCase()),
+                labels: labels,
                 datasets: [{
-                    data: tableStats.map(item => item.count),
-                    backgroundColor: [
-                        'rgb(75, 192, 192)',
-                        'rgb(255, 205, 86)',
-                        'rgb(255, 99, 132)'
-                    ]
+                    data: counts,
+                    backgroundColor: backgroundColor
                 }]
             },
             options: {
                 responsive: true,
                 plugins: {
+                    title: {
+                        display: true,
+                        text: 'Table Reservation Status'
+                    },
                     legend: {
                         position: 'bottom'
                     }
@@ -228,6 +207,5 @@ $table_stats = getTableReservationsStats($con);
             }
         });
     </script>
-
 </body>
 </html>

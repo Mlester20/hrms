@@ -35,7 +35,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
 </head>
 <body>
     
-    <?php include '../components/header.php'; ?>
+    <?php include '../components/header_admin.php'; ?>
 
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">

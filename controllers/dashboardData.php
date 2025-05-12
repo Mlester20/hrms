@@ -39,6 +39,9 @@ function getDashboardStats($con) {
     $row = mysqli_fetch_assoc($result);
     $stats['active_bookings'] = $row['count'];
 
+    // Get total non-admin users
+    $stats['total_users'] = getTotalUsers($con);
+
     return $stats;
 }
 
@@ -84,3 +87,23 @@ function getTableReservationsStats($con) {
     
     return $data;
 }
+
+function getTotalUsers($con) {
+    $query = "SELECT COUNT(*) as count 
+              FROM users 
+              WHERE role != 'admin'";
+    $result = mysqli_query($con, $query);
+    $row = mysqli_fetch_assoc($result);
+    return $row['count'];
+}
+
+function getPendingTableReservations($con) {
+    $query = "SELECT COUNT(*) as count 
+              FROM table_reservations 
+              WHERE status = 'pending'";
+    $result = mysqli_query($con, $query);
+    $row = mysqli_fetch_assoc($result);
+    return $row['count'];
+}
+
+?>
