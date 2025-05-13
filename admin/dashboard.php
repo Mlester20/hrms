@@ -29,29 +29,8 @@ $table_stats = getTableReservationsStats($con);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/customAdminHeader.css">
-    <style>
-        body {
-            background-color: #f4f6f9;
-        }
-        .dashboard-card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-        }
-        .chart-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-        canvas {
-            max-height: 400px;
-            width: 100% !important;
-        }
-    </style>
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <!-- <link rel="stylesheet" href="../css/darkTheme.css"> -->
 </head>
 <body>
 
@@ -105,12 +84,8 @@ $table_stats = getTableReservationsStats($con);
             <!-- Revenue Stat Column -->
             <div class="col-md-4">
                 <div class="chart-container">
-                    <h5 class="text-center mb-4">Revenue Stat</h5>
+                    <h5 class="text-center mb-4">Tables Reservation</h5>
                     <canvas id="revenueStatChart"></canvas>
-                    <!-- <div class="text-center mt-3">
-                        <h4>Total Revenue this Month</h4>
-                        <h3 class="text-primary">₱<?php echo number_format($stats['total_revenue'], 2); ?></h3>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -121,90 +96,122 @@ $table_stats = getTableReservationsStats($con);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
-        // Campaign Overview Chart
-        const campaignCtx = document.getElementById('campaignOverviewChart').getContext('2d');
-        const bookingsData = <?php echo json_encode($bookings_data); ?>;
+    // Campaign Overview Chart
+    const campaignCtx = document.getElementById('campaignOverviewChart').getContext('2d');
+    const bookingsData = <?php echo json_encode($bookings_data); ?>;
+    const totalRevenue = <?php echo json_encode($stats); ?>;
 
-        new Chart(campaignCtx, {
-            type: 'line',
-            data: {
-                labels: bookingsData.map(item => item.date),
-                datasets: [
-                    {
-                        label: 'Booked',
-                        data: bookingsData.map(item => item.count),
-                        borderColor: '#FF4081',
-                        backgroundColor: 'rgba(255, 64, 129, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true
-                    },
-                    {
-                        label: 'Visited',
-                        data: bookingsData.map(item => Math.floor(item.count * 1.1)), // Example calculation
-                        borderColor: '#00BCD4',
-                        backgroundColor: 'rgba(0, 188, 212, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true
+    // Create campaign chart
+    window.campaignChart = new Chart(campaignCtx, {
+        type: 'line',
+        data: {
+            labels: bookingsData.map(item => item.date),
+            datasets: [
+                {
+                    label: 'Booked',
+                    data: bookingsData.map(item => item.count),
+                    borderColor: '#FF4081',
+                    backgroundColor: 'rgba(255, 64, 129, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Total Revenue',
+                    data: bookingsData.map(item => Math.floor(item.count * 1.1)), // Example calculation
+                    borderColor: '#00BCD4',
+                    backgroundColor: 'rgba(0, 188, 212, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Bookings Overview',
+                    color: '#333' // Always dark text on white background
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: '#333' // Always dark text on white background
                     }
-                ]
+                }
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Bookings Overview'
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#333' // Always dark text on white background
                     },
-                    legend: {
-                        position: 'top'
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
                     }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-        // Revenue Stat Chart
-        const revenueCtx = document.getElementById('revenueStatChart').getContext('2d');
-        const tableStatsData = <?php echo json_encode($table_stats); ?>;
-
-        // Prepare data for the chart
-        const labels = tableStatsData.map(item => item.status.charAt(0).toUpperCase() + item.status.slice(1));
-        const counts = tableStatsData.map(item => parseInt(item.count));
-        const colors = {
-            'Pending': '#FF4081',
-            'Approved': '#4CAF50',
-            'Rejected': '#1E88E5',
-            'Completed': '#00BCD4'
-        };
-
-        const backgroundColor = labels.map(label => colors[label] || '#9C27B0');
-
-        new Chart(revenueCtx, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: counts,
-                    backgroundColor: backgroundColor
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Table Reservation Status'
+                x: {
+                    ticks: {
+                        color: '#333' // Always dark text on white background
                     },
-                    legend: {
-                        position: 'bottom'
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
                     }
                 }
             }
+        }
+    });
+
+    // Revenue Stat Chart
+    const revenueCtx = document.getElementById('revenueStatChart').getContext('2d');
+    const tableStatsData = <?php echo json_encode($table_stats); ?>;
+
+    // Prepare data for the chart
+    const labels = tableStatsData.map(item => item.status.charAt(0).toUpperCase() + item.status.slice(1));
+    const counts = tableStatsData.map(item => parseInt(item.count));
+    const colors = {
+        'Pending': '#FF4081',
+        'Approved': '#4CAF50',
+        'Rejected': '#1E88E5',
+        'Completed': '#00BCD4'
+    };
+
+    const backgroundColor = labels.map(label => colors[label] || '#9C27B0');
+
+    // Create revenue chart
+    window.revenueChart = new Chart(revenueCtx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: counts,
+                backgroundColor: backgroundColor
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Table Reservation Status',
+                    color: '#333' // Always dark text on white background
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#333' // Always dark text on white background
+                    }
+                }
+            }
+        }
+    });
+
+        // Update chart on window resize
+        window.addEventListener('resize', function() {
+            campaignChart.resize();
+            revenueChart.resize();
         });
     </script>
 </body>

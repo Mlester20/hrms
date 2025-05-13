@@ -1,79 +1,153 @@
-/* Dark theme variables */
-[data-theme="dark"] {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --border-color: #404040;
-    --card-bg: #2d2d2d;
-    --nav-bg: #2d2d2d;
-    --dropdown-bg: #333333;
-    --hover-bg: #404040;
+:root {
+    /* Light theme variables (default) */
+    --main-bg-color: #f4f6f9;
+    --main-text-color: #333;
+    --card-bg: #fff;
+    --card-text: #333;
+
+    --card-heading: #555;
+    --card-value: #111;
+
+    --border-color: #ddd;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-bg: #f0f0f0;
+    --chart-grid: rgba(0, 0, 0, 0.1);
 }
 
-/* Light theme variables */
-[data-theme="light"] {
-    --bg-primary: #f4f6f9;
-    --bg-secondary: #ffffff;
-    --text-primary: #000000;
-    --text-secondary: #666666;
-    --border-color: #dee2e6;
-    --card-bg: #ffffff;
-    --nav-bg: #ffffff;
-    --dropdown-bg: #ffffff;
-    --hover-bg: #f8f9fa;
+body.dark-theme {
+    --main-bg-color: #1a1a2e;
+    --main-text-color: #e6e6e6;
+    --card-bg: #16213e;
+    --card-text: #e6e6e6;
+
+    --card-heading: #f1f1f1;
+    --card-value: #00ffc3;
+
+    --border-color: #30475e;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --hover-bg: #30475e;
+    --chart-grid: rgba(255, 255, 255, 0.1);
 }
 
-/* Apply theme colors */
 body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    transition: all 0.3s ease;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.navbar {
-    background-color: var(--nav-bg) !important;
+.dashboard-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    transition: transform 0.3s ease;
 }
 
-.navbar-brand, .nav-link {
-    color: var(--text-primary) !important;
+.dashboard-card:hover {
+    transform: translateY(-5px);
 }
 
-.dropdown-menu {
-    background-color: var(--dropdown-bg);
+.dashboard-card .title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--card-heading);
 }
 
-.dropdown-item {
-    color: var(--text-primary);
+.dashboard-card .value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--card-value);
 }
 
-.dropdown-item:hover {
+.dashboard-card .icon {
+    font-size: 2rem;
+    color: var(--card-heading);
+}
+
+canvas {
+    max-height: 400px;
+    width: 100% !important;
+}
+
+.card.bg-primary,
+.card.bg-success,
+.card.bg-warning,
+.card.bg-info {
+    color: white !important;
+}
+.container, .container-fluid {
+    color: var(--main-text-color);
+}
+
+/* Form and card base styles */
+.menu-form,
+.card,
+.modal-content,
+.dashboard-card {
+    background-color: var(--card-bg) !important;
+    color: var(--card-text) !important;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px var(--shadow-color);
+    border-radius: 10px;
+}
+
+/* Headings */
+.menu-form h3,
+.card-title,
+.card-header,
+.modal-header h5 {
+    color: var(--card-text);
+}
+
+/* Inputs and textareas */
+.menu-form input,
+.menu-form textarea,
+.menu-form select,
+.input-group-text {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    border: 1px solid var(--border-color);
+}
+
+.menu-form input::placeholder,
+.menu-form textarea::placeholder {
+    color: #aaa;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 6px;
+}
+
+/* Table */
+.table {
+    color: var(--card-text);
+}
+
+.table-hover tbody tr:hover {
     background-color: var(--hover-bg);
 }
 
-.card {
-    background-color: var(--card-bg);
-    border-color: var(--border-color);
-}
-
-.table {
-    color: var(--text-primary);
-}
-
 .table thead th {
-    background-color: var(--bg-secondary);
-    border-color: var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.table td {
-    border-color: var(--border-color);
+/* Image preview */
+.preview-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border-color);
 }
 
+/* Buttons override if needed */
+.btn {
+    transition: background-color 0.2s ease;
+}
+
+/* For delete confirmation modal */
 .modal-content {
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-}
-
-.chart-container {
-    background-color: var(--card-bg) !important;
+    background-color: var(--card-bg);
+    color: var(--card-text);
 }
