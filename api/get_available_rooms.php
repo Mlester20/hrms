@@ -60,9 +60,13 @@ try {
     
     foreach ($rooms as $room) {
         // Check if the room is already booked for the selected dates
+        // Room is unavailable if:
+        // 1. It has a booking that's not cancelled or completed
+        // 2. The booking dates overlap with the requested dates
         $booking_query = "SELECT * FROM bookings 
                           WHERE room_id = " . $room['id'] . " 
-                          AND status != 'cancelled'
+                          AND status NOT IN ('cancelled', 'completed')
+                          AND check_out_date > CURRENT_DATE() 
                           AND (
                               (check_in_date <= '" . mysqli_real_escape_string($con, $check_in_date) . "' AND check_out_date > '" . mysqli_real_escape_string($con, $check_in_date) . "')
                               OR 

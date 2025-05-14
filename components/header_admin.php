@@ -30,6 +30,7 @@
                         <li><a class="dropdown-item" href="restaurantMenu.php"><i class="fas fa-utensils"></i> Restaurant Menus</a></li>
                         <li><a class="dropdown-item" href="manageTables.php"><i class="fas fa-table"></i> Manage Restaurant Tables</a></li>
                         <li><a class="dropdown-item" href="employeeTask.php"><i class="fas fa-hammer"></i> Add Employee Task</a></li>
+                        <li><a class="dropdown-item" href="manageUsers.php"><i class="fas fa-users"></i> Manage Users</a></li>
                     </ul>
                 </li>
 

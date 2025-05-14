@@ -23,7 +23,7 @@ function getReservations($con) {
 }
 
 function updateBookingStatus($con, $booking_id, $status, $type) {
-    $valid_booking_status = ['pending', 'confirmed', 'canceled', 'complete'];
+    $valid_booking_status = ['pending', 'confirmed', 'canceled', 'completed'];
     $valid_payment_status = ['unpaid', 'partially_paid', 'paid'];
     
     if ($type === 'booking' && in_array($status, $valid_booking_status)) {

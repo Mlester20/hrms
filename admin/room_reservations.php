@@ -134,7 +134,7 @@ $reservations = getReservations($con);
                                                         <option value="pending" <?php echo $row['booking_status'] == 'pending' ? 'selected' : ''; ?>>Pending</option>
                                                         <option value="confirmed" <?php echo $row['booking_status'] == 'confirmed' ? 'selected' : ''; ?>>Confirmed</option>
                                                         <option value="canceled" <?php echo $row['booking_status'] == 'canceled' ? 'selected' : ''; ?>>Canceled</option>
-                                                        <option value="complete" <?php echo $row['booking_status'] == 'complete' ? 'selected' : ''; ?>>Complete</option>
+                                                        <option value="completed" <?php echo $row['booking_status'] == 'completed' ? 'selected' : ''; ?>>Complete</option>
                                                     </select>
                                                     <input type="hidden" name="update_status" value="1">
                                                 </form>
