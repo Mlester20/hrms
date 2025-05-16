@@ -26,16 +26,9 @@
             <div class="col-md-4">
                 <div class="card login-card">
                     <div class="card-body">
-                        <h4 class="text-center mb-4">Login</h4>
-                        
-                        <div class="social-login mb-4 text-center">
-                            <a href="#" class="btn btn-circle"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="btn btn-circle"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="btn btn-circle"><i class="fab fa-google"></i></a>
-                        </div>
-                        
+                        <h4 class="text-center mb-4">Login | Signup</h4>
                         <div class="divider text-center mb-4">
-                            <span>Or be Classical</span>
+                            <span>Be Classical</span>
                         </div>
                         
                         <form action="controllers/auth.php" method="POST">

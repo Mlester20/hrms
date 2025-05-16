@@ -20,8 +20,8 @@
                         <i class="fas fa-book"></i> Bookings
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
-                        <li><a class="dropdown-item" href="restaurantTableBooking.php">Book a Table</a></li>
-                        <li><a class="dropdown-item" href="roomBookings.php">Book a Room</a></li>
+                        <li><a class="dropdown-item" href="restaurantTableBooking.php"><i class="fas fa-table"></i> Book a Table</a></li>
+                        <li><a class="dropdown-item" href="roomBookings.php"><i class="fas fa-bed"></i> Book a Room</a></li>
                         
                     </ul>
                 </li>
@@ -31,9 +31,9 @@
                         <i class="fas fa-book"></i> My Bookings
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
-                        <li><a class="dropdown-item" href="bookings.php">My Room Bookings</a></li>
-                        <li><a class="dropdown-item" href="tableBookings.php">My Table Bookings</a></li>
-                        <li><a class="dropdown-item" href="#">Cancelled Bookings</a></li>
+                        <li><a class="dropdown-item" href="bookings.php"><i class="fas fa-bed"></i> My Room Bookings</a></li>
+                        <li><a class="dropdown-item" href="tableBookings.php"><i class="fas fa-table"></i> My Table Bookings</a></li>
+                        <!-- <li><a class="dropdown-item" href="#">Cancelled Bookings</a></li> -->
                     </ul>
                 </li>
 
