@@ -20,7 +20,11 @@
                         <i class="fas fa-book"></i> Bookings
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
+<<<<<<< HEAD
                         <li><a class="dropdown-item" href="restaurantTableBooking.php"><i class="fas fa-table"></i> Book a Table</a></li>
+=======
+                        <li><a class="dropdown-item" href="restaurantTableBooking.php"> <i class="fas fa-table"></i> Book a Table</a></li>
+>>>>>>> f26cb9e11f7301189f18e489cbab5902af4cfa02
                         <li><a class="dropdown-item" href="roomBookings.php"><i class="fas fa-bed"></i> Book a Room</a></li>
                         
                     </ul>
@@ -36,7 +40,6 @@
                         <!-- <li><a class="dropdown-item" href="#">Cancelled Bookings</a></li> -->
                     </ul>
                 </li>
-
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?>

@@ -26,7 +26,18 @@
             <div class="col-md-4">
                 <div class="card login-card">
                     <div class="card-body">
+<<<<<<< HEAD
                         <h4 class="text-center mb-4">Login | Signup</h4>
+=======
+                        <h4 class="text-center mb-4">Login</h4>
+                        
+                        <!-- <div class="social-login mb-4 text-center">
+                            <a href="#" class="btn btn-circle"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="btn btn-circle"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-circle"><i class="fab fa-google"></i></a>
+                        </div> -->
+                        
+>>>>>>> f26cb9e11f7301189f18e489cbab5902af4cfa02
                         <div class="divider text-center mb-4">
                             <span>Be Classical</span>
                         </div>
