@@ -178,9 +178,24 @@ include '../components/config.php';
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
                             <label class="form-check-label" for="terms">
-                                I agree to the terms and conditions
+                                I agree to the <a data-bs-toggle="collapse" href="#termsContent" role="button" aria-expanded="false" aria-controls="termsContent">terms and conditions</a>
                             </label>
+
+                            <div class="collapse mt-3" id="termsContent">
+                                <div class="card card-body" style="max-height: 300px; overflow-y: auto;">
+                                    <h5>Terms and Conditions for Booking and Payment</h5>
+                                    <p><strong>1. Booking Confirmation:</strong> All reservations are subject to availability. A booking is confirmed only upon valid payment and confirmation email/receipt.</p>
+                                    <p><strong>2. Payment Policy:</strong> A 50% deposit is required to secure a reservation. Full payment is required before check-in or upon arrival. Payment methods accepted: [Credit/Debit Card, Bank Transfer, GCash, Cash].</p>
+                                    <p><strong>3. Cancellation and Refund Policy:</strong> Cancel at least 48 hours in advance for a full refund. Less than 48 hours = forfeit deposit. No-shows = no refund. Refunds process in 7–14 business days.</p>
+                                    <p><strong>4. Modification of Bookings:</strong> Changes allowed subject to availability. Price differences must be settled before new booking is confirmed.</p>
+                                    <p><strong>5. Force Majeure:</strong> We are not liable for service disruption due to natural disasters, government orders, or force majeure.</p>
+                                    <p><strong>6. Guest Responsibility:</strong> Guests must provide accurate details and follow hotel/restaurant rules. We reserve the right to refuse service for violations.</p>
+                                    <p><strong>7. Agreement:</strong> By placing a reservation, you agree to these terms and conditions.</p>
+                                </div>
+                            </div>
                         </div>
+
+
                     </form>
                 </div>
                 <div class="modal-footer">

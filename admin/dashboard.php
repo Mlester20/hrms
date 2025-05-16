@@ -30,6 +30,8 @@ $table_stats = getTableReservationsStats($con);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- <link rel="stylesheet" href="../css/darkTheme.css"> -->
 </head>
 <body>
@@ -94,6 +96,8 @@ $table_stats = getTableReservationsStats($con);
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- custom js for real time notifications -->
+    <script src="../js/notifications.js"></script>
     
     <script>
     // Campaign Overview Chart
@@ -213,6 +217,7 @@ $table_stats = getTableReservationsStats($con);
             campaignChart.resize();
             revenueChart.resize();
         });
+
     </script>
 </body>
 </html>

@@ -1,0 +1,81 @@
+.notification-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 350px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+    z-index: 1000;
+    display: none;
+    overflow-y: auto;
+    max-height: 400px;
+    padding-bottom: 0;
+}
+
+.notification-dropdown.show {
+    display: block;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.75rem;
+    padding: 0.25em 0.4em;
+    border-radius: 50%;
+}
+
+.notification-dropdown .dropdown-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.notification-dropdown .dropdown-item {
+    padding: 0.75rem 1rem;
+    white-space: normal;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    display: block;
+    color: #212529;
+    text-decoration: none;
+}
+
+.notification-dropdown .dropdown-item:hover {
+    background-color: #f8f9fa;
+    text-decoration: none;
+}
+
+.notification-dropdown .notification-item {
+    padding: 0.75rem 1rem;
+}
+
+.notification-dropdown .notification-text {
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+}
+
+.notification-dropdown .notification-time {
+    display: block;
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.notification-dropdown .view-all {
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    background-color: #f8f9fa;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+#notificationLink {
+    position: relative;
+    cursor: pointer;
+}
+
+#notificationLink:hover {
+    color: #0056b3;
+}

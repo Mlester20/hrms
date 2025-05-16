@@ -59,10 +59,6 @@ try {
     $available_rooms = [];
     
     foreach ($rooms as $room) {
-        // Check if the room is already booked for the selected dates
-        // Room is unavailable if:
-        // 1. It has a booking that's not cancelled or completed
-        // 2. The booking dates overlap with the requested dates
         $booking_query = "SELECT * FROM bookings 
                           WHERE room_id = " . $room['id'] . " 
                           AND status NOT IN ('cancelled', 'completed')

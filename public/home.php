@@ -107,10 +107,10 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
             <div class="row">
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="restaurant-content fade-in-left">
-                        <h3>Seeds Restaurant</h3>
+                        <h3>Mark's Restaurant</h3>
                         <p class="restaurant-tagline">Taste the difference in every bite</p>
                         <p class="restaurant-description">
-                            Indulge in a culinary journey at Seeds Restaurant, where our expert chefs create masterpieces using locally-sourced ingredients. Our menu features a perfect blend of international cuisine and local flavors, ensuring a memorable dining experience for our guests.
+                            Indulge in a culinary journey at Mark's Restaurant, where our expert chefs create masterpieces using locally-sourced ingredients. Our menu features a perfect blend of international cuisine and local flavors, ensuring a memorable dining experience for our guests.
                         </p>
                         <div class="restaurant-features">
                             <div class="feature-item">

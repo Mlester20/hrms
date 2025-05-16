@@ -47,6 +47,14 @@
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link position-relative" aria-current="page" href="#" id="notificationLink">
+                        <i class="fas fa-bell"></i> Notifications
+                        <span class="notification-badge"></span>
+                    </a>
+                    <div class="notification-dropdown"></div>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?>

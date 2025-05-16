@@ -133,7 +133,6 @@ body {
 
 header {
     background-color: rgba(100, 41, 41, 0.5); 
-    position: absolute;
     top: 0;
     width: 100%;
     z-index: 10;
