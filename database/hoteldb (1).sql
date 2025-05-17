@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2025 at 12:50 PM
+-- Generation Time: May 17, 2025 at 04:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -48,6 +48,7 @@ CREATE TABLE `bookings` (
   `status` enum('pending','confirmed','canceled','completed') DEFAULT 'pending',
   `payment_status` enum('unpaid','partially_paid','paid') DEFAULT 'unpaid',
   `special_requests` text DEFAULT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -56,11 +57,10 @@ CREATE TABLE `bookings` (
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `created_at`, `updated_at`) VALUES
-(6, 6, 6, '2025-05-17', '2025-05-18', 1500.00, 'completed', '', '', '2025-05-17 09:00:19', '2025-05-17 09:13:17'),
-(7, 6, 8, '2025-05-17', '2025-05-18', 2500.00, 'completed', '', '', '2025-05-17 09:00:24', '2025-05-17 09:17:14'),
-(8, 6, 7, '2025-05-17', '2025-05-18', 1500.00, 'completed', '', '', '2025-05-17 09:00:29', '2025-05-17 09:27:04'),
-(9, 6, 5, '2025-05-17', '2025-05-18', 1500.00, 'completed', '', '', '2025-05-17 09:00:33', '2025-05-17 09:17:16');
+INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `is_read`, `created_at`, `updated_at`) VALUES
+(10, 6, 6, '2025-05-17', '2025-05-18', 1500.00, 'confirmed', 'paid', '', 1, '2025-05-17 13:35:31', '2025-05-17 13:51:25'),
+(11, 4, 5, '2025-05-17', '2025-05-18', 1500.00, 'canceled', 'paid', '', 1, '2025-05-17 13:54:59', '2025-05-17 13:57:19'),
+(12, 4, 8, '2025-05-17', '2025-05-18', 2500.00, 'confirmed', '', '', 1, '2025-05-17 13:57:46', '2025-05-17 13:58:12');
 
 -- --------------------------------------------------------
 
@@ -477,7 +477,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `concerns`

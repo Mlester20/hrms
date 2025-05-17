@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 
                 dropdown.innerHTML = '';
                 
-                let unreadCount = data.length;
+                let unreadCount = data.filter(item => item.is_read === 0).length;
 
                 if (unreadCount > 0) {
                     badge.textContent = unreadCount;
@@ -38,7 +38,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     data.forEach(notification => {
                         const item = document.createElement('a');
                         item.className = 'dropdown-item notification-item';
+                        if (notification.is_read === 0) {
+                            item.classList.add('unread');
+                        }
                         item.href = 'room_reservations.php?id=' + notification.id;
+                        item.dataset.notificationId = notification.id;
                         
                         // Create main text element
                         const text = document.createElement('div');
@@ -55,6 +59,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         item.appendChild(text);
                         item.appendChild(time);
                         dropdown.appendChild(item);
+
+                        // Add click event to mark as read
+                        item.addEventListener('click', function(e) {
+                            // Don't prevent default navigation here, we still want to follow the link
+                            markAsRead(notification.id);
+                        });
                     });
                     
                     // Add divider and "View all" link
@@ -72,6 +82,29 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => {
                 console.error('Error fetching notifications:', error);
             });
+    }
+    
+    // Function to mark notification as read
+    function markAsRead(id) {
+        const formData = new FormData();
+        formData.append('id', id);
+        
+        fetch('../api/mark_notifications_read.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Refresh notifications after marking as read
+                fetchNotifications();
+            } else {
+                console.error('Error marking notification as read:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error marking notification as read:', error);
+        });
     }
     
     // Helper function to format time ago

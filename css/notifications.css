@@ -1,3 +1,5 @@
+/* Add these styles to your CSS file */
+
 .notification-dropdown {
     position: absolute;
     right: 0;
@@ -50,6 +52,10 @@
 
 .notification-dropdown .notification-item {
     padding: 0.75rem 1rem;
+}
+
+.notification-dropdown .notification-item.unread {
+    background-color: #f0f7ff;
 }
 
 .notification-dropdown .notification-text {

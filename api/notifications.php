@@ -15,6 +15,7 @@ try {
         b.status as booking_status,
         b.payment_status,
         b.special_requests,
+        b.is_read,
         b.created_at,
         u.name as guest_name,
         u.email as guest_email,
@@ -51,6 +52,7 @@ try {
         $notifications[] = [
             'id' => $row['booking_id'],
             'message' => $message,
+            'is_read' => (int)$row['is_read'],
             'created_at' => $row['created_at']
         ];
     }
