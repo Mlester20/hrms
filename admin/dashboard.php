@@ -41,31 +41,38 @@ $booking_status_stats = getBookingStatusStats($con);
             <!-- Campaign Overview Column -->
             <div class="col-md-8">
                 <div class="row mb-4">
-                   <div class="col-md-3 col-6">
-                        <div class="dashboard-card stat-card booked">
-                                <h6 class="text-center mt-2 text-primary"><i class="fas fa-book"></i> Booked</h6>
-                                <h3 class="text-center"><?php echo $stats['today_bookings']; ?></h3>
+                    <div class="col-md-3 col-6">
+                        <div class="card dashboard-card bg-primary text-white mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title"> <i class="fas fa-book"></i> Booked</h6>
+                                <h3 class="mb-0"><?php echo $stats['today_bookings']; ?></h3>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
-                            <div class="dashboard-card stat-card users">
-                                <h6 class="text-center mt-2 text-success"><i class="fas fa-users"></i> Total Users</h6>
-                                <h3 class="text-center"><?php echo $stats['total_users']; ?></h3>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card dashboard-card bg-success text-white mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title"> <i class="fas fa-users"></i> Total Users</h6>
+                                <h3 class="mb-0"> <?php echo $stats['total_users']; ?> </h3>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
-                            <div class="dashboard-card stat-card tables">
-                                <h6 class="text-center mt-2 text-warning"><i class="fas fa-table"></i> Pending Tables</h6>
-                                <h3 class="text-center"><?php echo $stats['pending_tables']; ?></h3>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card dashboard-card bg-warning text-white mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title"> <i class="fas fa-table"></i> Pending Tables</h6>
+                                <h3 class="mb-0"> <?php echo $stats['pending_tables']; ?> </h3>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
-                            <div class="dashboard-card stat-card revenue">
-                                <h6 class="text-center mt-2 text-info"><i class="fas fa-coins"></i> Revenue</h6>
-                                <h3 class="text-center ">₱<?php echo number_format($stats['total_revenue'], 2); ?></h3>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card dashboard-card bg-info text-white mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title"> <i class="fas fa-coins"></i> Revenue</h6>
+                                <h3 class="mb-0">₱<?php echo number_format($stats['total_revenue'], 2); ?></h3>
                             </div>
                         </div>
-
+                    </div>
                 </div>
 
                 <!-- Campaign Overview Chart -->
@@ -77,14 +84,11 @@ $booking_status_stats = getBookingStatusStats($con);
             <!-- Revenue Stat Column -->
             <div class="col-md-4">
                 <div class="chart-container">
-                    <h5 class="card-title text-center">Bookings Status</h5>
+                    <h5 class="card-title text-center text-muted">Bookings Status</h5>
                     <canvas id="revenueStatChart"></canvas>
                 </div>
             </div>
         </div>
-
-        
-
     </div>
 
     <!-- Scripts -->
