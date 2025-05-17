@@ -9,10 +9,10 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Fetch dashboard data
+// Call the functions to fetch dashboard data
 $stats = getDashboardStats($con);
 $bookings_data = getBookingsData($con);
-$table_stats = getTableReservationsStats($con);
+$booking_status_stats = getBookingStatusStats($con);
 ?>
 
 <!DOCTYPE html>
@@ -86,11 +86,14 @@ $table_stats = getTableReservationsStats($con);
             <!-- Revenue Stat Column -->
             <div class="col-md-4">
                 <div class="chart-container">
-                    <h5 class="text-center mb-4">Tables Reservation</h5>
+                    <h5 class="card-title text-center text-muted">Bookings Status</h5>
                     <canvas id="revenueStatChart"></canvas>
                 </div>
             </div>
         </div>
+
+        
+
     </div>
 
     <!-- Scripts -->
@@ -100,124 +103,115 @@ $table_stats = getTableReservationsStats($con);
     <script src="../js/notifications.js"></script>
     
     <script>
-    // Campaign Overview Chart
-    const campaignCtx = document.getElementById('campaignOverviewChart').getContext('2d');
-    const bookingsData = <?php echo json_encode($bookings_data); ?>;
-    const totalRevenue = <?php echo json_encode($stats); ?>;
+        // Campaign Overview Chart
+        const campaignCtx = document.getElementById('campaignOverviewChart').getContext('2d');
+        const bookingsData = <?php echo json_encode($bookings_data); ?>;
+        const totalRevenue = <?php echo json_encode($stats); ?>;
 
-    // Create campaign chart
-    window.campaignChart = new Chart(campaignCtx, {
-        type: 'line',
-        data: {
-            labels: bookingsData.map(item => item.date),
-            datasets: [
-                {
-                    label: 'Booked',
-                    data: bookingsData.map(item => item.count),
-                    borderColor: '#FF4081',
-                    backgroundColor: 'rgba(255, 64, 129, 0.1)',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true
-                },
-                {
-                    label: 'Total Revenue',
-                    data: bookingsData.map(item => Math.floor(item.count * 1.1)), // Example calculation
-                    borderColor: '#00BCD4',
-                    backgroundColor: 'rgba(0, 188, 212, 0.1)',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Bookings Overview',
-                    color: '#333' // Always dark text on white background
-                },
-                legend: {
-                    position: 'top',
-                    labels: {
-                        color: '#333' // Always dark text on white background
+        // Create campaign chart
+        window.campaignChart = new Chart(campaignCtx, {
+            type: 'line',
+            data: {
+                labels: bookingsData.map(item => item.date),
+                datasets: [
+                    {
+                        label: 'Total Revenue',
+                        data: bookingsData.map(item => item.revenue),
+                        borderColor: '#00BCD4',
+                        backgroundColor: 'rgba(0, 188, 212, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
                     }
-                }
+                ]
+
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Revenue Overview',
                         color: '#333' // Always dark text on white background
                     },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)'
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#333' // Always dark text on white background
+                        }
                     }
                 },
-                x: {
-                    ticks: {
-                        color: '#333' // Always dark text on white background
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#333' // Always dark text on white background
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
                     },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)'
+                    x: {
+                        ticks: {
+                            color: '#333' // Always dark text on white background
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
                     }
                 }
             }
-        }
-    });
-
-    // Revenue Stat Chart
-    const revenueCtx = document.getElementById('revenueStatChart').getContext('2d');
-    const tableStatsData = <?php echo json_encode($table_stats); ?>;
-
-    // Prepare data for the chart
-    const labels = tableStatsData.map(item => item.status.charAt(0).toUpperCase() + item.status.slice(1));
-    const counts = tableStatsData.map(item => parseInt(item.count));
-    const colors = {
-        'Pending': '#FF4081',
-        'Approved': '#4CAF50',
-        'Rejected': '#1E88E5',
-        'Completed': '#00BCD4'
-    };
-
-    const backgroundColor = labels.map(label => colors[label] || '#9C27B0');
-
-    // Create revenue chart
-    window.revenueChart = new Chart(revenueCtx, {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: counts,
-                backgroundColor: backgroundColor
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Table Reservation Status',
-                    color: '#333' // Always dark text on white background
-                },
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: '#333' // Always dark text on white background
-                    }
-                }
-            }
-        }
-    });
-
-        // Update chart on window resize
-        window.addEventListener('resize', function() {
-            campaignChart.resize();
-            revenueChart.resize();
         });
 
+
+        // Revenue Stat Chart
+        const revenueCtx = document.getElementById('revenueStatChart').getContext('2d');
+        const bookingsStatsData = <?php echo json_encode($booking_status_stats); ?>;
+        // Prepare data for the chart
+        const labels = bookingsStatsData.map(item => item.status.charAt(0).toUpperCase() + item.status.slice(1));
+        const counts = bookingsStatsData.map(item => parseInt(item.count));
+        const colors = {
+            'Pending': '#FF4081',
+            'Confirmed': '#4CAF50',
+            'Canceled': '#E53935',
+            'Completed': '#00BCD4'
+        };
+
+        const backgroundColor = labels.map(label => colors[label] || '#9C27B0');
+
+        window.revenueChart = new Chart(revenueCtx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: backgroundColor
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Booking Status Distribution',
+                        color: '#333'
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#333'
+                        }
+                    }
+                }
+            }
+        });
+
+
+            // Update chart on window resize
+            window.addEventListener('resize', function() {
+                campaignChart.resize();
+                revenueChart.resize();
+            });
     </script>
 </body>
 </html>

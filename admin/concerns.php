@@ -11,6 +11,8 @@ include '../controllers/fetchConcerns.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/customAdminHeader.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <style>
         .concern-card {
             transition: transform 0.2s;
@@ -67,7 +69,7 @@ include '../controllers/fetchConcerns.php';
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Customer Concerns</h2>
+            <h4 class="card-title text-success ">Customer Concerns</h4>
             <div>
                 <button id="selectAllBtn" class="btn btn-outline-primary me-2">
                     <i class="fas fa-check-square"></i> Select All
@@ -174,6 +176,7 @@ include '../controllers/fetchConcerns.php';
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/notifications.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const selectAllBtn = document.getElementById('selectAllBtn');

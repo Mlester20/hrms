@@ -65,6 +65,8 @@ $reservations = getReservations($con);
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
@@ -169,6 +171,7 @@ $reservations = getReservations($con);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="../js/notifications.js"></script>
     <script>
         $(document).ready(function() {
             $('#reservationsTable').DataTable({

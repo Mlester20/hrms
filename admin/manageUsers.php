@@ -107,6 +107,7 @@ while($row = mysqli_fetch_assoc($result)) {
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/notifications.css">
 </head>
 <body>
     
@@ -239,6 +240,6 @@ while($row = mysqli_fetch_assoc($result)) {
     <!-- js external scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <script src="../js/notifications.js"></script>
 </body>
 </html>

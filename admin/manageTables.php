@@ -20,6 +20,8 @@ $tables = getAllTables($con);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8y+4g5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e" crossorigin="anonymous" />
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
@@ -192,5 +194,6 @@ $tables = getAllTables($con);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <!-- Custom Scripts -->
     <script src="../js/tables.js"></script>
+    <script src="../js/notifications.js"></script>
 </body>
 </html>

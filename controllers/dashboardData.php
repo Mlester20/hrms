@@ -46,38 +46,40 @@ function getDashboardStats($con) {
 }
 
 function getBookingsData($con) {
-    // Get bookings data for the last 7 days (excluding canceled bookings)
+    // Get bookings data grouped by month for the past 12 months
     $query = "SELECT 
-                DATE(created_at) as date,
+                DATE_FORMAT(created_at, '%Y-%m') as month,
                 COUNT(*) as count,
                 COALESCE(SUM(total_price), 0) as revenue
             FROM bookings 
-            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
             AND status NOT IN ('canceled', 'cancelled')
-            GROUP BY DATE(created_at)
-            ORDER BY date ASC";
-            
+            GROUP BY month
+            ORDER BY month ASC";
+
     $result = mysqli_query($con, $query);
     $data = array();
-    
+
     while ($row = mysqli_fetch_assoc($result)) {
+        $monthName = date('M Y', strtotime($row['month'] . '-01'));
         $data[] = array(
-            'date' => date('M d', strtotime($row['date'])),
+            'date' => $monthName, // like "May 2025"
             'count' => (int)$row['count'],
             'revenue' => (float)$row['revenue']
         );
     }
-    
+
     return $data;
 }
 
-function getTableReservationsStats($con) {
+
+function getBookingStatusStats($con) {
     $query = "SELECT 
                 status,
                 COUNT(*) as count
-            FROM table_reservations
-            GROUP BY status";
-            
+              FROM bookings
+              GROUP BY status";
+    
     $result = mysqli_query($con, $query);
     $data = array();
     
@@ -87,6 +89,7 @@ function getTableReservationsStats($con) {
     
     return $data;
 }
+
 
 function getTotalUsers($con) {
     $query = "SELECT COUNT(*) as count 

@@ -24,6 +24,13 @@ $offers_query = "SELECT * FROM special_offers ORDER BY offers_id";
 $offers_result = mysqli_query($con, $offers_query);
 $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
 
+$query = "SELECT r.review_text, r.rating, u.name FROM reviews r 
+          JOIN users u ON r.user_id = u.user_id 
+          ORDER BY r.created_at DESC 
+          LIMIT 10"; // limit to latest 10 reviews
+
+$result = mysqli_query($con, $query);
+
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +46,7 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
     <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="../css/animation.css">
+    <link rel="stylesheet" href="../css/reviews.css">
 </head>
 <body>
     
@@ -268,8 +276,38 @@ $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
         </div>
     </div>
 
-    
+    <div class="container-fluid p-0">
+        <section class="review-section">
+            <div class="container">
+                <h2 class="text-center text-muted section-title">Our Customers' Feedback</h2>
+            </div>
+                
+            <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                <div class="carousel-inner">
+                    <?php
+                    $isFirst = true;
+                    while ($row = mysqli_fetch_assoc($result)):
+                    ?>
+                    <div class="carousel-item <?php if ($isFirst) { echo 'active'; $isFirst = false; } ?>">
+                        <div class="review-card">
+                            <div class="card-body text-center">
+                                <h4 class="reviewer-name">Customer's Name: <?php echo htmlspecialchars($row['name']); ?></h4>
+                                <div class="stars">
+                                    <?php for ($i = 0; $i < $row['rating']; $i++): ?>
+                                    <i class="fas fa-star"></i>
+                                    <?php endfor; ?>
+                                </div>
+                                <p class="review-text">"<?php echo htmlspecialchars($row['review_text']); ?>"</p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endwhile; ?>
+                </div>
+            </div>
+        </section>
+    </div>
 
+    <!-- Footer Section -->
     <?php include '../components/footer.php'; ?>
 
     <!-- Scripts -->

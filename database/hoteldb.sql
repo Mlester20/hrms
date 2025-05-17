@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2025 at 05:52 PM
+-- Generation Time: May 17, 2025 at 12:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -50,7 +50,17 @@ CREATE TABLE `bookings` (
   `special_requests` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `created_at`, `updated_at`) VALUES
+(6, 6, 6, '2025-05-17', '2025-05-18', 1500.00, 'completed', '', '', '2025-05-17 09:00:19', '2025-05-17 09:13:17'),
+(7, 6, 8, '2025-05-17', '2025-05-18', 2500.00, 'completed', '', '', '2025-05-17 09:00:24', '2025-05-17 09:17:14'),
+(8, 6, 7, '2025-05-17', '2025-05-18', 1500.00, 'completed', '', '', '2025-05-17 09:00:29', '2025-05-17 09:27:04'),
+(9, 6, 5, '2025-05-17', '2025-05-18', 1500.00, 'completed', '', '', '2025-05-17 09:00:33', '2025-05-17 09:17:16');
 
 -- --------------------------------------------------------
 
@@ -104,7 +114,9 @@ CREATE TABLE `restaurant_menu` (
 --
 
 INSERT INTO `restaurant_menu` (`menu_id`, `menu_name`, `menu_description`, `image`, `price`) VALUES
-(9, 'Italian Pasta', 'Good 2-4 persons', '6820ad1831b26.jpg', 2500);
+(9, 'Pizza', 'Good 2-4 persons', '6820ad1831b26.jpg', 2500),
+(10, 'Pizza', 'Pizza Burger', '68286635d44d8.jpg', 1500),
+(11, 'Pizza', '4 Slices Pizza', '682866d1485b8.jpg', 500);
 
 -- --------------------------------------------------------
 
@@ -133,6 +145,28 @@ INSERT INTO `restaurant_tables` (`table_id`, `table_number`, `capacity`, `positi
 (5, 5, 2, 450, 100, 'Window'),
 (6, 6, 10, 550, 100, 'Center'),
 (7, 7, 5, 650, 100, 'Corner');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `review_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `review_text` text DEFAULT NULL,
+  `rating` int(11) DEFAULT NULL CHECK (`rating` >= 1 and `rating` <= 5),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`review_id`, `user_id`, `review_text`, `rating`, `created_at`) VALUES
+(2, 4, 'Exceptional service and amazing food!', 5, '2025-05-17 10:01:06'),
+(4, 6, 'My new favorite restaurant!', 4, '2025-05-17 10:07:13');
 
 -- --------------------------------------------------------
 
@@ -270,7 +304,10 @@ CREATE TABLE `table_reservations` (
 --
 
 INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_date`, `time_slot`, `guest_count`, `special_requests`, `user_id`, `status`) VALUES
-(9, 5, '2025-05-08', '12:00:00', 2, '', 4, 'done');
+(9, 5, '2025-05-08', '12:00:00', 2, '', 4, 'done'),
+(12, 5, '2025-05-16', '20:00:00', 2, '', 6, 'done'),
+(13, 6, '2025-05-16', '07:00:00', 8, '', 6, 'done'),
+(14, 2, '2025-05-17', '07:00:00', 4, '', 6, 'done');
 
 -- --------------------------------------------------------
 
@@ -294,7 +331,7 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `staff_id`, `title`, `description`, `deadline`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'AC repair', 'Maintenance of Aircon at Room 3 and Room 4', '2025-05-09 17:00:00', 'Pending', '2025-05-11 14:38:03', '2025-05-11 14:38:03');
+(1, 1, 'AC repair', 'Maintenance of Aircon at Room 3 and Room 4', '2025-05-09 17:00:00', 'Done', '2025-05-11 14:38:03', '2025-05-17 09:40:52');
 
 -- --------------------------------------------------------
 
@@ -367,6 +404,13 @@ ALTER TABLE `restaurant_tables`
   ADD UNIQUE KEY `table_number` (`table_number`);
 
 --
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`review_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -433,7 +477,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -451,13 +495,19 @@ ALTER TABLE `description`
 -- AUTO_INCREMENT for table `restaurant_menu`
 --
 ALTER TABLE `restaurant_menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `restaurant_tables`
 --
 ALTER TABLE `restaurant_tables`
   MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `rooms`
@@ -493,7 +543,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `table_reservations`
 --
 ALTER TABLE `table_reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tasks`
@@ -523,6 +573,12 @@ ALTER TABLE `bookings`
 --
 ALTER TABLE `concerns`
   ADD CONSTRAINT `concerns_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `rooms`
