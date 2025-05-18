@@ -13,6 +13,7 @@ include '../controllers/fetchConcerns.php';
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/darkTheme.css">
     <style>
         .concern-card {
             transition: transform 0.2s;
@@ -177,49 +178,7 @@ include '../controllers/fetchConcerns.php';
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/notifications.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectAllBtn = document.getElementById('selectAllBtn');
-            const bulkActions = document.getElementById('bulkActions');
-            const selectedCount = bulkActions.querySelector('.selected-count');
-            const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
-            const checkboxes = document.querySelectorAll('.concern-check');
-            const bulkForm = document.getElementById('bulkForm');
-            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-
-            let isAllSelected = false;
-
-            function updateSelectedCount() {
-                const checkedBoxes = document.querySelectorAll('.concern-check:checked');
-                const count = checkedBoxes.length;
-                selectedCount.textContent = `${count} item${count !== 1 ? 's' : ''} selected`;
-                bulkDeleteBtn.disabled = count === 0;
-                bulkActions.classList.toggle('visible', count > 0);
-            }
-
-            selectAllBtn.addEventListener('click', () => {
-                isAllSelected = !isAllSelected;
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = isAllSelected;
-                });
-                selectAllBtn.innerHTML = isAllSelected ? 
-                    '<i class="fas fa-square"></i> Unselect All' : 
-                    '<i class="fas fa-check-square"></i> Select All';
-                updateSelectedCount();
-            });
-
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updateSelectedCount);
-            });
-
-            bulkDeleteBtn.addEventListener('click', () => {
-                deleteModal.show();
-            });
-
-            document.getElementById('confirmDelete').addEventListener('click', () => {
-                bulkForm.submit();
-            });
-        });
-    </script>
+    <script src="../js/deleteBulk.js"></script>
+    <script src="../js/darkTheme.js"></script>
 </body>
 </html>

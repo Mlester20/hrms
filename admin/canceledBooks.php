@@ -19,6 +19,7 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/notifications.css">
+    <link rel="stylesheet" href="../css/darkTheme.css">
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
@@ -64,6 +65,7 @@ if (!isset($_SESSION['user_id'])) {
     <!-- scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <!-- custom js scripts -->
-     <script src="../js/notifications.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/darkTheme.js"></script>
 </body>
 </html>

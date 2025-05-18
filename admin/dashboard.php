@@ -84,7 +84,7 @@ $booking_status_stats = getBookingStatusStats($con);
             <!-- Revenue Stat Column -->
             <div class="col-md-4">
                 <div class="chart-container">
-                    <h5 class="card-title text-center text-muted">Bookings Status</h5>
+                    <h5 class="card-title text-center">Bookings Status</h5>
                     <canvas id="revenueStatChart"></canvas>
                 </div>
             </div>
