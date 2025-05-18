@@ -32,7 +32,8 @@
                         </div>
                         
                         <form action="controllers/auth.php" method="POST">
-                            
+
+                        <div class="text-center my-3">                            
                             <div class="mb-3">
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
@@ -49,6 +50,10 @@
                             
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-get-started">GET STARTED</button>
+                            </div>
+
+                                <hr>
+                                <span class="text-muted">Or Continue With</span>
                             </div>
                         </form>
                         

@@ -2,6 +2,19 @@
 session_start();
 include '../components/config.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_booking_id'])) {
+    $booking_id = intval($_POST['delete_booking_id']);
+    if (deleteCanceledBooking($con, $booking_id)) {
+        // Optional: Add a success message to session or redirect
+        header('Location: ../admin/canceledBooks.php?deleted=1');
+        exit();
+    } else {
+        // Optional: Add an error message
+        header('Location: ../admin/canceledBooks.php?deleted=0');
+        exit();
+    }
+}
+
 // Query to fetch only cancelled bookings
 $query = "SELECT 
         b.booking_id,
@@ -52,4 +65,18 @@ function calculateNights($checkin, $checkout) {
     $interval = $checkin_date->diff($checkout_date);
     return $interval->days;
 }
+
+//function to delete booking
+function deleteCanceledBooking($con, $booking_id) {
+    $query = "DELETE FROM bookings WHERE booking_id = ? AND status = 'canceled'";
+    $stmt = mysqli_prepare($con, $query);
+    if (!$stmt) return false;
+    mysqli_stmt_bind_param($stmt, 'i', $booking_id);
+    $success = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    return $success;
+}
+
+
+
 ?>

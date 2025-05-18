@@ -38,6 +38,7 @@ if (!isset($_SESSION['user_id'])) {
                         <th>Total Price</th>
                         <th>Payment Status</th>
                         <th>Canceled Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,6 +56,14 @@ if (!isset($_SESSION['user_id'])) {
                                 </span>
                             </td>
                             <td><?php echo date('M d, Y', strtotime($booking['created_at'])); ?></td>
+                            <td>
+                                <form method="post" action="../controllers/canceledBooks.php" onsubmit="return confirm('Are you sure you want to delete this canceled booking?');">
+                                    <input type="hidden" name="delete_booking_id" value="<?php echo $booking['booking_id']; ?>">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i> 
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>

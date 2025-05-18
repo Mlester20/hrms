@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to enable dark theme
     function enableDarkTheme() {
         document.body.classList.add('dark-theme');
-        themeText.textContent = 'Light Mode';
+        themeText.textContent = 'Light Theme';
         themeIcon.className = 'fas fa-sun';
         localStorage.setItem('theme', 'dark');
         updateChartTheme(true);
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to enable light theme
     function enableLightTheme() {
         document.body.classList.remove('dark-theme');
-        themeText.textContent = 'Dark Mode';
+        themeText.textContent = 'Dark Theme';
         themeIcon.className = 'fas fa-moon';
         localStorage.setItem('theme', 'light');
         updateChartTheme(false);
