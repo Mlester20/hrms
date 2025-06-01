@@ -99,7 +99,7 @@ $reservations = getReservations($con);
                         <?php endif; ?>
 
                         <div class="table-responsive">
-                            <table id="reservationsTable" class="table table-light">
+                            <table id="reservationsTable" class="table table-white">
                                 <thead>
                                     <tr>
                                         <th>ID</th>

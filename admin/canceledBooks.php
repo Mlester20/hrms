@@ -25,7 +25,7 @@ if (!isset($_SESSION['user_id'])) {
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container mt-4">
-        <h3 class="mt-4 mb-4 text-center text-muted">Canceled Bookings</h3>
+        <h3 class="mt-4 mb-4 text-center">Canceled Bookings</h3>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead class="table-light">

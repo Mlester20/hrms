@@ -5,11 +5,9 @@ include '../components/config.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_booking_id'])) {
     $booking_id = intval($_POST['delete_booking_id']);
     if (deleteCanceledBooking($con, $booking_id)) {
-        // Optional: Add a success message to session or redirect
         header('Location: ../admin/canceledBooks.php?deleted=1');
         exit();
     } else {
-        // Optional: Add an error message
         header('Location: ../admin/canceledBooks.php?deleted=0');
         exit();
     }
@@ -76,7 +74,5 @@ function deleteCanceledBooking($con, $booking_id) {
     mysqli_stmt_close($stmt);
     return $success;
 }
-
-
 
 ?>

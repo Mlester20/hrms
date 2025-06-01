@@ -29,8 +29,8 @@ if (!isset($_SESSION['user_id'])) {
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container mt-5">
-        <h3 class="mb-4 text-center text-muted">Table Reservations</h3>
-        <table class="table table-bordered table-striped">
+        <h3 class="mb-4 text-center">Table Reservations</h3>
+        <table class="table table-bordered table-white">
             <thead>
                 <tr>
                     <th>Table Number</th>

@@ -99,7 +99,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
                                         <td><?php echo strlen($offer['description']) > 50 ? substr($offer['description'], 0, 50) . '...' : $offer['description']; ?></td>
                                         <td>₱<?php echo number_format($offer['price'], 2); ?></td>
                                         <td>
-                                            <div class="btn-group">
+                                            <div class="btn-group gap-2 border-0">
                                                 <a href="../controllers/offersController.php?edit=<?php echo $offer['offers_id']; ?>" class="btn btn-sm btn-warning">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
