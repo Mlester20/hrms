@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2025 at 04:01 PM
+-- Generation Time: Jun 08, 2025 at 11:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `hoteldb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_users`
+--
+
+CREATE TABLE `auth_users` (
+  `id` int(11) NOT NULL,
+  `google_id` varchar(255) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `role` enum('user','admin') DEFAULT 'user',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -45,7 +60,7 @@ CREATE TABLE `bookings` (
   `check_in_date` date NOT NULL,
   `check_out_date` date NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
-  `status` enum('pending','confirmed','canceled','completed') DEFAULT 'pending',
+  `status` enum('pending','confirmed','cancelled','completed') DEFAULT 'pending',
   `payment_status` enum('unpaid','partially_paid','paid') DEFAULT 'unpaid',
   `special_requests` text DEFAULT NULL,
   `is_read` tinyint(1) DEFAULT 0,
@@ -58,9 +73,12 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `is_read`, `created_at`, `updated_at`) VALUES
-(10, 6, 6, '2025-05-17', '2025-05-18', 1500.00, 'confirmed', 'paid', '', 1, '2025-05-17 13:35:31', '2025-05-17 13:51:25'),
-(11, 4, 5, '2025-05-17', '2025-05-18', 1500.00, 'canceled', 'paid', '', 1, '2025-05-17 13:54:59', '2025-05-17 13:57:19'),
-(12, 4, 8, '2025-05-17', '2025-05-18', 2500.00, 'confirmed', '', '', 1, '2025-05-17 13:57:46', '2025-05-17 13:58:12');
+(18, 4, 5, '2025-06-08', '2025-06-09', 1500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:40', '2025-06-08 08:58:54'),
+(19, 4, 6, '2025-06-08', '2025-06-09', 1500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:45', '2025-06-08 08:58:57'),
+(20, 4, 7, '2025-06-08', '2025-06-09', 1500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:49', '2025-06-08 08:58:56'),
+(21, 4, 8, '2025-06-08', '2025-06-09', 2500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:53', '2025-06-08 08:58:52'),
+(22, 4, 9, '2025-06-08', '2025-06-09', 2500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:58', '2025-06-08 08:58:51'),
+(23, 4, 9, '2025-06-08', '2025-06-09', 2500.00, 'completed', '', '', 1, '2025-06-08 08:58:27', '2025-06-08 08:58:49');
 
 -- --------------------------------------------------------
 
@@ -165,8 +183,7 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`review_id`, `user_id`, `review_text`, `rating`, `created_at`) VALUES
-(2, 4, 'Exceptional service and amazing food!', 5, '2025-05-17 10:01:06'),
-(4, 6, 'My new favorite restaurant!', 4, '2025-05-17 10:07:13');
+(6, 4, 'The Service was pretty fast and good!', 5, '2025-06-07 08:17:30');
 
 -- --------------------------------------------------------
 
@@ -179,18 +196,20 @@ CREATE TABLE `rooms` (
   `title` varchar(255) NOT NULL,
   `room_type_id` int(11) NOT NULL,
   `images` varchar(255) DEFAULT NULL,
-  `price` varchar(250) DEFAULT NULL
+  `price` varchar(250) DEFAULT NULL,
+  `includes` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `title`, `room_type_id`, `images`, `price`) VALUES
-(5, 'Room 2', 5, '[\"room_6815e9a3bc7b74.38249271.jpg\",\"room_6815e9a3bcd876.43427399.jpg\"]', '1500'),
-(6, 'Room 1', 5, '[\"room_6815ea106c7152.73864788.jpg\",\"room_6815ea106cb153.70063731.jpg\"]', '1500'),
-(7, 'Room 3', 5, '[\"room_68172f9bb476f1.95935670.jpg\",\"room_68172f9bb4d1c2.96168563.jpg\",\"room_68172f9bb50ae2.42324066.jpg\"]', '1500'),
-(8, 'Room 4', 6, '[\"room_681f765d1e5a40.24006654.jpg\",\"room_681f765d1ecdf7.90503933.jpg\",\"room_681f765d1f3272.17751895.jpg\"]', '2500');
+INSERT INTO `rooms` (`id`, `title`, `room_type_id`, `images`, `price`, `includes`) VALUES
+(5, 'Room 2', 5, '[\"room_6815e9a3bc7b74.38249271.jpg\",\"room_6815e9a3bcd876.43427399.jpg\"]', '1500', 'Wifi'),
+(6, 'Room 1', 5, '[\"room_6815ea106c7152.73864788.jpg\",\"room_6815ea106cb153.70063731.jpg\"]', '1500', 'Flat Screen Tv'),
+(7, 'Room 3', 5, '[\"room_68172f9bb476f1.95935670.jpg\",\"room_68172f9bb4d1c2.96168563.jpg\",\"room_68172f9bb50ae2.42324066.jpg\"]', '1500', 'Wifi'),
+(8, 'Room 4', 6, '[\"room_681f765d1e5a40.24006654.jpg\",\"room_681f765d1ecdf7.90503933.jpg\",\"room_681f765d1f3272.17751895.jpg\"]', '2500', 'Wifi'),
+(9, 'Delux', 6, '[\"room_68454b3c4b7720.19881913.jpg\"]', '2500', 'Shower');
 
 -- --------------------------------------------------------
 
@@ -307,7 +326,8 @@ INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_dat
 (9, 5, '2025-05-08', '12:00:00', 2, '', 4, 'done'),
 (12, 5, '2025-05-16', '20:00:00', 2, '', 6, 'done'),
 (13, 6, '2025-05-16', '07:00:00', 8, '', 6, 'done'),
-(14, 2, '2025-05-17', '07:00:00', 4, '', 6, 'done');
+(14, 2, '2025-05-17', '07:00:00', 4, '', 6, 'done'),
+(15, 7, '2025-05-31', '07:00:00', 5, '', 6, 'pending');
 
 -- --------------------------------------------------------
 
@@ -354,14 +374,21 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `address`, `email`, `password`, `role`, `phone`) VALUES
-(3, 'Mark Lester Raguindin', 'Cauayan', 'suguitanmark123@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', '639360991034'),
-(4, 'Jean Dominque Bulusan', 'Rizal', 'jean@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
-(5, 'Mark Lester', 'Roxas, Isabela', 'suguitanmark123@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'user', '09360991034'),
-(6, 'Mark Lester', 'Roxas, Isabela', 'raguindin.lester20@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034');
+(3, 'Admin', 'Roxas', 'suguitanmark123@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', '639360991034'),
+(4, 'Mark Lester Raguindin', 'Rizal', 'raguindin.lester20@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
+(6, 'Mark Lester', 'Roxas, Isabela', 'raguindin.lester20@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
+(7, 'Gia Celestine Guerra', 'Rizal, Santiago City', 'gia@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `auth_users`
+--
+ALTER TABLE `auth_users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `google_id` (`google_id`);
 
 --
 -- Indexes for table `banner`
@@ -468,6 +495,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `auth_users`
+--
+ALTER TABLE `auth_users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `banner`
 --
 ALTER TABLE `banner`
@@ -477,7 +510,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -507,13 +540,13 @@ ALTER TABLE `restaurant_tables`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `room_type`
@@ -543,7 +576,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `table_reservations`
 --
 ALTER TABLE `table_reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tasks`
@@ -555,7 +588,7 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

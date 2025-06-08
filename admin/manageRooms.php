@@ -78,6 +78,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
                         <td><?php echo $row['id']; ?></td>
                         <td><?php echo htmlspecialchars($row['title']); ?></td>
                         <td><?php echo htmlspecialchars($row['room_type_title']); ?></td>
+                        
                         <td>
                             <?php
                             $imagesArray = json_decode($row['images'], true);
@@ -171,6 +172,10 @@ $roomTypesResult = $con->query($roomTypesQuery);
                         <div class="mb-3">
                             <label for="images" class="form-label">Images</label>
                             <input type="file" class="form-control" id="images" name="images[]" multiple required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="package" class="form-label">Package Name</label>
+                            <input type="text" class="form-control" id="package" name="package_name" required>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>

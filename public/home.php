@@ -87,7 +87,7 @@ $result = mysqli_query($con, $query);
                             </div>
                             <div class="signature-details">
                                 <h4>Mark Lester Raguindin</h4>
-                                <p>Software Developer</p>
+                                <p>Ceo</p>
                             </div>
                         </div>
                     </div>
@@ -115,10 +115,10 @@ $result = mysqli_query($con, $query);
             <div class="row">
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="restaurant-content fade-in-left">
-                        <h3>Mark's Restaurant</h3>
+                        <h3>Seed's Hotel & Restaurant</h3>
                         <p class="restaurant-tagline">Taste the difference in every bite</p>
                         <p class="restaurant-description">
-                            Indulge in a culinary journey at Mark's Restaurant, where our expert chefs create masterpieces using locally-sourced ingredients. Our menu features a perfect blend of international cuisine and local flavors, ensuring a memorable dining experience for our guests.
+                            Indulge in a culinary journey at Seed's Hotel & Restaurant, where our expert chefs create masterpieces using locally-sourced ingredients. Our menu features a perfect blend of international cuisine and local flavors, ensuring a memorable dining experience for our guests.
                         </p>
                         <div class="restaurant-features">
                             <div class="feature-item">

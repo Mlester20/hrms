@@ -33,7 +33,7 @@ try {
     }
 
     // Base query to get rooms
-    $query = "SELECT r.id, r.title, r.room_type_id, r.images, r.price, rt.title as room_type, rt.detail as room_type_detail
+    $query = "SELECT r.id, r.title, r.room_type_id, r.images, r.price, r.includes, rt.title as room_type, rt.detail as room_type_detail
               FROM rooms r
               JOIN room_type rt ON r.room_type_id = rt.id
               WHERE 1=1";

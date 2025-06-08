@@ -7,7 +7,7 @@ if (isset($_POST['addRoom'])) {
     $title = $_POST['title'];
     $room_type_id = $_POST['room_type_id'];
     $price = $_POST['price'];
-
+    $package_name = $_POST['package_name'];
     // Handle multiple image uploads
     $imageNames = [];
     
@@ -60,9 +60,9 @@ if (isset($_POST['addRoom'])) {
     // Convert array of image names to JSON string for storage
     $imagesJson = json_encode($imageNames);
 
-    $query = "INSERT INTO rooms (title, room_type_id, images, price) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO rooms (title, room_type_id, images, price, includes) VALUES (?, ?, ?, ?, ?)";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("sisd", $title, $room_type_id, $imagesJson, $price);
+    $stmt->bind_param("sisds", $title, $room_type_id, $imagesJson, $price, $package_name);
 
     if ($stmt->execute()) {
         $_SESSION['success'] = "Room added successfully!";

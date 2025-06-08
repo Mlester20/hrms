@@ -136,7 +136,7 @@ $reservations = getReservations($con);
                                                             style="background-color: <?php echo getStatusColor($row['booking_status']); ?>">
                                                         <option value="pending" <?php echo $row['booking_status'] == 'pending' ? 'selected' : ''; ?>>Pending</option>
                                                         <option value="confirmed" <?php echo $row['booking_status'] == 'confirmed' ? 'selected' : ''; ?>>Confirmed</option>
-                                                        <option value="canceled" <?php echo $row['booking_status'] == 'canceled' ? 'selected' : ''; ?>>Canceled</option>
+                                                        <option value="cancelled" <?php echo $row['booking_status'] == 'cancelled' ? 'selected' : ''; ?>>Canceled</option>
                                                         <option value="completed" <?php echo $row['booking_status'] == 'completed' ? 'selected' : ''; ?>>Complete</option>
                                                     </select>
                                                     <input type="hidden" name="update_status" value="1">

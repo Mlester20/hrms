@@ -181,17 +181,12 @@ function displayAvailableRooms(rooms, searchParams) {
             <div class="room-card">
                 <div class="room-image">
                     <img src="${firstImage}" alt="${room.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Image+Error'; console.error('Failed to load image: ' + this.src);">
-                    <div class="room-type-badge">${room.room_type}</div>
+                    <div class="room-type-badge"> Room Type: ${room.room_type}</div>
                 </div>
                 <div class="room-body">
-                    <h5 class="room-title">${room.title}</h5>
-                    <div class="room-description">
-                        ${room.room_type_detail || 'No description available'}
-                    </div>
+                    <h5 class="room-title">Room Name: ${room.title}</h5>
                     <div class="room-features">
-                        <span><i class="fas fa-wifi"></i> Free WiFi</span>
-                        <span class="ms-3"><i class="fas fa-air-freshener"></i> AC</span>
-                        <span class="ms-3"><i class="fas fa-tv"></i> TV</span>
+                        Room Freebies: ${room.includes || 'None'}
                     </div>
                     <div class="room-price">
                         ₱${room.price} <span class="room-price-unit">per night</span>
