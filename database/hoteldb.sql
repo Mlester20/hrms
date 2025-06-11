@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2025 at 11:05 AM
+-- Generation Time: Jun 11, 2025 at 11:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -78,7 +78,8 @@ INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `ch
 (20, 4, 7, '2025-06-08', '2025-06-09', 1500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:49', '2025-06-08 08:58:56'),
 (21, 4, 8, '2025-06-08', '2025-06-09', 2500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:53', '2025-06-08 08:58:52'),
 (22, 4, 9, '2025-06-08', '2025-06-09', 2500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:58', '2025-06-08 08:58:51'),
-(23, 4, 9, '2025-06-08', '2025-06-09', 2500.00, 'completed', '', '', 1, '2025-06-08 08:58:27', '2025-06-08 08:58:49');
+(23, 4, 9, '2025-06-08', '2025-06-09', 2500.00, 'completed', '', '', 1, '2025-06-08 08:58:27', '2025-06-08 08:58:49'),
+(24, 7, 6, '2025-06-11', '2025-06-12', 1500.00, 'pending', '', '', 1, '2025-06-11 09:05:12', '2025-06-11 09:05:40');
 
 -- --------------------------------------------------------
 
@@ -111,7 +112,7 @@ CREATE TABLE `description` (
 --
 
 INSERT INTO `description` (`description_id`, `description_name`) VALUES
-(1, 'Our objective at Romancy is to bring together our visitor\'s activities and spirits with our own, communicating enthusiasm and sincerity in the food we share. Official Chef and Owner Philippe Massoud expertly creates a blend of Lebanese, Levantine, Mediterranean influenced food divided in each New York morning. Delightful herbs and flavors, connected to Nature\'s parity and ancient arabic potions.');
+(1, 'Our objective at Seeds Hotel & Restaurant is to bring together our visitor\'s activities and spirits with our own, communicating enthusiasm and sincerity in the food we share. Official Chef and Owner Philippines Massoud expertly creates a blend of Lebanese, Levantine, Mediterranean influenced food divided in each New York morning. Delightful herbs and flavors, connected to Nature\'s parity and ancient arabic potions.');
 
 -- --------------------------------------------------------
 
@@ -209,7 +210,8 @@ INSERT INTO `rooms` (`id`, `title`, `room_type_id`, `images`, `price`, `includes
 (6, 'Room 1', 5, '[\"room_6815ea106c7152.73864788.jpg\",\"room_6815ea106cb153.70063731.jpg\"]', '1500', 'Flat Screen Tv'),
 (7, 'Room 3', 5, '[\"room_68172f9bb476f1.95935670.jpg\",\"room_68172f9bb4d1c2.96168563.jpg\",\"room_68172f9bb50ae2.42324066.jpg\"]', '1500', 'Wifi'),
 (8, 'Room 4', 6, '[\"room_681f765d1e5a40.24006654.jpg\",\"room_681f765d1ecdf7.90503933.jpg\",\"room_681f765d1f3272.17751895.jpg\"]', '2500', 'Wifi'),
-(9, 'Delux', 6, '[\"room_68454b3c4b7720.19881913.jpg\"]', '2500', 'Shower');
+(9, 'Delux', 6, '[\"room_68454b3c4b7720.19881913.jpg\"]', '2500', 'Shower'),
+(10, 'Room 10', 6, '[\"room_6849422e0c6688.71534324.jpg\"]', '1500', 'Testing');
 
 -- --------------------------------------------------------
 
@@ -327,7 +329,9 @@ INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_dat
 (12, 5, '2025-05-16', '20:00:00', 2, '', 6, 'done'),
 (13, 6, '2025-05-16', '07:00:00', 8, '', 6, 'done'),
 (14, 2, '2025-05-17', '07:00:00', 4, '', 6, 'done'),
-(15, 7, '2025-05-31', '07:00:00', 5, '', 6, 'pending');
+(15, 7, '2025-05-31', '07:00:00', 5, '', 6, 'pending'),
+(16, 1, '2025-06-11', '20:00:00', 2, '', 7, 'pending'),
+(17, 3, '2025-06-11', '07:00:00', 6, '', 7, 'pending');
 
 -- --------------------------------------------------------
 
@@ -377,7 +381,7 @@ INSERT INTO `users` (`user_id`, `name`, `address`, `email`, `password`, `role`, 
 (3, 'Admin', 'Roxas', 'suguitanmark123@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', '639360991034'),
 (4, 'Mark Lester Raguindin', 'Rizal', 'raguindin.lester20@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
 (6, 'Mark Lester', 'Roxas, Isabela', 'raguindin.lester20@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
-(7, 'Gia Celestine Guerra', 'Rizal, Santiago City', 'gia@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034');
+(7, 'Test User', 'Rizal, Santiago City', 'gia@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034');
 
 --
 -- Indexes for dumped tables
@@ -510,7 +514,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -546,7 +550,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `room_type`
@@ -576,7 +580,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `table_reservations`
 --
 ALTER TABLE `table_reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tasks`

@@ -4,12 +4,12 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="footer-widget">
-                        <h3>Mark's Hotel & Restaurant</h3>
+                        <h3>Seed's Hotel & Restaurant</h3>
                         <p>Explore, discover, and experience luxury like never before.</p>
                         <div class="contact-info">
                             <p><i class="fas fa-map-marker-alt"></i> 123 Hotel Street, City, Country</p>
                             <p><i class="fas fa-phone"></i> +63 960 991 304</p>
-                            <p><i class="fas fa-envelope"></i> contact@mark020.com</p>
+                            <p><i class="fas fa-envelope"></i> contact@seedshotel@gmail.com</p>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
         </div>
         <div class="copyright">
             <div class="container">
-                <p>&copy; 2025 Mark's Hotel & Resort. All Rights Reserved.</p>
+                <p>&copy; 2025 Seed's Hotel & Restaurant. All Rights Reserved.</p>
             </div>
         </div>
     </footer>

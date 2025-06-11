@@ -81,7 +81,7 @@ $result = mysqli_query($con, $query);
                             }
                             ?>
                         </p>
-                        <div class="ceo-signature">
+                        <!-- <div class="ceo-signature">
                             <div class="ceo-img">
                                 <img src="../images/me.jpg" alt="CEO">
                             </div>
@@ -89,7 +89,7 @@ $result = mysqli_query($con, $query);
                                 <h4>Mark Lester Raguindin</h4>
                                 <p>Ceo</p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-lg-6">

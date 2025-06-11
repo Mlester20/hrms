@@ -14,13 +14,6 @@
 <body>
     <div class="background-blur"></div>
 
-
-    <header class="py-3">
-        <div class="container">
-            <h6 class="m-0 text-start">Hotel and Restaurant Reservation</h6>
-        </div>
-    </header>
-
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
             <div class="col-md-4">
@@ -50,10 +43,6 @@
                             
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-get-started">GET STARTED</button>
-                            </div>
-
-                                <hr>
-                                <span class="text-muted">Or Continue With</span>
                             </div>
                         </form>
                         

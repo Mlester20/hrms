@@ -186,7 +186,7 @@ function displayAvailableRooms(rooms, searchParams) {
                 <div class="room-body">
                     <h5 class="room-title">Room Name: ${room.title}</h5>
                     <div class="room-features">
-                        Room Freebies: ${room.includes || 'None'}
+                        Room Features: ${room.includes || 'None'}
                     </div>
                     <div class="room-price">
                         ₱${room.price} <span class="room-price-unit">per night</span>

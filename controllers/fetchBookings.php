@@ -17,7 +17,7 @@ if (isset($_POST['cancel_booking']) && isset($_POST['booking_id'])) {
     $booking_id = $_POST['booking_id'];
     
     // Update booking status to canceled (match your enum value)
-    $cancel_query = "UPDATE bookings SET status = 'canceled' WHERE booking_id = ? AND user_id = ?";
+    $cancel_query = "UPDATE bookings SET status = 'cancelled' WHERE booking_id = ? AND user_id = ?";
     $cancel_stmt = mysqli_prepare($con, $cancel_query);
     mysqli_stmt_bind_param($cancel_stmt, 'ii', $booking_id, $user_id);
     

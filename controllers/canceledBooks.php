@@ -32,7 +32,7 @@ $query = "SELECT
     LEFT JOIN users u ON b.user_id = u.user_id
     LEFT JOIN rooms r ON b.room_id = r.id
     LEFT JOIN room_type rt ON r.room_type_id = rt.id
-    WHERE b.status = 'canceled'
+    WHERE b.status = 'cancelled'
     ORDER BY b.created_at DESC";
 
 // Prepare statement
