@@ -1,0 +1,8 @@
+{
+  "build": {
+    "env": {
+      "PORT": "9000"
+    }
+  },
+  "start": "php -S 0.0.0.0 $PORT"
+}
