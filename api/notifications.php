@@ -49,7 +49,7 @@ try {
             $message .= " Request: {$row['special_requests']}.";
         }
 
-        $notifications[] = [
+        $notifications[] = [    
             'id' => $row['booking_id'],
             'message' => $message,
             'is_read' => (int)$row['is_read'],
