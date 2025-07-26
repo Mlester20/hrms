@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2025 at 11:15 AM
+-- Generation Time: Jul 26, 2025 at 05:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -73,13 +73,13 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `is_read`, `created_at`, `updated_at`) VALUES
-(18, 4, 5, '2025-06-08', '2025-06-09', 1500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:40', '2025-06-08 08:58:54'),
-(19, 4, 6, '2025-06-08', '2025-06-09', 1500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:45', '2025-06-08 08:58:57'),
-(20, 4, 7, '2025-06-08', '2025-06-09', 1500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:49', '2025-06-08 08:58:56'),
-(21, 4, 8, '2025-06-08', '2025-06-09', 2500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:53', '2025-06-08 08:58:52'),
-(22, 4, 9, '2025-06-08', '2025-06-09', 2500.00, 'completed', 'paid', '', 1, '2025-06-08 08:38:58', '2025-06-08 08:58:51'),
-(23, 4, 9, '2025-06-08', '2025-06-09', 2500.00, 'completed', '', '', 1, '2025-06-08 08:58:27', '2025-06-08 08:58:49'),
-(24, 7, 6, '2025-06-11', '2025-06-12', 1500.00, 'pending', '', '', 1, '2025-06-11 09:05:12', '2025-06-11 09:05:40');
+(27, 4, 9, '2025-06-11', '2025-06-12', 2500.00, 'cancelled', '', '', 1, '2025-06-11 09:29:08', '2025-07-26 15:01:22'),
+(28, 4, 10, '2025-04-11', '2025-06-12', 700.00, 'cancelled', '', '', 1, '2025-06-11 09:29:12', '2025-07-26 15:47:52'),
+(29, 4, 5, '2025-06-11', '2025-06-12', 1500.00, 'cancelled', '', '', 1, '2025-06-11 09:30:10', '2025-07-26 15:01:18'),
+(30, 4, 8, '2025-05-11', '2025-06-12', 100.00, 'cancelled', '', '', 1, '2025-06-11 09:30:16', '2025-07-26 15:47:58'),
+(31, 4, 10, '2025-07-26', '2025-07-27', 1500.00, 'completed', 'paid', '', 0, '2025-07-26 15:57:13', '2025-07-26 15:58:27'),
+(32, 4, 9, '2025-07-26', '2025-07-27', 2500.00, 'completed', 'paid', '', 1, '2025-07-26 15:57:20', '2025-07-26 15:58:24'),
+(33, 4, 8, '2025-07-26', '2025-07-27', 2500.00, 'completed', 'paid', '', 1, '2025-07-26 15:57:27', '2025-07-26 15:58:22');
 
 -- --------------------------------------------------------
 
@@ -231,7 +231,8 @@ CREATE TABLE `room_type` (
 
 INSERT INTO `room_type` (`id`, `title`, `detail`) VALUES
 (5, 'Delux', 'Delux'),
-(6, 'Triple Room', 'Triple Room');
+(6, 'Triple Room', 'Triple Room'),
+(7, 'Test', 'Test');
 
 -- --------------------------------------------------------
 
@@ -514,7 +515,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -556,7 +557,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `room_type`
 --
 ALTER TABLE `room_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `shifts`
@@ -568,7 +569,7 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT for table `special_offers`
 --
 ALTER TABLE `special_offers`
-  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `staffs`
