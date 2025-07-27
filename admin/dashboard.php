@@ -58,7 +58,7 @@ include '../controllers/fetchBookings.php';
     <?php include '../components/header_admin.php'; ?>
     
     <div class="container-fluid py-4">
-        <h3 class="mb-4 card-title text-center text-muted">Room Analytics</h3>
+        <h3 class="mb-4 card-title text-center">Room Analytics</h3>
 
         <!-- Stats Cards -->
         <div class="row mb-4">
@@ -181,7 +181,7 @@ include '../controllers/fetchBookings.php';
     <script src="../js/darkTheme.js"></script>
     
     <script>
-        // Convert PHP data to JavaScript
+
         const statusLabels = <?php echo json_encode($pie_statuses); ?>;
         const statusCounts = <?php echo json_encode($pie_counts); ?>;
         const paymentLabels = <?php echo json_encode($payment_statuses); ?>;
@@ -189,7 +189,6 @@ include '../controllers/fetchBookings.php';
         const bookingsData = <?php echo json_encode($bar_data); ?>;
         const revenueData = <?php echo json_encode($line_data); ?>;
 
-        // Color schemes
         const statusColors = {
             'Pending': '#FFC107',
             'Confirmed': '#28A745', 
