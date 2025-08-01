@@ -27,11 +27,12 @@ body.dark-theme {
 }
 
 /* Card styles in dark theme */
-body.dark-theme .card:not(.dashboard-card) {
+body.dark-theme .card:not(.chart-container) {
     background-color: var(--dark-card-bg);
     border-color: var(--dark-border);
     color: var(--dark-text);
 }
+
 
 /* Table styles in dark theme */
 body.dark-theme .table {

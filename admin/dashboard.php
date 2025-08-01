@@ -19,7 +19,6 @@ include '../controllers/fetchBookings.php';
     <style>
         .chart-container {
             padding: 30px;
-            background: #fff;
             border-radius: 12px;
             box-shadow: 0 0 15px rgba(0,0,0,0.05);
             margin-bottom: 20px;
@@ -41,8 +40,6 @@ include '../controllers/fetchBookings.php';
             overflow-y: auto;
         }
         .booking-item {
-            border-left: 4px solid #007bff;
-            background: #f8f9fa;
             margin-bottom: 10px;
             padding: 15px;
             border-radius: 8px;
@@ -58,7 +55,7 @@ include '../controllers/fetchBookings.php';
     <?php include '../components/header_admin.php'; ?>
     
     <div class="container-fluid py-4">
-        <h3 class="mb-4 card-title text-center">Room Analytics</h3>
+        <h3 class="mb-4 card-title text-center">Reservations Analytics</h3>
 
         <!-- Stats Cards -->
         <div class="row mb-4">
@@ -100,45 +97,45 @@ include '../controllers/fetchBookings.php';
             <!-- Left Column - Main Charts -->
             <div class="col-md-8">
                 <!-- Monthly Revenue Line Chart -->
-                <div class="chart-container">
-                    <h5 class="text-center text-muted">Dashboard</h5>
+                <div class="chart-container dark-chart-container">
+                    <h5 class="text-center">Monthly Revenue</h5>
                     <canvas id="revenueChart" height="100"></canvas>
                 </div>
                 <!-- Monthly Bookings Bar Chart -->
-                <div class="chart-container">
-                    <h5 class="text-center text-muted">Monthly Bookings (<?php echo date('Y'); ?>)</h5>
+                <div class="chart-container dark-chart-container">
+                    <h5 class="text-center">Monthly Bookings (<?php echo date('Y'); ?>)</h5>
                     <canvas id="bookingsChart" height="100"></canvas>
                 </div>
             </div>
 
             <!-- Right Column - Status Charts & Recent Bookings -->
-            <div class="col-md-4">
+            <div class="col-md-4 chart-container">
                 <!-- Booking Status Pie Chart -->
                 <div class="chart-container">
-                    <h5 class="text-center text-muted">Booking Status</h5>
+                    <h5 class="text-center">Booking Status</h5>
                     <?php if (count($pie_statuses) > 0): ?>
                         <canvas id="statusChart" height="150"></canvas>
                     <?php else: ?>
-                        <div class="text-center text-muted p-5">No bookings data available!</div>
+                        <div class="text-center p-5">No bookings data available!</div>
                     <?php endif; ?>
                 </div>
 
 
                 <!-- Recent Bookings -->
                 <div class="chart-container">
-                    <h5 class="text-center text-muted mb-3">Recent Bookings</h5>
+                    <h5 class="text-center mb-3">Recent Bookings</h5>
                     <div class="recent-bookings">
                         <?php foreach ($recent_bookings as $booking): ?>
                             <div class="booking-item">
                                 <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <strong><?php echo htmlspecialchars($booking['customer_name'] ?: 'Guest'); ?></strong>
+                                    <div class="text-primary">
+                                        <p><?php echo htmlspecialchars($booking['customer_name'] ?: 'Guest'); ?></p>
                                         <br>
-                                        <small class="text-muted">
+                                        <small class=">
                                             Room: <?php echo htmlspecialchars($booking['room_id'] ?: 'N/A'); ?>
                                         </small>
                                         <br>
-                                        <small class="text-muted">
+                                        <small class=">
                                             <?php echo date('M j', strtotime($booking['check_in_date'])); ?> - 
                                             <?php echo date('M j', strtotime($booking['check_out_date'])); ?>
                                         </small>
@@ -151,19 +148,20 @@ include '../controllers/fetchBookings.php';
                                         <?php echo ucfirst($booking['status']); ?>
                                     </span>
                                 </div>
-                                <div class="mt-2 d-flex justify-content-between">
-                                    <small class="text-muted">
+                                <div class="mt-2 text-primary d-flex justify-content-between">
+                                    <p>
                                         Booking #<?php echo $booking['booking_id']; ?>
-                                    </small>
+                                    </p>
                                     <strong class="text-primary">
                                         ₱<?php echo number_format($booking['total_price'], 2); ?>
                                     </strong>
                                 </div>
+                                <hr>
                             </div>
                         <?php endforeach; ?>
                         
                         <?php if (empty($recent_bookings)): ?>
-                            <div class="text-center text-muted p-4">
+                            <div class="text-center p-4">
                                 <i class="fas fa-inbox fa-3x mb-3"></i>
                                 <p>No recent bookings found</p>
                             </div>

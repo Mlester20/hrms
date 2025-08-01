@@ -1,81 +1,76 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Theme toggle button
+document.addEventListener('DOMContentLoaded', function () {
     const themeToggle = document.getElementById('themeToggle');
     const themeText = document.getElementById('themeText');
-    const themeIcon = themeToggle.querySelector('i');
-    
-    // Check for saved theme preference or use preferred color scheme
+    const themeIcon = themeToggle?.querySelector('i');
+
     const savedTheme = localStorage.getItem('theme');
-    
-    // Apply theme on page load
     if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         enableDarkTheme();
     } else {
         enableLightTheme();
     }
-    
-    // Toggle theme on click
-    themeToggle.addEventListener('click', function(e) {
+
+    themeToggle?.addEventListener('click', function (e) {
         e.preventDefault();
-        
-        if (document.body.classList.contains('dark-theme')) {
-            enableLightTheme();
-        } else {
-            enableDarkTheme();
-        }
+        document.body.classList.contains('dark-theme') ? enableLightTheme() : enableDarkTheme();
     });
-    
-    // Function to enable dark theme
+
     function enableDarkTheme() {
         document.body.classList.add('dark-theme');
-        themeText.textContent = 'Light Theme';
-        themeIcon.className = 'fas fa-sun';
+        if (themeText) themeText.textContent = 'Light Theme';
+        if (themeIcon) themeIcon.className = 'fas fa-sun';
         localStorage.setItem('theme', 'dark');
         updateChartTheme(true);
     }
-    
-    // Function to enable light theme
+
     function enableLightTheme() {
         document.body.classList.remove('dark-theme');
-        themeText.textContent = 'Dark Theme';
-        themeIcon.className = 'fas fa-moon';
+        if (themeText) themeText.textContent = 'Dark Theme';
+        if (themeIcon) themeIcon.className = 'fas fa-moon';
         localStorage.setItem('theme', 'light');
         updateChartTheme(false);
     }
-    
-    // Function to update chart themes if they exist
+
     function updateChartTheme(isDark) {
-        if (window.campaignChart) {
-            updateChartColors(window.campaignChart, isDark);
-        }
-        
-        if (window.revenueChart) {
-            // For the revenue/pie chart, we don't need to change the colors as they're custom
-            // But we do need to update the text colors
-            window.revenueChart.options.plugins.title.color = isDark ? '#e9ecef' : '#333';
-            window.revenueChart.options.plugins.legend.labels.color = isDark ? '#e9ecef' : '#333';
-            window.revenueChart.update();
-        }
-    }
-    
-    // Update chart colors based on theme
-    function updateChartColors(chart, isDark) {
-        // Update title and legend text colors
-        chart.options.plugins.title.color = isDark ? '#e9ecef' : '#333';
-        chart.options.plugins.legend.labels.color = isDark ? '#e9ecef' : '#333';
-        
-        // Update axis colors
-        if (chart.options.scales && chart.options.scales.y) {
-            chart.options.scales.y.ticks.color = isDark ? '#e9ecef' : '#333';
-            chart.options.scales.y.grid.color = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-        }
-        
-        if (chart.options.scales && chart.options.scales.x) {
-            chart.options.scales.x.ticks.color = isDark ? '#e9ecef' : '#333';
-            chart.options.scales.x.grid.color = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-        }
-        
-        // Update the chart
-        chart.update();
+        // List of global chart variables
+        const charts = ['revenueChart', 'bookingsChart', 'statusChart'];
+
+        charts.forEach(chartName => {
+            const chart = window[chartName];
+            if (!chart || !chart.options || !chart.options.plugins) return;
+
+            // Title
+            if (chart.options.plugins.title) {
+                chart.options.plugins.title.color = isDark ? '#e9ecef' : '#333';
+            }
+
+            // Legend
+            if (chart.options.plugins.legend?.labels) {
+                chart.options.plugins.legend.labels.color = isDark ? '#e9ecef' : '#333';
+            }
+
+            // Axes (skip for pie chart)
+            if (chart.options.scales) {
+                if (chart.options.scales.x) {
+                    if (chart.options.scales.x.ticks) {
+                        chart.options.scales.x.ticks.color = isDark ? '#e9ecef' : '#333';
+                    }
+                    if (chart.options.scales.x.grid) {
+                        chart.options.scales.x.grid.color = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                    }
+                }
+
+                if (chart.options.scales.y) {
+                    if (chart.options.scales.y.ticks) {
+                        chart.options.scales.y.ticks.color = isDark ? '#e9ecef' : '#333';
+                    }
+                    if (chart.options.scales.y.grid) {
+                        chart.options.scales.y.grid.color = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                    }
+                }
+            }
+
+            chart.update();
+        });
     }
 });
