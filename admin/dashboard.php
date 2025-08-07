@@ -131,11 +131,11 @@ include '../controllers/fetchBookings.php';
                                     <div class="text-primary">
                                         <p><?php echo htmlspecialchars($booking['customer_name'] ?: 'Guest'); ?></p>
                                         <br>
-                                        <small class=">
+                                        <small class="">
                                             Room: <?php echo htmlspecialchars($booking['room_id'] ?: 'N/A'); ?>
                                         </small>
                                         <br>
-                                        <small class=">
+                                        <small class="text-muted">
                                             <?php echo date('M j', strtotime($booking['check_in_date'])); ?> - 
                                             <?php echo date('M j', strtotime($booking['check_out_date'])); ?>
                                         </small>

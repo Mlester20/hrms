@@ -26,6 +26,30 @@ body.dark-theme {
     color: var(--dark-text);
 }
 
+body.dark-theme .notification-item{
+    background-color: var(--dark-card-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+body.dark-theme .notification-time{
+    background-color: var(--dark-card-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+body.dark-theme .view-all{
+    background-color: var(--dark-card-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+body.dark-theme .card-header{
+    background-color: var(--dark-card-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
 /* Card styles in dark theme */
 body.dark-theme .card:not(.chart-container) {
     background-color: var(--dark-card-bg);

@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Add header to dropdown
                 const header = document.createElement('div');
-                header.className = 'dropdown-header';
+                header.className = 'dropdown-header card-header';
                 header.textContent = 'Recent Notifications';
                 dropdown.appendChild(header);
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         
                         // Create time element
                         const time = document.createElement('small');
-                        time.className = 'notification-time text-muted';
+                        time.className = 'notification-time';
                         const date = new Date(notification.created_at);
                         time.textContent = formatTimeAgo(date);
                         
@@ -68,9 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                     
                     // Add divider and "View all" link
-                    const divider = document.createElement('div');
-                    divider.className = 'dropdown-divider';
-                    dropdown.appendChild(divider);
+                    // const divider = document.createElement('div');
+                    // divider.className = 'dropdown-divider';
+                    // dropdown.appendChild(divider);
                     
                     const viewAll = document.createElement('a');
                     viewAll.className = 'dropdown-item text-center text-primary view-all';
