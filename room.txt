@@ -76,7 +76,7 @@ $reservations = getReservations($con);
         <div class="row">
             <div class="col-12">
                 <div class="card shadow">
-                    <h5 class="text-center mt-4">Room Reservations</h5>
+                    <h5 class="text-center mt-4 text-muted">Room Reservations</h5>
                     <div class="card-body">
                         <?php if (isset($_SESSION['success'])): ?>
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -134,18 +134,11 @@ $reservations = getReservations($con);
                                                     <select name="new_status" class="form-select form-select-sm status-select" 
                                                             onchange="this.form.submit()" 
                                                             style="background-color: <?php echo getStatusColor($row['booking_status']); ?>">
-                                                        
-                                                        <?php if ($row['booking_status'] === 'pending'): ?>
-                                                            <option value="pending" selected>Pending</option>
-                                                        <?php else: ?>
-                                                            <option value="pending" disabled>Pending (cannot revert)</option>
-                                                        <?php endif; ?>
-                                                        
+                                                        <option value="pending" <?php echo $row['booking_status'] == 'pending' ? 'selected' : ''; ?>>Pending</option>
                                                         <option value="confirmed" <?php echo $row['booking_status'] == 'confirmed' ? 'selected' : ''; ?>>Confirmed</option>
                                                         <option value="cancelled" <?php echo $row['booking_status'] == 'cancelled' ? 'selected' : ''; ?>>Canceled</option>
                                                         <option value="completed" <?php echo $row['booking_status'] == 'completed' ? 'selected' : ''; ?>>Complete</option>
                                                     </select>
-
                                                     <input type="hidden" name="update_status" value="1">
                                                 </form>
                                             </td>

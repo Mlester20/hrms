@@ -27,6 +27,17 @@ function updateBookingStatus($con, $booking_id, $status, $type) {
     $valid_payment_status = ['unpaid', 'partially_paid', 'paid'];
     
     if ($type === 'booking' && in_array($status, $valid_booking_status)) {
+        // Get current booking status
+        $result = mysqli_query($con, "SELECT status FROM bookings WHERE booking_id = $booking_id");
+        if ($result && $row = mysqli_fetch_assoc($result)) {
+            $current_status = $row['status'];
+            
+            // Prevent changing from confirmed or later back to pending
+            if ($current_status !== 'pending' && $status === 'pending') {
+                return false; // reject the update
+            }
+        }
+        
         $query = "UPDATE bookings SET status = ? WHERE booking_id = ?";
     } elseif ($type === 'payment' && in_array($status, $valid_payment_status)) {
         $query = "UPDATE bookings SET payment_status = ? WHERE booking_id = ?";
@@ -38,4 +49,6 @@ function updateBookingStatus($con, $booking_id, $status, $type) {
     mysqli_stmt_bind_param($stmt, "si", $status, $booking_id);
     return mysqli_stmt_execute($stmt);
 }
+
+
 ?>

@@ -39,14 +39,3 @@ function updateBookingStatus($con, $booking_id, $status, $type) {
     return mysqli_stmt_execute($stmt);
 }
 ?>
-
-
-
-                                                    <select name="new_status" class="form-select form-select-sm status-select" 
-                                                            onchange="this.form.submit()" 
-                                                            style="background-color: <?php echo getStatusColor($row['booking_status']); ?>">
-                                                        <option value="pending" <?php echo $row['booking_status'] == 'pending' ? 'selected' : ''; ?>>Pending</option>
-                                                        <option value="confirmed" <?php echo $row['booking_status'] == 'confirmed' ? 'selected' : ''; ?>>Confirmed</option>
-                                                        <option value="cancelled" <?php echo $row['booking_status'] == 'cancelled' ? 'selected' : ''; ?>>Canceled</option>
-                                                        <option value="completed" <?php echo $row['booking_status'] == 'completed' ? 'selected' : ''; ?>>Complete</option>
-                                                    </select>

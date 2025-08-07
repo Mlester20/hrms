@@ -44,6 +44,12 @@ body.dark-theme .view-all{
     border-color: var(--dark-border);
 }
 
+body.dark-theme .status-select {
+    background-color: var(--dark-card-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
 body.dark-theme .card-header{
     background-color: var(--dark-card-bg);
     color: var(--dark-text);
