@@ -63,6 +63,11 @@ body.dark-theme .card:not(.chart-container) {
     color: var(--dark-text);
 }
 
+.body.dark-theme .dark-text{
+    color: var(--dark-text);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
 
 /* Table styles in dark theme */
 body.dark-theme .table {

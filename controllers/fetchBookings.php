@@ -1,100 +1,103 @@
 <?php
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
+session_start();
+include '../components/config.php';
+
+if (!isset($user_id)) {
+    if (isset($_SESSION['user_id'])) {
+        $user_id = $_SESSION['user_id'];
+    } else {
+        die("User not authenticated");
+    }
 }
 
 $user_id = $_SESSION['user_id'];
 
+// Process booking cancellation if requested
+if (isset($_POST['cancel_booking']) && isset($_POST['booking_id'])) {
+    $booking_id = $_POST['booking_id'];
+    
+    // Update booking status to canceled (match your enum value)
+    $cancel_query = "UPDATE bookings SET status = 'cancelled' WHERE booking_id = ? AND user_id = ?";
+    $cancel_stmt = mysqli_prepare($con, $cancel_query);
+    mysqli_stmt_bind_param($cancel_stmt, 'ii', $booking_id, $user_id);
+    
+    if (mysqli_stmt_execute($cancel_stmt)) {
+        $success_message = "Booking #" . $booking_id . " has been cancelled successfully.";
+    } else {
+        $error_message = "Failed to cancel booking. Please try again. Error: " . mysqli_error($con);
+    }
+    
+    mysqli_stmt_close($cancel_stmt);
 
-$pie_query = "SELECT status, COUNT(*) as count FROM bookings GROUP BY status";
-$pie_stmt = $con->prepare($pie_query);
-$pie_stmt->execute();
-$pie_result = $pie_stmt->get_result();
-
-$pie_statuses = [];
-$pie_counts = [];
-while ($row = $pie_result->fetch_assoc()) {
-    $pie_statuses[] = ucfirst($row['status']);
-    $pie_counts[] = (int)$row['count'];
+    header('location: ../public/bookings.php');
+    exit();
 }
-$pie_stmt->close();
 
-$bar_query = "SELECT MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as count 
-              FROM bookings 
-              WHERE YEAR(created_at) = YEAR(CURDATE())
-              GROUP BY YEAR(created_at), MONTH(created_at)
-              ORDER BY month";
-$bar_stmt = $con->prepare($bar_query);
-$bar_stmt->execute();
-$bar_result = $bar_stmt->get_result();
+// Query to fetch only bookings for the current user
+$query = "SELECT 
+        b.booking_id,
+        b.check_in_date,
+        b.check_out_date,
+        b.total_price,
+        b.status as booking_status,
+        b.payment_status,
+        b.special_requests,
+        b.created_at,
+        u.name as guest_name,
+        u.email as guest_email,
+        r.title as room_title,
+        r.images as room_images,
+        rt.title as room_type
+    FROM bookings b
+    LEFT JOIN users u ON b.user_id = u.user_id
+    LEFT JOIN rooms r ON b.room_id = r.id
+    LEFT JOIN room_type rt ON r.room_type_id = rt.id
+    WHERE b.user_id = ?
+    ORDER BY b.created_at DESC";
 
+// Prepare statement
+$stmt = mysqli_prepare($con, $query);
+mysqli_stmt_bind_param($stmt, 'i', $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-$months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-$bar_data = array_fill(0, 12, 0);
-
-while ($row = $bar_result->fetch_assoc()) {
-    $bar_data[$row['month'] - 1] = (int)$row['count'];
+// Function to get badge class based on booking status
+function getStatusBadgeClass($status) {
+    switch(strtolower($status)) {
+        case 'confirmed':
+            return 'bg-success';
+        case 'pending':
+            return 'bg-warning text-dark';
+        case 'canceled': // Note: changed from 'cancelled' to match your enum
+            return 'bg-danger';
+        case 'completed':
+            return 'bg-info';
+        default:
+            return 'bg-secondary';
+    }
 }
-$bar_stmt->close();
 
-$line_query = "SELECT MONTH(created_at) as month, YEAR(created_at) as year, SUM(total_price) as monthly_revenue 
-               FROM bookings 
-               WHERE YEAR(created_at) = YEAR(CURDATE()) AND status != 'canceled'
-               GROUP BY YEAR(created_at), MONTH(created_at)
-               ORDER BY month";
-$line_stmt = $con->prepare($line_query);
-$line_stmt->execute();
-$line_result = $line_stmt->get_result();
-
-$line_data = array_fill(0, 12, 0);
-while ($row = $line_result->fetch_assoc()) {
-    $line_data[$row['month'] - 1] = round((float)$row['monthly_revenue'], 2);
+// Function to get badge class based on payment status
+function getPaymentBadgeClass($status) {
+    switch(strtolower($status)) {
+        case 'paid':
+            return 'bg-success';
+        case 'pending':
+            return 'bg-warning text-dark';
+        case 'refunded':
+            return 'bg-info';
+        case 'failed':
+            return 'bg-danger';
+        default:
+            return 'bg-secondary';
+    }
 }
-$line_stmt->close();
 
-
-$payment_query = "SELECT payment_status, COUNT(*) as count FROM bookings 
-                  WHERE status != 'canceled' 
-                  GROUP BY payment_status 
-                  ORDER BY count DESC";
-$payment_stmt = $con->prepare($payment_query);
-$payment_stmt->execute();
-$payment_result = $payment_stmt->get_result();
-
-$payment_statuses = [];
-$payment_counts = [];
-while ($row = $payment_result->fetch_assoc()) {
-    $payment_statuses[] = ucfirst($row['payment_status'] ?: 'Pending');
-    $payment_counts[] = (int)$row['count'];
+// Calculate number of nights between check-in and check-out
+function calculateNights($checkin, $checkout) {
+    $checkin_date = new DateTime($checkin);
+    $checkout_date = new DateTime($checkout);
+    $interval = $checkin_date->diff($checkout_date);
+    return $interval->days;
 }
-$payment_stmt->close();
-
-$stats_query = "SELECT 
-                COUNT(CASE WHEN DATE(created_at) = CURDATE() THEN 1 END) as today_bookings,
-                COUNT(DISTINCT user_id) as total_users,
-                COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending_tables,
-                SUM(CASE WHEN status != 'canceled' THEN total_price ELSE 0 END) as total_revenue,
-                COUNT(*) as total_bookings,
-                AVG(CASE WHEN status != 'canceled' THEN total_price END) as avg_booking_value
-                FROM bookings";
-$stats_stmt = $con->prepare($stats_query);
-$stats_stmt->execute();
-$stats_result = $stats_stmt->get_result();
-$stats = $stats_result->fetch_assoc();
-$stats_stmt->close();
-
-$recent_query = "SELECT b.booking_id, b.total_price, b.status, b.created_at, b.check_in_date, b.check_out_date,
-                        u.name as customer_name, r.id as room_id
-                FROM bookings b 
-                LEFT JOIN users u ON b.user_id = u.user_id 
-                LEFT JOIN rooms r ON b.room_id = r.id 
-                ORDER BY b.created_at DESC 
-                LIMIT 5";
-$recent_stmt = $con->prepare($recent_query);
-$recent_stmt->execute();
-$recent_result = $recent_stmt->get_result();
-$recent_bookings = $recent_result->fetch_all(MYSQLI_ASSOC);
-$recent_stmt->close();
-
 ?>

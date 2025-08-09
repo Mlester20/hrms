@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../components/config.php';
-include '../controllers/dashboardData.php';
+include '../controllers/fetchBookings.php';
 ?>
 
 <!DOCTYPE html>
@@ -56,11 +56,7 @@ include '../controllers/dashboardData.php';
     
     <div class="container-fluid py-4">
         <h3 class="mb-4 card-title text-center">Reservations Analytics</h3>
-        <div class="text-end col-md-12 mb-3 mt-4">
-            <button class="btn btn-small btn-success">
-                Generate Report
-            </button>
-        </div>
+
         <!-- Stats Cards -->
         <div class="row mb-4">
             <div class="col-md-3 col-6">
