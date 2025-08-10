@@ -69,5 +69,6 @@ if (!isset($_SESSION['user_id'])) {
     <script src="../js/bannerSwipper.js"></script>
     <script src="../js/booking.js"></script>
     <script src="../js/animation.js"></script>
+    <script src="../js/fetchClientNotifications.js"></script>
 </body>
 </html>

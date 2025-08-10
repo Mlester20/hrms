@@ -253,5 +253,6 @@ if ($reservationResult) {
     <script src="../js/booking.js"></script>
     <script src="../js/animation.js"></script>
     <script src="../js/tableBooking.js"></script>
+    <script src="../js/fetchClientNotifications.js"></script>
 </body>
 </html>

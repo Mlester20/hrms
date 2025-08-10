@@ -1,0 +1,132 @@
+[10-Aug-2025 16:28:09 Europe/Berlin] Notification API - Session data: Array
+(
+    [user_id] => 4
+    [email] => raguindin.lester20@gmail.com
+    [name] => Mark Lester Raguindin
+    [address] => 
+    [phone] => 
+    [role] => user
+)
+
+[10-Aug-2025 16:28:09 Europe/Berlin] Notification API - User ID: 4, Action: get_count
+[10-Aug-2025 16:28:09 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:28:09 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php:152
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:28:39 Europe/Berlin] Notification API - Session data: Array
+(
+    [user_id] => 4
+    [email] => raguindin.lester20@gmail.com
+    [name] => Mark Lester Raguindin
+    [address] => 
+    [phone] => 
+    [role] => user
+)
+
+[10-Aug-2025 16:28:39 Europe/Berlin] Notification API - User ID: 4, Action: get_count
+[10-Aug-2025 16:28:39 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:28:39 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php:152
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:29:26 Europe/Berlin] Notification API - Session data: Array
+(
+    [user_id] => 4
+    [email] => raguindin.lester20@gmail.com
+    [name] => Mark Lester Raguindin
+    [address] => 
+    [phone] => 
+    [role] => user
+)
+
+[10-Aug-2025 16:29:26 Europe/Berlin] Notification API - User ID: 4, Action: get_count
+[10-Aug-2025 16:29:26 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:29:26 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php:152
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:29:50 Europe/Berlin] Notification API - Session data: Array
+(
+    [user_id] => 4
+    [email] => raguindin.lester20@gmail.com
+    [name] => Mark Lester Raguindin
+    [address] => 
+    [phone] => 
+    [role] => user
+)
+
+[10-Aug-2025 16:29:50 Europe/Berlin] Notification API - User ID: 4, Action: get_count
+[10-Aug-2025 16:29:50 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:29:50 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php:152
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:29:52 Europe/Berlin] Notification API - Session data: Array
+(
+    [user_id] => 4
+    [email] => raguindin.lester20@gmail.com
+    [name] => Mark Lester Raguindin
+    [address] => 
+    [phone] => 
+    [role] => user
+)
+
+[10-Aug-2025 16:29:52 Europe/Berlin] Notification API - User ID: 4, Action: fetch
+[10-Aug-2025 16:29:52 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 45
+[10-Aug-2025 16:29:52 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php:45
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 45
+[10-Aug-2025 16:30:01 Europe/Berlin] Notification API - Session data: Array
+(
+    [user_id] => 4
+    [email] => raguindin.lester20@gmail.com
+    [name] => Mark Lester Raguindin
+    [address] => 
+    [phone] => 
+    [role] => user
+)
+
+[10-Aug-2025 16:30:01 Europe/Berlin] Notification API - User ID: 4, Action: fetch
+[10-Aug-2025 16:30:01 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 45
+[10-Aug-2025 16:30:01 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php:45
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 45
+[10-Aug-2025 16:30:22 Europe/Berlin] Notification API - Session data: Array
+(
+    [user_id] => 4
+    [email] => raguindin.lester20@gmail.com
+    [name] => Mark Lester Raguindin
+    [address] => 
+    [phone] => 
+    [role] => user
+)
+
+[10-Aug-2025 16:30:22 Europe/Berlin] Notification API - User ID: 4, Action: get_count
+[10-Aug-2025 16:30:22 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:30:22 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php:152
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:30:52 Europe/Berlin] Notification API - Session data: Array
+(
+    [user_id] => 4
+    [email] => raguindin.lester20@gmail.com
+    [name] => Mark Lester Raguindin
+    [address] => 
+    [phone] => 
+    [role] => user
+)
+
+[10-Aug-2025 16:30:52 Europe/Berlin] Notification API - User ID: 4, Action: get_count
+[10-Aug-2025 16:30:52 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:30:52 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php:152
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\hrms\api\fetchClientNotifications.php on line 152
+[10-Aug-2025 16:32:56 Europe/Berlin] Notification API Error: Database connection failed: Connection not established
+[10-Aug-2025 16:32:56 Europe/Berlin] Notification API Error: Database connection failed: Connection not established
+[10-Aug-2025 16:33:26 Europe/Berlin] Notification API Error: Database connection failed: Connection not established
+[10-Aug-2025 16:33:56 Europe/Berlin] Notification API Error: Database connection failed: Connection not established

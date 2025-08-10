@@ -320,5 +320,6 @@ $result = mysqli_query($con, $query);
     <script src="../js/booking.js"></script>
     <script src="../js/animation.js"></script>
     <script src="../js/Menus.js"></script>
+    <script src="../js/fetchClientNotifications.js"></script>
 </body>
 </html>

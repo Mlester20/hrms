@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2025 at 05:59 PM
+-- Generation Time: Aug 10, 2025 at 05:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -20,6 +20,22 @@ SET time_zone = "+00:00";
 --
 -- Database: `hoteldb`
 --
+
+DELIMITER $$
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetUnreadNotificationCount` (`p_user_id` INT) RETURNS INT(11) DETERMINISTIC READS SQL DATA BEGIN
+    DECLARE notification_count INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO notification_count
+    FROM user_notifications 
+    WHERE user_id = p_user_id AND is_read = 0;
+    
+    RETURN notification_count;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -73,13 +89,112 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `is_read`, `created_at`, `updated_at`) VALUES
-(27, 4, 9, '2025-06-11', '2025-06-12', 2500.00, 'cancelled', '', '', 1, '2025-06-11 09:29:08', '2025-07-26 15:01:22'),
-(28, 4, 10, '2025-04-11', '2025-06-12', 700.00, 'cancelled', '', '', 1, '2025-06-11 09:29:12', '2025-07-26 15:47:52'),
-(29, 4, 5, '2025-06-11', '2025-06-12', 1500.00, 'cancelled', '', '', 1, '2025-06-11 09:30:10', '2025-07-26 15:01:18'),
-(30, 4, 8, '2025-05-11', '2025-06-12', 100.00, 'cancelled', '', '', 1, '2025-06-11 09:30:16', '2025-07-26 15:47:58'),
-(31, 4, 10, '2025-07-26', '2025-07-27', 1500.00, 'completed', 'paid', '', 0, '2025-07-26 15:57:13', '2025-07-26 15:58:27'),
-(32, 4, 9, '2025-07-26', '2025-07-27', 2500.00, 'completed', 'paid', '', 1, '2025-07-26 15:57:20', '2025-07-26 15:58:24'),
-(33, 4, 8, '2025-07-26', '2025-07-27', 2500.00, 'completed', 'paid', '', 1, '2025-07-26 15:57:27', '2025-07-26 15:58:22');
+(37, 4, 10, '2025-08-09', '2025-08-10', 1500.00, 'cancelled', '', '', 1, '2025-08-09 14:38:01', '2025-08-09 14:39:25'),
+(38, 4, 9, '2025-08-09', '2025-08-10', 2500.00, 'cancelled', '', '', 1, '2025-08-09 14:38:09', '2025-08-09 14:39:16'),
+(39, 4, 6, '2025-08-09', '2025-08-10', 1500.00, 'confirmed', '', '', 1, '2025-08-09 14:43:11', '2025-08-10 15:04:33'),
+(40, 4, 7, '2025-08-09', '2025-08-10', 1500.00, 'confirmed', '', '', 1, '2025-08-09 14:51:15', '2025-08-09 14:56:48'),
+(41, 4, 10, '2025-08-10', '2025-08-11', 1500.00, 'confirmed', '', '', 1, '2025-08-10 14:06:43', '2025-08-10 14:09:22'),
+(42, 4, 7, '2025-08-10', '2025-08-13', 4500.00, 'confirmed', '', '', 1, '2025-08-10 14:31:15', '2025-08-10 14:31:25'),
+(43, 8, 6, '2025-08-10', '2025-08-19', 13500.00, 'confirmed', '', '', 1, '2025-08-10 15:03:02', '2025-08-10 15:03:15'),
+(44, 8, 10, '2025-08-16', '2025-08-19', 4500.00, 'confirmed', '', '', 1, '2025-08-10 15:05:44', '2025-08-10 15:06:10'),
+(45, 8, 10, '2025-09-01', '2025-09-03', 3000.00, 'confirmed', '', '', 1, '2025-08-10 15:10:39', '2025-08-10 15:10:47');
+
+--
+-- Triggers `bookings`
+--
+DELIMITER $$
+CREATE TRIGGER `booking_status_notification` AFTER UPDATE ON `bookings` FOR EACH ROW BEGIN
+    -- Check if status changed to 'confirmed'
+    IF OLD.status != 'confirmed' AND NEW.status = 'confirmed' THEN
+        INSERT INTO notifications (
+            user_id, 
+            booking_id, 
+            title, 
+            message, 
+            type
+        ) VALUES (
+            NEW.user_id,
+            NEW.booking_id,
+            'Booking Confirmed! ✅',
+            CONCAT('Great news! Your booking for Room ', NEW.room_id, ' from ', 
+                   DATE_FORMAT(NEW.check_in_date, '%M %d, %Y'), ' to ', 
+                   DATE_FORMAT(NEW.check_out_date, '%M %d, %Y'), ' has been confirmed. We look forward to welcoming you!'),
+            'booking_confirmed'
+        );
+    END IF;
+    
+    -- Check if status changed to 'cancelled'
+    IF OLD.status != 'cancelled' AND NEW.status = 'cancelled' THEN
+        INSERT INTO notifications (
+            user_id, 
+            booking_id, 
+            title, 
+            message, 
+            type
+        ) VALUES (
+            NEW.user_id,
+            NEW.booking_id,
+            'Booking Cancelled ❌',
+            CONCAT('Your booking for Room ', NEW.room_id, ' from ', 
+                   DATE_FORMAT(NEW.check_in_date, '%M %d, %Y'), ' to ', 
+                   DATE_FORMAT(NEW.check_out_date, '%M %d, %Y'), ' has been cancelled. If you have any questions, please contact us.'),
+            'booking_cancelled'
+        );
+    END IF;
+    
+    -- Check if status changed to 'completed'
+    IF OLD.status != 'completed' AND NEW.status = 'completed' THEN
+        INSERT INTO notifications (
+            user_id, 
+            booking_id, 
+            title, 
+            message, 
+            type
+        ) VALUES (
+            NEW.user_id,
+            NEW.booking_id,
+            'Stay Completed ?',
+            CONCAT('Thank you for staying with us! Your booking for Room ', NEW.room_id, ' has been completed. We hope you had a wonderful experience.'),
+            'booking_completed'
+        );
+    END IF;
+    
+    -- Check if payment status changed to 'paid'
+    IF OLD.payment_status != 'paid' AND NEW.payment_status = 'paid' THEN
+        INSERT INTO notifications (
+            user_id, 
+            booking_id, 
+            title, 
+            message, 
+            type
+        ) VALUES (
+            NEW.user_id,
+            NEW.booking_id,
+            'Payment Received! ?',
+            CONCAT('We have received your full payment of ₱', FORMAT(NEW.total_price, 2), ' for your booking. Thank you for your payment!'),
+            'payment_received'
+        );
+    END IF;
+    
+    -- Check if payment status changed to 'partially_paid'
+    IF OLD.payment_status != 'partially_paid' AND NEW.payment_status = 'partially_paid' THEN
+        INSERT INTO notifications (
+            user_id, 
+            booking_id, 
+            title, 
+            message, 
+            type
+        ) VALUES (
+            NEW.user_id,
+            NEW.booking_id,
+            'Partial Payment Received ?',
+            CONCAT('We have received a partial payment for your booking. Please complete your payment before check-in.'),
+            'payment_received'
+        );
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -113,6 +228,42 @@ CREATE TABLE `description` (
 
 INSERT INTO `description` (`description_id`, `description_name`) VALUES
 (1, 'Our objective at Seeds Hotel & Restaurant is to bring together our visitor\'s activities and spirits with our own, communicating enthusiasm and sincerity in the food we share. Official Chef and Owner Philippines Massoud expertly creates a blend of Lebanese, Levantine, Mediterranean influenced food divided in each New York morning. Delightful herbs and flavors, connected to Nature\'s parity and ancient arabic potions.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `notification_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `booking_id` int(11) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `type` enum('booking_confirmed','booking_cancelled','booking_rejected','payment_received','general') DEFAULT 'general',
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`notification_id`, `user_id`, `booking_id`, `title`, `message`, `type`, `is_read`, `created_at`, `updated_at`) VALUES
+(1, 4, 41, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 10, 2025 to August 11, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 14:09:22', '2025-08-10 14:56:42'),
+(2, 4, 41, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 10, 2025 to August 11, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 14:09:22', '2025-08-10 14:56:42'),
+(3, 4, 42, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 7 from August 10, 2025 to August 13, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 14:31:25', '2025-08-10 14:56:42'),
+(4, 4, 42, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 3 from August 10, 2025 to August 13, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 14:31:26', '2025-08-10 14:56:42'),
+(5, 8, 43, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 6 from August 10, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:03:15', '2025-08-10 15:04:13'),
+(6, 8, 43, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 1 from August 10, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:03:15', '2025-08-10 15:04:17'),
+(7, 4, 39, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 6 from August 09, 2025 to August 10, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 0, '2025-08-10 15:04:33', '2025-08-10 15:04:33'),
+(8, 4, 39, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 1 from August 9, 2025 to August 10, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 0, '2025-08-10 15:04:33', '2025-08-10 15:04:33'),
+(9, 8, 44, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 16, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:06:10', '2025-08-10 15:06:44'),
+(10, 8, 44, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 16, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:06:10', '2025-08-10 15:06:44'),
+(11, 8, 45, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from September 01, 2025 to September 03, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:10:47', '2025-08-10 15:13:35'),
+(12, 8, 45, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from September 1, 2025 to September 3, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:10:47', '2025-08-10 15:13:35');
 
 -- --------------------------------------------------------
 
@@ -382,7 +533,25 @@ INSERT INTO `users` (`user_id`, `name`, `address`, `email`, `password`, `role`, 
 (3, 'Admin', 'Roxas', 'suguitanmark123@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', '639360991034'),
 (4, 'Mark Lester Raguindin', 'Rizal', 'raguindin.lester20@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
 (6, 'Mark Lester', 'Roxas, Isabela', 'raguindin.lester20@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
-(7, 'Test User', 'Rizal, Santiago City', 'gia@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034');
+(7, 'Test User', 'Rizal, Santiago City', 'gia@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '09360991034'),
+(8, 'Test', 'test', 'test@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '093424242');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_notifications`
+--
+
+CREATE TABLE `user_notifications` (
+  `notification_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `booking_id` int(11) DEFAULT NULL,
+  `type` enum('booking_confirmed','booking_cancelled','booking_completed','payment_reminder','general') NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -421,6 +590,15 @@ ALTER TABLE `concerns`
 --
 ALTER TABLE `description`
   ADD PRIMARY KEY (`description_id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_booking_id` (`booking_id`),
+  ADD KEY `idx_is_read` (`is_read`);
 
 --
 -- Indexes for table `restaurant_menu`
@@ -496,6 +674,14 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
+-- Indexes for table `user_notifications`
+--
+ALTER TABLE `user_notifications`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `booking_id` (`booking_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -515,7 +701,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -528,6 +714,12 @@ ALTER TABLE `concerns`
 --
 ALTER TABLE `description`
   MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `restaurant_menu`
@@ -593,7 +785,13 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `user_notifications`
+--
+ALTER TABLE `user_notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
@@ -611,6 +809,13 @@ ALTER TABLE `bookings`
 --
 ALTER TABLE `concerns`
   ADD CONSTRAINT `concerns_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `reviews`
@@ -642,6 +847,13 @@ ALTER TABLE `table_reservations`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `staffs` (`staff_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_notifications`
+--
+ALTER TABLE `user_notifications`
+  ADD CONSTRAINT `user_notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_notifications_ibfk_2` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
