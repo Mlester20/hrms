@@ -49,19 +49,14 @@ function updateBookingStatus($con, $booking_id, $status, $type) {
                 return false; // reject the update
             }
             
-            // Only proceed if status is actually changing
-            if ($current_status === $status) {
-                return true; // No change needed, but return success
-            }
-            
             // Update booking status
             $query = "UPDATE bookings SET status = ? WHERE booking_id = ?";
             $stmt = mysqli_prepare($con, $query);
             mysqli_stmt_bind_param($stmt, "si", $status, $booking_id);
             $update_success = mysqli_stmt_execute($stmt);
             
-            // Only create notification if update was successful and status actually changed
-            if ($update_success) {
+            // If update successful and status changed, create notification
+            if ($update_success && $current_status !== $status) {
                 createBookingNotification($con, $user_id, $booking_id, $current_status, $status, $room_title, $room_id, $check_in_date, $check_out_date);
             }
             
@@ -85,19 +80,14 @@ function updateBookingStatus($con, $booking_id, $status, $type) {
             $total_price = $row['total_price'];
             $room_title = $row['room_title'];
             
-            // Only proceed if status is actually changing
-            if ($current_payment_status === $status) {
-                return true; // No change needed, but return success
-            }
-            
             // Update payment status
             $query = "UPDATE bookings SET payment_status = ? WHERE booking_id = ?";
             $stmt = mysqli_prepare($con, $query);
             mysqli_stmt_bind_param($stmt, "si", $status, $booking_id);
             $update_success = mysqli_stmt_execute($stmt);
             
-            // Only create notification if update was successful and status actually changed
-            if ($update_success) {
+            // If update successful and status changed, create payment notification
+            if ($update_success && $current_payment_status !== $status) {
                 createPaymentNotification($con, $user_id, $booking_id, $current_payment_status, $status, $room_title, $total_price);
             }
             
@@ -110,22 +100,6 @@ function updateBookingStatus($con, $booking_id, $status, $type) {
 }
 
 function createBookingNotification($con, $user_id, $booking_id, $old_status, $new_status, $room_title, $room_id, $check_in_date, $check_out_date) {
-    // Check if notification already exists for this booking and status change
-    $check_query = "SELECT COUNT(*) as count FROM notifications 
-                   WHERE user_id = ? AND booking_id = ? AND type = ? AND created_at > DATE_SUB(NOW(), INTERVAL 1 MINUTE)";
-    $notification_type = 'booking_' . $new_status;
-    $check_stmt = mysqli_prepare($con, $check_query);
-    mysqli_stmt_bind_param($check_stmt, "iis", $user_id, $booking_id, $notification_type);
-    mysqli_stmt_execute($check_stmt);
-    $check_result = mysqli_stmt_get_result($check_stmt);
-    $check_row = mysqli_fetch_assoc($check_result);
-    
-    // If notification already exists within the last minute, don't create another one
-    if ($check_row['count'] > 0) {
-        error_log("Notification already exists for booking $booking_id, user $user_id, type $notification_type");
-        return false;
-    }
-    
     $title = '';
     $message = '';
     $type = '';
@@ -155,40 +129,17 @@ function createBookingNotification($con, $user_id, $booking_id, $old_status, $ne
             break;
             
         default:
-            return false; // Don't create notification for other status changes
+            return; // Don't create notification for other status changes
     }
     
     // Insert notification
     $insert_query = "INSERT INTO notifications (user_id, booking_id, title, message, type, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
     $stmt = mysqli_prepare($con, $insert_query);
     mysqli_stmt_bind_param($stmt, "iisss", $user_id, $booking_id, $title, $message, $type);
-    $success = mysqli_stmt_execute($stmt);
-    
-    if ($success) {
-        error_log("Created notification for booking $booking_id, user $user_id, type $type");
-    } else {
-        error_log("Failed to create notification for booking $booking_id: " . mysqli_error($con));
-    }
-    
-    return $success;
+    mysqli_stmt_execute($stmt);
 }
 
 function createPaymentNotification($con, $user_id, $booking_id, $old_status, $new_status, $room_title, $total_price) {
-    // Check if notification already exists for this booking and payment status
-    $check_query = "SELECT COUNT(*) as count FROM notifications 
-                   WHERE user_id = ? AND booking_id = ? AND type = 'payment_received' AND created_at > DATE_SUB(NOW(), INTERVAL 1 MINUTE)";
-    $check_stmt = mysqli_prepare($con, $check_query);
-    mysqli_stmt_bind_param($check_stmt, "ii", $user_id, $booking_id);
-    mysqli_stmt_execute($check_stmt);
-    $check_result = mysqli_stmt_get_result($check_stmt);
-    $check_row = mysqli_fetch_assoc($check_result);
-    
-    // If notification already exists within the last minute, don't create another one
-    if ($check_row['count'] > 0) {
-        error_log("Payment notification already exists for booking $booking_id, user $user_id");
-        return false;
-    }
-    
     $title = '';
     $message = '';
     $type = 'payment_received';
@@ -208,22 +159,14 @@ function createPaymentNotification($con, $user_id, $booking_id, $old_status, $ne
             break;
             
         default:
-            return false; // Don't create notification for unpaid status
+            return; // Don't create notification for unpaid status
     }
     
     // Insert notification
     $insert_query = "INSERT INTO notifications (user_id, booking_id, title, message, type, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
     $stmt = mysqli_prepare($con, $insert_query);
     mysqli_stmt_bind_param($stmt, "iisss", $user_id, $booking_id, $title, $message, $type);
-    $success = mysqli_stmt_execute($stmt);
-    
-    if ($success) {
-        error_log("Created payment notification for booking $booking_id, user $user_id");
-    } else {
-        error_log("Failed to create payment notification for booking $booking_id: " . mysqli_error($con));
-    }
-    
-    return $success;
+    mysqli_stmt_execute($stmt);
 }
 
 // Function to create notifications table if it doesn't exist
@@ -241,7 +184,6 @@ function createNotificationsTable($con) {
         INDEX idx_user_id (user_id),
         INDEX idx_booking_id (booking_id),
         INDEX idx_is_read (is_read),
-        INDEX idx_user_booking_type_time (user_id, booking_id, type, created_at),
         FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
         FOREIGN KEY (booking_id) REFERENCES bookings(booking_id) ON DELETE SET NULL
     )";
@@ -255,27 +197,6 @@ function createCustomNotification($con, $user_id, $title, $message, $type = 'gen
     $stmt = mysqli_prepare($con, $insert_query);
     mysqli_stmt_bind_param($stmt, "iisss", $user_id, $booking_id, $title, $message, $type);
     return mysqli_stmt_execute($stmt);
-}
-
-function cleanupDuplicateNotifications($con) {
-    $query = "
-    DELETE n1 FROM notifications n1
-    INNER JOIN notifications n2 
-    WHERE n1.notification_id > n2.notification_id
-    AND n1.user_id = n2.user_id
-    AND n1.booking_id = n2.booking_id
-    AND n1.type = n2.type
-    AND n1.title = n2.title
-    AND ABS(TIMESTAMPDIFF(SECOND, n1.created_at, n2.created_at)) < 10
-    ";
-    
-    $result = mysqli_query($con, $query);
-    if ($result) {
-        $affected_rows = mysqli_affected_rows($con);
-        error_log("Cleaned up $affected_rows duplicate notifications");
-        return $affected_rows;
-    }
-    return false;
 }
 
 ?>

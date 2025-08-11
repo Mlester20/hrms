@@ -13,14 +13,6 @@
 </head>
 <body>
     <div class="background-blur"></div>
-
-
-    <header class="py-3">
-        <div class="container">
-            <h6 class="m-0 text-start">Hotel and Restaurant Reservation</h6>
-        </div>
-    </header>
-
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
             <div class="col-md-4">

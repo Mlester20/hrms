@@ -54,7 +54,7 @@ include '../controllers/dashboardData.php';
 
     <?php include '../components/header_admin.php'; ?>
     
-    <div class="container-fluid py-4">
+    <div class="container-fluid main-content py-4">
         <h3 class="mb-4 card-title text-center">Reservations Analytics</h3>
         <div class="text-end col-md-12 mb-3 mt-4">
             <button class="btn btn-small btn-success">
