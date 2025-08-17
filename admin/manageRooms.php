@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Fetch all rooms with their room type
-$query = "SELECT rooms.id, rooms.title, rooms.room_type_id, rooms.images, rooms.price, room_type.title AS room_type_title 
+$query = "SELECT rooms.id, rooms.title, rooms.room_type_id, rooms.images, rooms.price, rooms.includes, room_type.title AS room_type_title 
           FROM rooms 
           INNER JOIN room_type ON rooms.room_type_id = room_type.id";
 $result = $con->query($query);
@@ -69,6 +69,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
                     <th>Room Type</th>
                     <th>Images</th>
                     <th>Price</th>
+                    <th>Room Freebies</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -91,6 +92,9 @@ $roomTypesResult = $con->query($roomTypesQuery);
                         </td>
                         <td>
                             <?php echo htmlspecialchars($row['price']); ?>
+                        </td>
+                        <td>
+                            <?php echo htmlspecialchars($row['includes'])?>
                         </td>
                         <td>
                             <!-- Edit Button -->
@@ -132,6 +136,10 @@ $roomTypesResult = $con->query($roomTypesQuery);
                                         <div class="mb-3">
                                             <label for="images" class="form-label">Images</label>
                                             <input type="file" class="form-control" id="images" name="images" value="<?php echo htmlspecialchars($row['images']); ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="includes" class="form-label">Room Includes</label>
+                                            <input type="text" class="form-control" id="includes" name="package_name" value="<?php echo htmlspecialchars($row['includes']); ?>">
                                         </div>
                                     </div>
                                     <div class="modal-footer">

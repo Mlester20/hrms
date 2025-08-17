@@ -154,7 +154,7 @@ class NotificationManager {
         
         html += `
             </div>
-            ${notifications.length > 0 ? '<div class="notification-footer p-2 border-top text-center"><a href="#" class="btn btn-sm btn-outline-primary">View All</a></div>' : ''}
+            ${notifications.length > 0 ? '<div class="notification-footer p-2 border-top text-center"><a href="bookings.php" class="btn btn-sm btn-outline-primary">View All</a></div>' : ''}
         `;
         
         this.notificationDropdown.innerHTML = html;

@@ -3,15 +3,12 @@ ob_start();
 session_start();
 include '../components/config.php';
 
-// Always force JSON response
 header('Content-Type: application/json');
 
-// Disable output of PHP warnings/notices to browser
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 try {
-    // Debug log para makita sa PHP error log
     error_log("Notification API - Session data: " . print_r($_SESSION, true));
 
     // Check session
@@ -25,7 +22,6 @@ try {
 
     switch ($action) {
         case 'fetch':
-            // Check kung may notifications table
             $check_table = "SHOW TABLES LIKE 'notifications'";
             $table_result = $con->query($check_table);
 
