@@ -145,7 +145,7 @@ if ($reservationResult) {
                         
                         <div class="mb-3">
                             <label for="timeSlot" class="form-label">Time</label>
-                            <select class="form-select" id="timeSlot" name="time_slot" required>
+                            <!-- <select class="form-select" id="timeSlot" name="time_slot" required>
                                 <option value="">Select time</option>
                                 <option value="07:00">07:00 AM</option>
                                 <option value="08:00">08:00 AM</option>
@@ -159,7 +159,8 @@ if ($reservationResult) {
                                 <option value="19:00">7:00 PM</option>
                                 <option value="20:00">8:00 PM</option>
                                 <option value="21:00">9:00 PM</option>
-                            </select>
+                            </select> -->
+                            <input type="time" class="form-control" id="timeSlot" name="time_slot" required>
                         </div>
                         
                         <div class="mb-3">

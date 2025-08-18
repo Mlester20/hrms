@@ -68,12 +68,16 @@ $reservations = getReservations($con);
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container-fluid py-4">
-        <div class="row">
+        <div class="text-end col-md-4 mb-3">
+            <input type="text" class="form-control form-control-sm mb-3" id="searchInput" placeholder="Search by Guest Name or Room Title" onkeyup="filterTable()">
+        </div>
+        <div class="row mt-4">
             <div class="col-12">
                 <div class="card shadow">
                     <h5 class="text-center mt-4">Room Reservations</h5>
@@ -112,7 +116,7 @@ $reservations = getReservations($con);
                                         <th>Payment Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="reservationsBody">
                                     <?php while($row = mysqli_fetch_assoc($reservations)): ?>
                                         <tr>
                                             <td><?php echo $row['booking_id']; ?></td>
@@ -181,6 +185,7 @@ $reservations = getReservations($con);
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/darkTheme.js"></script>
+    <script src="../js/searchGuess.js"></script>
     <script>
         $(document).ready(function() {
             $('#reservationsTable').DataTable({

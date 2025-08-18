@@ -8,8 +8,19 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Fetch all room types
-$query = "SELECT * FROM room_type";
+// Pagination settings
+$records_per_page = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $records_per_page;
+
+// Get total number of room types
+$total_query = "SELECT COUNT(*) as total FROM room_type";
+$total_result = $con->query($total_query);
+$total_rows = $total_result->fetch_assoc()['total'];
+$total_pages = ceil($total_rows / $records_per_page);
+
+// Fetch room types with pagination
+$query = "SELECT * FROM room_type LIMIT $offset, $records_per_page";
 $result = $con->query($query);
 ?>
 
@@ -99,6 +110,33 @@ $result = $con->query($query);
                 <?php endwhile; ?>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <?php if($page > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo ($page-1); ?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                
+                <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                    <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                    </li>
+                <?php endfor; ?>
+                
+                <?php if($page < $total_pages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo ($page+1); ?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
     </div>
 
     <!-- Add Room Type Modal -->

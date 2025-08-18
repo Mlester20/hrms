@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2025 at 05:14 PM
+-- Generation Time: Aug 18, 2025 at 11:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -89,15 +89,9 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `is_read`, `created_at`, `updated_at`) VALUES
-(37, 4, 10, '2025-08-09', '2025-08-10', 1500.00, 'cancelled', '', '', 1, '2025-08-09 14:38:01', '2025-08-09 14:39:25'),
-(38, 4, 9, '2025-08-09', '2025-08-10', 2500.00, 'cancelled', '', '', 1, '2025-08-09 14:38:09', '2025-08-09 14:39:16'),
-(39, 4, 6, '2025-08-09', '2025-08-10', 1500.00, 'confirmed', '', '', 1, '2025-08-09 14:43:11', '2025-08-10 15:04:33'),
-(40, 4, 7, '2025-08-09', '2025-08-10', 1500.00, 'confirmed', '', '', 1, '2025-08-09 14:51:15', '2025-08-09 14:56:48'),
-(41, 4, 10, '2025-08-10', '2025-08-11', 1500.00, 'confirmed', '', '', 1, '2025-08-10 14:06:43', '2025-08-10 14:09:22'),
-(42, 4, 7, '2025-08-10', '2025-08-13', 4500.00, 'confirmed', '', '', 1, '2025-08-10 14:31:15', '2025-08-10 14:31:25'),
-(43, 8, 6, '2025-08-10', '2025-08-19', 13500.00, 'confirmed', '', '', 1, '2025-08-10 15:03:02', '2025-08-10 15:03:15'),
-(44, 8, 10, '2025-08-16', '2025-08-19', 4500.00, 'confirmed', '', '', 1, '2025-08-10 15:05:44', '2025-08-10 15:06:10'),
-(45, 8, 10, '2025-09-01', '2025-09-03', 3000.00, 'confirmed', '', '', 1, '2025-08-10 15:10:39', '2025-08-10 15:10:47');
+(49, 4, 10, '2025-08-11', '2025-08-12', 1500.00, 'completed', 'paid', '', 1, '2025-08-11 15:24:50', '2025-08-11 15:33:47'),
+(50, 4, 11, '2025-08-17', '2025-08-18', 10500.00, 'completed', 'paid', '', 1, '2025-08-17 10:02:08', '2025-08-18 09:02:43'),
+(51, 4, 6, '2025-08-18', '2025-08-19', 1500.00, 'completed', 'paid', '', 1, '2025-08-18 09:00:32', '2025-08-18 09:02:41');
 
 --
 -- Triggers `bookings`
@@ -252,18 +246,18 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`notification_id`, `user_id`, `booking_id`, `title`, `message`, `type`, `is_read`, `created_at`, `updated_at`) VALUES
-(1, 4, 41, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 10, 2025 to August 11, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 14:09:22', '2025-08-10 14:56:42'),
-(2, 4, 41, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 10, 2025 to August 11, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 14:09:22', '2025-08-10 14:56:42'),
-(3, 4, 42, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 7 from August 10, 2025 to August 13, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 14:31:25', '2025-08-10 14:56:42'),
-(4, 4, 42, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 3 from August 10, 2025 to August 13, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 14:31:26', '2025-08-10 14:56:42'),
-(5, 8, 43, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 6 from August 10, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:03:15', '2025-08-10 15:04:13'),
-(6, 8, 43, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 1 from August 10, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:03:15', '2025-08-10 15:04:17'),
-(7, 4, 39, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 6 from August 09, 2025 to August 10, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 0, '2025-08-10 15:04:33', '2025-08-10 15:04:33'),
-(8, 4, 39, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 1 from August 9, 2025 to August 10, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 0, '2025-08-10 15:04:33', '2025-08-10 15:04:33'),
-(9, 8, 44, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 16, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:06:10', '2025-08-10 15:06:44'),
-(10, 8, 44, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 16, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:06:10', '2025-08-10 15:06:44'),
-(11, 8, 45, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from September 01, 2025 to September 03, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:10:47', '2025-08-10 15:13:35'),
-(12, 8, 45, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from September 1, 2025 to September 3, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-10 15:10:47', '2025-08-10 15:13:35');
+(52, 4, 49, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 10 from August 11, 2025 to August 12, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-11 15:25:07', '2025-08-11 15:25:22'),
+(53, 4, 49, 'Payment Received! 💳', 'We have received your full payment of ₱1,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2025-08-11 15:32:50', '2025-08-11 15:32:57'),
+(54, 4, 49, 'Stay Completed 🏨', 'Thank you for staying with us! Your booking for Room 10 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-11 15:33:47', '2025-08-17 10:01:50'),
+(55, 4, 49, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 10 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-11 15:33:47', '2025-08-17 10:01:50'),
+(56, 4, 50, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 11 from August 17, 2025 to August 20, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-17 10:02:42', '2025-08-17 10:03:08'),
+(57, 4, 50, 'Payment Received! 💳', 'We have received your full payment of ₱10,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2025-08-17 10:02:46', '2025-08-17 10:03:07'),
+(58, 4, 51, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 6 from August 18, 2025 to August 19, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-08-18 09:00:57', '2025-08-18 09:02:10'),
+(59, 4, 51, 'Payment Received! 💳', 'We have received your full payment of ₱1,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2025-08-18 09:02:38', '2025-08-18 09:03:03'),
+(60, 4, 51, 'Stay Completed 🏨', 'Thank you for staying with us! Your booking for Room 6 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:41', '2025-08-18 09:03:03'),
+(61, 4, 51, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 1 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:41', '2025-08-18 09:03:03'),
+(62, 4, 50, 'Stay Completed 🏨', 'Thank you for staying with us! Your booking for Room 11 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:43', '2025-08-18 09:03:03'),
+(63, 4, 50, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 2 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:43', '2025-08-18 09:03:03');
 
 -- --------------------------------------------------------
 
@@ -362,7 +356,8 @@ INSERT INTO `rooms` (`id`, `title`, `room_type_id`, `images`, `price`, `includes
 (7, 'Room 3', 5, '[\"room_68172f9bb476f1.95935670.jpg\",\"room_68172f9bb4d1c2.96168563.jpg\",\"room_68172f9bb50ae2.42324066.jpg\"]', '1500', 'Wifi'),
 (8, 'Room 4', 6, '[\"room_681f765d1e5a40.24006654.jpg\",\"room_681f765d1ecdf7.90503933.jpg\",\"room_681f765d1f3272.17751895.jpg\"]', '2500', 'Wifi'),
 (9, 'Delux', 6, '[\"room_68454b3c4b7720.19881913.jpg\"]', '2500', 'Shower'),
-(10, 'Room 10', 6, '[\"room_6849422e0c6688.71534324.jpg\"]', '1500', 'Testing');
+(10, 'Room 10', 6, '[\"room_6849422e0c6688.71534324.jpg\"]', NULL, 'Testing'),
+(11, 'Room 2', 5, '[\"room_68a1a86243b4f5.07566495.jpg\"]', '3500', 'Free Wi-Fi ');
 
 -- --------------------------------------------------------
 
@@ -469,7 +464,7 @@ CREATE TABLE `table_reservations` (
   `guest_count` int(11) NOT NULL,
   `special_requests` text DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  `status` enum('pending','done') DEFAULT 'pending'
+  `status` enum('pending','done','cancelled','confirmed') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -477,13 +472,8 @@ CREATE TABLE `table_reservations` (
 --
 
 INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_date`, `time_slot`, `guest_count`, `special_requests`, `user_id`, `status`) VALUES
-(9, 5, '2025-05-08', '12:00:00', 2, '', 4, 'done'),
-(12, 5, '2025-05-16', '20:00:00', 2, '', 6, 'done'),
-(13, 6, '2025-05-16', '07:00:00', 8, '', 6, 'done'),
-(14, 2, '2025-05-17', '07:00:00', 4, '', 6, 'done'),
-(15, 7, '2025-05-31', '07:00:00', 5, '', 6, 'pending'),
-(16, 1, '2025-06-11', '20:00:00', 2, '', 7, 'pending'),
-(17, 3, '2025-06-11', '07:00:00', 6, '', 7, 'pending');
+(18, 7, '2025-08-19', '19:00:00', 5, '', 4, 'cancelled'),
+(19, 7, '2025-08-19', '10:00:00', 3, '', 4, 'pending');
 
 -- --------------------------------------------------------
 
@@ -701,7 +691,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -719,7 +709,7 @@ ALTER TABLE `description`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `restaurant_menu`
@@ -743,7 +733,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `room_type`
@@ -773,7 +763,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `table_reservations`
 --
 ALTER TABLE `table_reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tasks`

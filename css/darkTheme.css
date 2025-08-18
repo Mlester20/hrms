@@ -56,6 +56,12 @@ body.dark-theme .card-header{
     border-color: var(--dark-border);
 }
 
+.body.dark-theme .menu-form{
+    background-color: var(--dark-card-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
 /* Card styles in dark theme */
 body.dark-theme .card:not(.chart-container) {
     background-color: var(--dark-card-bg);

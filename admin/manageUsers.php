@@ -79,10 +79,22 @@ if(isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
     }
 }
 
-// Fetch all users with role = 'user'
+// Pagination settings
+$records_per_page = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $records_per_page;
+
+// Get total number of users
+$total_query = "SELECT COUNT(*) as total FROM users WHERE role = 'user'";
+$total_result = mysqli_query($con, $total_query);
+$total_rows = mysqli_fetch_assoc($total_result)['total'];
+$total_pages = ceil($total_rows / $records_per_page);
+
+// Fetch users with pagination
 $query = "SELECT u.user_id, u.name, u.address, u.email, u.role, u.phone, 
          (SELECT COUNT(*) FROM table_reservations r WHERE r.user_id = u.user_id) as reservation_count 
-         FROM users u WHERE u.role = 'user'";
+         FROM users u WHERE u.role = 'user'
+         LIMIT $offset, $records_per_page";
 $result = mysqli_query($con, $query);
 
 // Check if query was successful
@@ -172,6 +184,9 @@ while($row = mysqli_fetch_assoc($result)) {
         <?php endif; ?>
 
         <div class="row">
+            <div class="text-end col-md-4 mb-3">
+                <input type="text" class="form-control form-control-sm mb-3" id="searchInput" placeholder="Search Users" onkeyup="filterTable()">
+            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header text-white">
@@ -180,7 +195,7 @@ while($row = mysqli_fetch_assoc($result)) {
                     <div class="card-body">
                         <?php if(count($users) > 0): ?>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover" id="userTable">
                                     <thead class="table-light">
                                         <tr>
                                             <th>ID</th>
@@ -229,6 +244,32 @@ while($row = mysqli_fetch_assoc($result)) {
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    <?php if($page > 1): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=<?php echo ($page-1); ?>" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                    
+                                    <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                                        <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
+                                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    
+                                    <?php if($page < $total_pages): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=<?php echo ($page+1); ?>" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
                         <?php else: ?>
                             <div class="alert alert-info">No users found.</div>
                         <?php endif; ?>
@@ -243,5 +284,6 @@ while($row = mysqli_fetch_assoc($result)) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/darkTheme.js"></script>
+    <script src="../js/searchUsers.js"></script>
 </body>
 </html>

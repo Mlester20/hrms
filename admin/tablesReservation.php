@@ -29,8 +29,11 @@ if (!isset($_SESSION['user_id'])) {
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container mt-5">
+        <div class="text-end col-md-4 mb-3">
+            <input type="text" class="form-control form-control-sm mb-3" id="SearchInput" placeholder="Search Restaurant Reservations" onkeyup="filterTable()">
+        </div>
         <h3 class="mb-4 text-center">Table Reservations</h3>
-        <table class="table table-bordered table-white">
+        <table class="table table-bordered table-white" id="reservationsTable">
             <thead>
                 <tr>
                     <th>Table Number</th>
@@ -52,7 +55,12 @@ if (!isset($_SESSION['user_id'])) {
                             <td><?php echo $reservation['table_number']; ?></td>
                             <td><?php echo $reservation['capacity']; ?> persons</td>
                             <td><?php echo $reservation['reservation_date']; ?></td>
-                            <td><?php echo $reservation['time_slot']; ?></td>
+                            <td>
+                                <?php 
+                                $time = date("g:i A", strtotime($reservation['time_slot']));
+                                echo $time;
+                                ?>
+                            </td>
                             <td><?php echo $reservation['guest_count']; ?></td>
                             <td><?php echo $reservation['special_requests'] ?: 'None'; ?></td>
                             <td><?php echo $reservation['name']; ?></td>
@@ -60,6 +68,7 @@ if (!isset($_SESSION['user_id'])) {
                             <td>
                                 <button class="btn btn-success btn-sm mark-done" data-id="<?php echo $reservation['reservation_id']; ?>"> <i class="fas fa-check"></i> </button>
                                 <button class="btn btn-danger btn-sm delete-reservation" data-id="<?php echo $reservation['reservation_id']; ?>"> <i class="fas fa-trash"></i> </button>
+                            
                             </td>
                             <td>
                                 <button class="btn btn-primary btn-sm print-receipt" data-id="<?php echo $reservation['reservation_id']; ?>"><i class="fas fa-receipt"></i></button>
@@ -80,5 +89,6 @@ if (!isset($_SESSION['user_id'])) {
     <script src="../js/reservations.js"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/darkTheme.js"></script>
+    <script src="../js/searchTableReservation.js"></script>
 </body>
 </html>

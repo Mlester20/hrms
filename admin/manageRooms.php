@@ -8,10 +8,22 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Fetch all rooms with their room type
+// Pagination settings
+$records_per_page = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $records_per_page;
+
+// Get total number of rooms
+$total_query = "SELECT COUNT(*) as total FROM rooms";
+$total_result = $con->query($total_query);
+$total_rows = $total_result->fetch_assoc()['total'];
+$total_pages = ceil($total_rows / $records_per_page);
+
+// Fetch rooms with pagination
 $query = "SELECT rooms.id, rooms.title, rooms.room_type_id, rooms.images, rooms.price, rooms.includes, room_type.title AS room_type_title 
           FROM rooms 
-          INNER JOIN room_type ON rooms.room_type_id = room_type.id";
+          INNER JOIN room_type ON rooms.room_type_id = room_type.id
+          LIMIT $offset, $records_per_page";
 $result = $con->query($query);
 
 // Fetch all room types for the dropdown
@@ -137,10 +149,10 @@ $roomTypesResult = $con->query($roomTypesQuery);
                                             <label for="images" class="form-label">Images</label>
                                             <input type="file" class="form-control" id="images" name="images" value="<?php echo htmlspecialchars($row['images']); ?>" required>
                                         </div>
-                                        <div class="mb-3">
+                                        <!-- <div class="mb-3">
                                             <label for="includes" class="form-label">Room Includes</label>
                                             <input type="text" class="form-control" id="includes" name="package_name" value="<?php echo htmlspecialchars($row['includes']); ?>">
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -153,6 +165,33 @@ $roomTypesResult = $con->query($roomTypesQuery);
                 <?php endwhile; ?>
             </tbody>
         </table>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <?php if($page > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo ($page-1); ?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                
+                <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                    <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                    </li>
+                <?php endfor; ?>
+                
+                <?php if($page < $total_pages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?php echo ($page+1); ?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
     </div>
 
     <!-- Add Room Modal -->

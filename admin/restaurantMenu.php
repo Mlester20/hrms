@@ -179,7 +179,6 @@ $menu_items = mysqli_query($con, $query);
             overflow-x: auto;
         }
         .menu-form {
-            background-color: #f8f9fa;
             padding: 20px;
             border-radius: 5px;
             margin-bottom: 20px;

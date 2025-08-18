@@ -164,17 +164,118 @@ $bookings = getTableBookings($con, $user_id);
     <script src="../js/fetchClientNotifications.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Add event listeners for cancel buttons if they exist
+            // Add event listeners for cancel buttons
             const cancelButtons = document.querySelectorAll('.cancel-booking');
+            
             cancelButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to cancel this booking?')) {
-                        // Cancellation logic here
-                        const bookingId = this.dataset.id;
+                    const bookingId = this.dataset.id;
+                    const bookingCard = this.closest('.booking-card');
+                    const tableNumber = bookingCard.querySelector('h5').textContent.trim();
+                    
+                    // Show confirmation dialog
+                    if (confirm(`Are you sure you want to cancel ${tableNumber}?`)) {
+                        // Disable button to prevent double clicks
+                        this.disabled = true;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Cancelling...';
+                        
+                        // Create form data
+                        const formData = new FormData();
+                        formData.append('reservation_id', bookingId);
+                        
+                        // Make AJAX request
+                        fetch('../controllers/cancelReservations.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Show success message
+                                showAlert('success', data.message);
+                                
+                                // Update the card UI
+                                updateBookingCardStatus(bookingCard, 'cancelled');
+                                
+                                // Remove the cancel button since it's no longer needed
+                                const cardFooter = this.closest('.card-footer');
+                                if (cardFooter) {
+                                    cardFooter.remove();
+                                }
+                            } else {
+                                // Show error message
+                                showAlert('error', data.message);
+                                
+                                // Re-enable button
+                                this.disabled = false;
+                                this.innerHTML = '<i class="fas fa-times me-1"></i> Cancel Booking';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            showAlert('error', 'An error occurred while cancelling the reservation');
+                            
+                            // Re-enable button
+                            this.disabled = false;
+                            this.innerHTML = '<i class="fas fa-times me-1"></i> Cancel Booking';
+                        });
                     }
                 });
             });
         });
+
+        // Function to show alert messages
+        function showAlert(type, message) {
+            // Remove existing alerts
+            const existingAlert = document.querySelector('.alert-custom');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            
+            // Create new alert
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-custom alert-dismissible fade show`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.style.maxWidth = '400px';
+            
+            alertDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // Function to update booking card status
+        function updateBookingCardStatus(card, newStatus) {
+            const statusBadge = card.querySelector('.status-badge');
+            if (statusBadge) {
+                // Remove existing status classes
+                statusBadge.className = statusBadge.className.replace(/bg-\w+/g, '');
+                statusBadge.className = statusBadge.className.replace(/text-\w+/g, '');
+                
+                // Add new status class
+                statusBadge.classList.add('badge', 'status-badge', 'bg-danger');
+                statusBadge.textContent = 'Cancelled';
+            }
+            
+            // Add visual indication that booking is cancelled
+            card.style.opacity = '0.7';
+            card.style.borderLeft = '4px solid #dc3545';
+        }
     </script>
 </body>
 </html>
