@@ -1,0 +1,442 @@
+:root {
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 80px;
+    --primary-color: #162d50;
+    --accent-color: #ffdd66;
+    --hover-bg: rgba(255, 221, 102, 0.15);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: var(--sidebar-width);
+    background-color: var(--primary-color);
+    color: #eee;
+    transition: width 0.3s ease;
+    z-index: 1000;
+    overflow-x: hidden;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #eee;
+}
+
+.sidebar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.brand-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .brand-text {
+    opacity: 0;
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    color: #eee;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+    background-color: var(--hover-bg);
+}
+
+/* Navigation Menu */
+.sidebar-nav {
+    padding: 1rem 0;
+}
+
+.nav-item {
+    margin-bottom: 0.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent-color);
+}
+
+.nav-link.active {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.nav-link i {
+    min-width: 20px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.nav-text {
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .nav-text {
+    opacity: 0;
+}
+
+/* Dropdown Styles */
+.nav-dropdown {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    content: '\f107';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-toggle.collapsed::after {
+    transform: rotate(-90deg);
+}
+
+.dropdown-menu {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    position: static !important;
+    transform: none !important;
+    display: block;
+    width: 100%;
+}
+
+.dropdown-item {
+    padding: 0.6rem 2.5rem;
+    color: #ccc;
+    font-size: 0.85rem;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dropdown-item:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent-color);
+}
+
+/* User Section */
+.user-section {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Notification Badge */
+.notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Notification Items */
+.notification-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item .dropdown-item {
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+    color: var(--accent-color);
+}
+
+.notification-text {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin-bottom: 3px;
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: var(--sidebar-width);
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+}
+
+.main-content.sidebar-collapsed {
+    margin-left: var(--sidebar-collapsed-width);
+}
+
+.content-header {
+    background-color: white;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.content-body {
+    padding: 2rem;
+}
+
+/* Additional CSS for notification dropdown - ADD THIS to your existing CSS */
+
+.notification-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+    max-height: 400px;
+    overflow-y: auto;
+    min-width: 300px;
+}
+
+.notification-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.notification-header {
+    padding: 1rem 1rem 0.5rem 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-header h6 {
+    margin: 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.notification-item {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.notification-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.notification-text {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.notification-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.notification-footer .view-all {
+    color: var(--primary-color, #162d50);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.notification-footer .view-all:hover {
+    text-decoration: underline;
+}
+
+/* Mobile responsive for notifications */
+@media (max-width: 768px) {
+    .notification-dropdown {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        top: 4rem;
+        width: auto;
+    }
+}
+
+/* Fix for collapsed sidebar notifications */
+.sidebar.collapsed .notification-dropdown {
+    left: -220px;
+    width: 300px;
+}
+
+/* Smooth scrollbar for notifications */
+.notification-dropdown::-webkit-scrollbar {
+    width: 4px;
+}
+
+.notification-dropdown::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: var(--sidebar-width);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .mobile-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+}
+
+.mobile-toggle {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .mobile-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+}
+
+/* Overlay for mobile */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.sidebar-overlay.show {
+    display: block;
+}

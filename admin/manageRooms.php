@@ -44,14 +44,16 @@ $roomTypesResult = $con->query($roomTypesQuery);
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
 </head>
 <body>
     <!-- Header admin component -->
-    <?php include '../components/header_admin.php'; ?>
+    <?php include '../components/sidebar.php'; ?>
 
-    <div class="container mt-4">
+    <div class="main-content mt-4" id="mainContent">
         <!-- Display Success or Error Messages -->
-        <?php if (isset($_SESSION['success'])): ?>
+        <div class="content-body">
+                    <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -192,6 +194,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
                 <?php endif; ?>
             </ul>
         </nav>
+        </div>
     </div>
 
     <!-- Add Room Modal -->
@@ -243,5 +246,6 @@ $roomTypesResult = $con->query($roomTypesQuery);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/darkTheme.js"></script>
+    <script src="../js/sidebar.js"></script>
 </body>
 </html>
