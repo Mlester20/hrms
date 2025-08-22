@@ -120,7 +120,7 @@
             <a href="#" class="nav-link position-relative" id="notificationLink">
                 <i class="fas fa-bell"></i>
                 <span class="nav-text">Notifications</span>
-                <span class="notification-badge">3</span>
+                <span class="notification-badge"></span>
             </a>
         </div>
         

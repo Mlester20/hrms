@@ -16,7 +16,6 @@ include '../controllers/dashboardData.php';
     <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="stylesheet" href="../css/darkTheme.css">
-    <link rel="stylesheet" href="../css/sidebar.css">
     <style>
         .chart-container {
             padding: 30px;
@@ -53,139 +52,135 @@ include '../controllers/dashboardData.php';
 </head>
 <body>
 
-    <?php include '../components/sideBar.php'; ?>
+    <?php include '../components/header_admin.php'; ?>
     
-    <div class="main-content py-4" id="mainContent">
-       <div class="content-body">
-             <h3 class="mb-4 card-title text-center">Reservations Analytics</h3>
-            <div class="text-end col-md-12 mb-3 mt-4">
-                <button class="btn btn-small btn-success">
-                    Generate Report
-                </button>
-            </div>
-            <!-- Stats Cards -->
-            <div class="row mb-4">
-                <div class="col-md-3 col-6">
-                    <div class="card dashboard-card bg-primary text-white mb-3">
-                        <div class="card-body">
-                            <h6 class="card-title"><i class="fas fa-calendar-check"></i> Today's Bookings</h6>
-                            <h3 class="mb-0"><?php echo number_format($stats['today_bookings']); ?></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="card dashboard-card bg-success text-white mb-3">
-                        <div class="card-body">
-                            <h6 class="card-title"><i class="fas fa-users"></i> Total Customers</h6>
-                            <h3 class="mb-0"><?php echo number_format($stats['total_users']); ?></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="card dashboard-card bg-warning text-white mb-3">
-                        <div class="card-body">
-                            <h6 class="card-title"><i class="fas fa-clock"></i> Pending Bookings</h6>
-                            <h3 class="mb-0"><?php echo number_format($stats['pending_tables']); ?></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="card dashboard-card bg-info text-white mb-3">
-                        <div class="card-body">
-                            <h6 class="card-title"><i class="fas fa-peso-sign"></i> Total Revenue</h6>
-                            <h3 class="mb-0">₱<?php echo number_format($stats['total_revenue'], 2); ?></h3>
-                        </div>
+    <div class="container-fluid main-content py-4">
+        <h3 class="mb-4 card-title text-center">Reservations Analytics</h3>
+        <div class="text-end col-md-12 mb-3 mt-4">
+            <button class="btn btn-small btn-success">
+                Generate Report
+            </button>
+        </div>
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-6">
+                <div class="card dashboard-card bg-primary text-white mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title"><i class="fas fa-calendar-check"></i> Today's Bookings</h6>
+                        <h3 class="mb-0"><?php echo number_format($stats['today_bookings']); ?></h3>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <!-- Left Column - Main Charts -->
-                <div class="col-md-8">
-                    <!-- Monthly Revenue Line Chart -->
-                    <div class="chart-container dark-chart-container">
-                        <h5 class="text-center">Monthly Revenue</h5>
-                        <canvas id="revenueChart" height="100"></canvas>
-                    </div>
-                    <!-- Monthly Bookings Bar Chart -->
-                    <div class="chart-container dark-chart-container">
-                        <h5 class="text-center">Monthly Bookings (<?php echo date('Y'); ?>)</h5>
-                        <canvas id="bookingsChart" height="100"></canvas>
+            <div class="col-md-3 col-6">
+                <div class="card dashboard-card bg-success text-white mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title"><i class="fas fa-users"></i> Total Customers</h6>
+                        <h3 class="mb-0"><?php echo number_format($stats['total_users']); ?></h3>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card dashboard-card bg-warning text-white mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title"><i class="fas fa-clock"></i> Pending Bookings</h6>
+                        <h3 class="mb-0"><?php echo number_format($stats['pending_tables']); ?></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card dashboard-card bg-info text-white mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title"><i class="fas fa-peso-sign"></i> Total Revenue</h6>
+                        <h3 class="mb-0">₱<?php echo number_format($stats['total_revenue'], 2); ?></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <!-- Right Column - Status Charts & Recent Bookings -->
-                <div class="col-md-4 chart-container">
-                    <!-- Booking Status Pie Chart -->
-                    <div class="chart-container">
-                        <h5 class="text-center">Booking Status</h5>
-                        <?php if (count($pie_statuses) > 0): ?>
-                            <canvas id="statusChart" height="150"></canvas>
-                        <?php else: ?>
-                            <div class="text-center p-5">No bookings data available!</div>
+        <div class="row">
+            <!-- Left Column - Main Charts -->
+            <div class="col-md-8">
+                <!-- Monthly Revenue Line Chart -->
+                <div class="chart-container dark-chart-container">
+                    <h5 class="text-center">Monthly Revenue</h5>
+                    <canvas id="revenueChart" height="100"></canvas>
+                </div>
+                <!-- Monthly Bookings Bar Chart -->
+                <div class="chart-container dark-chart-container">
+                    <h5 class="text-center">Monthly Bookings (<?php echo date('Y'); ?>)</h5>
+                    <canvas id="bookingsChart" height="100"></canvas>
+                </div>
+            </div>
+
+            <!-- Right Column - Status Charts & Recent Bookings -->
+            <div class="col-md-4 chart-container">
+                <!-- Booking Status Pie Chart -->
+                <div class="chart-container">
+                    <h5 class="text-center">Booking Status</h5>
+                    <?php if (count($pie_statuses) > 0): ?>
+                        <canvas id="statusChart" height="150"></canvas>
+                    <?php else: ?>
+                        <div class="text-center p-5">No bookings data available!</div>
+                    <?php endif; ?>
+                </div>
+
+
+                <!-- Recent Bookings -->
+                <div class="chart-container">
+                    <h5 class="text-center mb-3">Recent Bookings</h5>
+                    <div class="recent-bookings">
+                        <?php foreach ($recent_bookings as $booking): ?>
+                            <div class="booking-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="text-primary">
+                                        <p><?php echo htmlspecialchars($booking['customer_name'] ?: 'Guest'); ?></p>
+                                        <br>
+                                        <small class="">
+                                            Room: <?php echo htmlspecialchars($booking['room_id'] ?: 'N/A'); ?>
+                                        </small>
+                                        <br>
+                                        <small class="text-muted">
+                                            <?php echo date('M j', strtotime($booking['check_in_date'])); ?> - 
+                                            <?php echo date('M j', strtotime($booking['check_out_date'])); ?>
+                                        </small>
+                                    </div>
+                                    <span class="badge status-badge bg-<?php 
+                                        echo $booking['status'] == 'confirmed' ? 'success' : 
+                                             ($booking['status'] == 'pending' ? 'warning' : 
+                                             ($booking['status'] == 'cancelled' ? 'danger' : 'info')); 
+                                    ?>">
+                                        <?php echo ucfirst($booking['status']); ?>
+                                    </span>
+                                </div>
+                                <div class="mt-2 text-primary d-flex justify-content-between">
+                                    <p>
+                                        Booking #<?php echo $booking['booking_id']; ?>
+                                    </p>
+                                    <strong class="text-primary">
+                                        ₱<?php echo number_format($booking['total_price'], 2); ?>
+                                    </strong>
+                                </div>
+                                <hr>
+                            </div>
+                        <?php endforeach; ?>
+                        
+                        <?php if (empty($recent_bookings)): ?>
+                            <div class="text-center p-4">
+                                <i class="fas fa-inbox fa-3x mb-3"></i>
+                                <p>No recent bookings found</p>
+                            </div>
                         <?php endif; ?>
                     </div>
-
-
-                    <!-- Recent Bookings -->
-                    <div class="chart-container">
-                        <h5 class="text-center mb-3">Recent Bookings</h5>
-                        <div class="recent-bookings">
-                            <?php foreach ($recent_bookings as $booking): ?>
-                                <div class="booking-item">
-                                    <div class="d-flex justify-content-between align-items-start">
-                                        <div class="text-primary">
-                                            <p><?php echo htmlspecialchars($booking['customer_name'] ?: 'Guest'); ?></p>
-                                            <br>
-                                            <small class="">
-                                                Room: <?php echo htmlspecialchars($booking['room_id'] ?: 'N/A'); ?>
-                                            </small>
-                                            <br>
-                                            <small class="text-muted">
-                                                <?php echo date('M j', strtotime($booking['check_in_date'])); ?> - 
-                                                <?php echo date('M j', strtotime($booking['check_out_date'])); ?>
-                                            </small>
-                                        </div>
-                                        <span class="badge status-badge bg-<?php 
-                                            echo $booking['status'] == 'confirmed' ? 'success' : 
-                                                ($booking['status'] == 'pending' ? 'warning' : 
-                                                ($booking['status'] == 'cancelled' ? 'danger' : 'info')); 
-                                        ?>">
-                                            <?php echo ucfirst($booking['status']); ?>
-                                        </span>
-                                    </div>
-                                    <div class="mt-2 text-primary d-flex justify-content-between">
-                                        <p>
-                                            Booking #<?php echo $booking['booking_id']; ?>
-                                        </p>
-                                        <strong class="text-primary">
-                                            ₱<?php echo number_format($booking['total_price'], 2); ?>
-                                        </strong>
-                                    </div>
-                                    <hr>
-                                </div>
-                            <?php endforeach; ?>
-                            
-                            <?php if (empty($recent_bookings)): ?>
-                                <div class="text-center p-4">
-                                    <i class="fas fa-inbox fa-3x mb-3"></i>
-                                    <p>No recent bookings found</p>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
                 </div>
             </div>
-       </div>
+        </div>
     </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/darkTheme.js"></script>
-    <script src="../js/sidebar.js"></script>
     
     <script>
 
