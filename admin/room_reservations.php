@@ -3,6 +3,12 @@ session_start();
 require_once '../components/config.php';
 require_once '../controllers/roomReservationsController.php';
 
+$auto_completed = runAutoCompletionCheck($con);
+if ($auto_completed > 0) {
+    echo "<div class='alert alert-success'>
+        $auto_completed bookings were automatically completed.
+    </div>";
+}
 
 function getPaymentStatusColor($status) {
     switch ($status) {
@@ -37,6 +43,14 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
     exit;
 }
+
+// Get current page from URL parameter
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$current_page = max(1, $current_page); // Ensure page is at least 1
+
+// Fetch reservations with pagination
+$reservations_data = getReservations($con, $current_page, 5);
+$reservations = $reservations_data['data'];
 
 // Handle status updates
 if (isset($_POST['update_status'])) {
@@ -117,7 +131,7 @@ $reservations = getReservations($con);
                                     </tr>
                                 </thead>
                                 <tbody id="reservationsBody">
-                                    <?php while($row = mysqli_fetch_assoc($reservations)): ?>
+                                    <?php while($row = mysqli_fetch_assoc($reservations_data['data'])): ?>
                                         <tr>
                                             <td><?php echo $row['booking_id']; ?></td>
                                             <td>
@@ -171,6 +185,42 @@ $reservations = getReservations($con);
                                     <?php endwhile; ?>
                                 </tbody>
                             </table>
+                            
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    <?php if($reservations_data['current_page'] > 1): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=<?php echo $reservations_data['current_page'] - 1; ?>" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                    
+                                    <?php for($i = 1; $i <= $reservations_data['total_pages']; $i++): ?>
+                                        <li class="page-item <?php echo $i == $reservations_data['current_page'] ? 'active' : ''; ?>">
+                                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    
+                                    <?php if($reservations_data['current_page'] < $reservations_data['total_pages']): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=<?php echo $reservations_data['current_page'] + 1; ?>" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
+                            
+                            <!-- Records info -->
+                            <div class="text-center mt-2">
+                                <small class="text-muted">
+                                    Showing <?php echo ($reservations_data['current_page'] - 1) * $reservations_data['per_page'] + 1; ?> to 
+                                    <?php echo min($reservations_data['current_page'] * $reservations_data['per_page'], $reservations_data['total_records']); ?> of 
+                                    <?php echo $reservations_data['total_records']; ?> entries
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,7 +239,10 @@ $reservations = getReservations($con);
     <script>
         $(document).ready(function() {
             $('#reservationsTable').DataTable({
-                order: [[8, 'desc']]
+                "paging": false,  // Disable DataTables pagination since we're using our own
+                "ordering": true,
+                "info": false,    // Disable DataTables info display since we're showing our own
+                "searching": true // Keep the search functionality
             });
         });
 
