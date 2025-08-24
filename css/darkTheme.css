@@ -84,6 +84,11 @@ body.dark-theme .table-striped > tbody > tr:nth-of-type(odd) {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+.body.dark-theme .options{
+    background-color: var(--dark-text);
+    border-color: var(--dark-bg);
+}
+
 body.dark-theme .table-hover tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.075);
 }

@@ -44,13 +44,13 @@ $roomTypesResult = $con->query($roomTypesQuery);
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/darkTheme.css">
-    <link rel="stylesheet" href="../css/sidebar.css">
+    <!-- <link rel="stylesheet" href="../css/sidebar.css"> -->
 </head>
 <body>
     <!-- Header admin component -->
-    <?php include '../components/sidebar.php'; ?>
+    <?php include '../components/header_admin.php'; ?>
 
-    <div class="main-content mt-4" id="mainContent">
+    <div class="container-fluid mt-4" id="mainContent">
         <!-- Display Success or Error Messages -->
         <div class="content-body">
                     <?php if (isset($_SESSION['success'])): ?>

@@ -190,12 +190,12 @@ while($row = mysqli_fetch_assoc($result)) {
             <div class="col-12">
                 <div class="card">
                     <div class="card-header text-white">
-                        <h4 class="mb-0 text-center text-muted">Manage Users</h4>
+                        <h4 class="mb-0 text-center">Manage Users</h4>
                     </div>
                     <div class="card-body">
                         <?php if(count($users) > 0): ?>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover" id="userTable">
+                                <table class="table table-bordered" id="userTable">
                                     <thead class="table-light">
                                         <tr>
                                             <th>ID</th>

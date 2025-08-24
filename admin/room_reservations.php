@@ -156,7 +156,7 @@ $reservations = getReservations($con);
                                                         <?php if ($row['booking_status'] === 'pending'): ?>
                                                             <option value="pending" selected>Pending</option>
                                                         <?php else: ?>
-                                                            <option value="pending" disabled>Pending (cannot revert)</option>
+                                                            <option value="pending" disabled class="options">Pending (cannot revert)</option>
                                                         <?php endif; ?>
                                                         
                                                         <option value="confirmed" <?php echo $row['booking_status'] == 'confirmed' ? 'selected' : ''; ?>>Confirmed</option>

@@ -22,6 +22,7 @@
                             <li><a href="about.php">About Us</a></li>
                             <li><a href="contact.php">Contact</a></li>
                             <li><a href="#">Blog</a></li>
+                            <li><a href="customerService.php">Contact Customer Service</a></li>
                         </ul>
                     </div>
                 </div>

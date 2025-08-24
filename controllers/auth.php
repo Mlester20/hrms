@@ -1,6 +1,9 @@
 <?php   
 session_start();
-include '../components/config.php';
+require_once '../components/connection.php';
+
+$db = new Database();
+$con = $db->getConnection();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
