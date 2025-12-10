@@ -24,6 +24,13 @@
         public function getConnection(){
             return $this->conn;
         }
+
+        public function closeConnection(){
+            if($this->conn){
+                $this->conn->close();
+            }
+        }
+
     }
 
     //sample usage

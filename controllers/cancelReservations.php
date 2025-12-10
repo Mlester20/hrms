@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -53,6 +53,8 @@ try {
     
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+}finally{
+    $db->closeConnection();
 }
 
 mysqli_close($con);

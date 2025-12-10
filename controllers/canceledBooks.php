@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_booking_id'])) {
     $booking_id = intval($_POST['delete_booking_id']);

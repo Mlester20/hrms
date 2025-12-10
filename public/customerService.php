@@ -7,7 +7,6 @@ $con = $db->getConnection();
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
