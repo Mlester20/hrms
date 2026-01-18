@@ -120,7 +120,7 @@ while($row = mysqli_fetch_assoc($result)) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/notifications.css">
-    <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
     
@@ -196,7 +196,7 @@ while($row = mysqli_fetch_assoc($result)) {
                         <?php if(count($users) > 0): ?>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="userTable">
-                                    <thead class="table-light">
+                                    <thead class="table">
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>

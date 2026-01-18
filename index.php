@@ -20,8 +20,9 @@
                 <div class="card login-card">
                     <div class="card-body">
                         
-                        <div class="divider text-center mb-4">
+                        <div class="text-center mb-4">
                             <span>Be Classical</span>
+                            <hr>
                         </div>
                         
                         <form action="controllers/auth.php" method="POST">
@@ -48,7 +49,7 @@
                         </form>
                         
                         <div class="text-center mt-3">
-                            <p>Don't have an account? <a href="register.php" class="register-link">Register</a></p>
+                            <p>Don't have an account? <a href="register.php" class="register-link text-white">Register</a></p>
                         </div>
                     </div>
                 </div>

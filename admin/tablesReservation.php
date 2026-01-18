@@ -23,7 +23,7 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
-    <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>

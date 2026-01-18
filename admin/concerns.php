@@ -13,7 +13,7 @@ include '../controllers/fetchConcerns.php';
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
-    <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/app.css">
     <style>
         .concern-card {
             transition: transform 0.2s;

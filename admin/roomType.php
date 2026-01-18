@@ -36,7 +36,7 @@ $result = $con->query($query);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
-    <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
     <!-- Header admin component -->
@@ -52,7 +52,7 @@ $result = $con->query($query);
         </div>
 
         <!-- Room Types Table -->
-        <table class="table table-bordered">
+        <table class="table table-bordered text-white">
             <thead>
                 <tr>
                     <th>ID</th>

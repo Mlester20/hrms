@@ -22,7 +22,7 @@ $tables = getAllTables($con);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
-    <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
@@ -44,7 +44,7 @@ $tables = getAllTables($con);
 
         <div class="table-responsive">
             <table class="table table-hover">
-                <thead class="table-light">
+                <thead class="table">
                     <tr>
                         <th>Table Number</th>
                         <th>Capacity</th>

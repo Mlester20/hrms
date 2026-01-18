@@ -19,7 +19,7 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/notifications.css">
-    <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
@@ -28,7 +28,7 @@ if (!isset($_SESSION['user_id'])) {
         <h3 class="mt-4 mb-4 text-center">Canceled Bookings</h3>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
-                <thead class="table-light">
+                <thead class="table">
                     <tr>
                         <th>Booking ID</th>
                         <th>Guest Name</th>
