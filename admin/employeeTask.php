@@ -32,7 +32,7 @@ $staff_result = $con->query($staff_query);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
-    <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
     <?php include '../components/header_admin.php';?>
@@ -55,7 +55,7 @@ $staff_result = $con->query($staff_query);
 
         <!-- Tasks Table -->
         <table class="table table-bordered">
-            <thead class="table-light text-muted">
+            <thead class="table text-muted">
                 <tr>
                     <th>ID</th>
                     <th>Staff Name</th>

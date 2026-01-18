@@ -34,13 +34,14 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
     
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container py-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 card">
             <h3 class="text-muted ">Manage Offers</h3>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOfferModal">
                 <i class="fas fa-plus"></i> Add New Offer

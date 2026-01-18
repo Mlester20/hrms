@@ -15,28 +15,8 @@ include '../controllers/dashboardData.php';
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/notifications.css">
-    <link rel="stylesheet" href="../css/darkTheme.css">
+    <link rel="stylesheet" href="../css/app.css">
     <style>
-        :root {
-            --bg-primary: #0a0e27;
-            --bg-secondary: #141937;
-            --bg-card: #1a1f3a;
-            --accent-blue: #00d4ff;
-            --accent-cyan: #00bcd4;
-            --accent-purple: #6b5ce7;
-            --text-primary: #ffffff;
-            --text-secondary: #8b92b8;
-            --success: #00ff88;
-            --warning: #ffb800;
-            --danger: #ff4757;
-        }
-
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-
         .main-content {
             padding: 2rem;
         }
