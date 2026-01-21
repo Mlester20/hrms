@@ -1,11 +1,23 @@
-/* Add these styles to your CSS file */
+:root {
+    --bg-primary: #0a0e27;
+    --bg-secondary: #141937;
+    --bg-card: #1a1f3a;
+    --accent-blue: #00d4ff;
+    --accent-cyan: #00bcd4;
+    --accent-purple: #6b5ce7;
+    --text-primary: #ffffff;
+    --text-secondary: #8b92b8;
+    --success: #00ff88;
+    --warning: #ffb800;
+    --danger: #ff4757;
+}
 
 .notification-dropdown {
     position: absolute;
     right: 0;
     top: 100%;
     width: 350px;
-    background-color: #fff;
+    background-color: var(--bg-card);
     border: 1px solid rgba(0,0,0,.15);
     border-radius: 0.25rem;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
@@ -46,7 +58,7 @@
 }
 
 .notification-dropdown .dropdown-item:hover {
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     text-decoration: none;
 }
 

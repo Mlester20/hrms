@@ -91,7 +91,7 @@ $result = $con->query($query);
                     <!-- Edit Staff Modal -->
                     <div class="modal fade" id="editStaffModal<?php echo $row['staff_id']; ?>" tabindex="-1" aria-labelledby="editStaffModalLabel<?php echo $row['staff_id']; ?>" aria-hidden="true">
                         <div class="modal-dialog">
-                            <div class="modal-content">
+                            <div class="modal-content card">
                                 <form action="../controllers/staffsController.php" method="POST" enctype="multipart/form-data">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="editStaffModalLabel<?php echo $row['staff_id']; ?>">Edit Staff</h5>
@@ -154,7 +154,7 @@ $result = $con->query($query);
     <!-- Add Staff Modal -->
     <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <form action="../controllers/staffsController.php" method="POST" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addStaffModalLabel">Add Staff</h5>

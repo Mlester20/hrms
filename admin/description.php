@@ -22,7 +22,7 @@ include '../components/config.php';
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container my-4">
-        <h4 class="text-center card-title text-muted">Add Home Description</h4>
+        <h4 class="text-center card-title">Add Home Description</h4>
     </div>
 
     <div class="container my-4 mt-4">

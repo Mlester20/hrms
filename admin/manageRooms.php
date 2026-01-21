@@ -124,7 +124,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
                     <!-- Edit Room Modal -->
                     <div class="modal fade" id="editRoomModal<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="editRoomModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
                         <div class="modal-dialog">
-                            <div class="modal-content">
+                            <div class="modal-content card">
                                 <form action="../controllers/roomsController.php" method="POST">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="editRoomModalLabel<?php echo $row['id']; ?>">Edit Room</h5>
@@ -199,7 +199,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
     <!-- Add Room Modal -->
     <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <form action="../controllers/roomsController.php" method="POST" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addRoomModalLabel">Add Room</h5>

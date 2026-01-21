@@ -85,7 +85,7 @@ $tables = getAllTables($con);
     <!-- Add Table Modal -->
     <div class="modal fade" id="addTableModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title">Add New Table</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -127,7 +127,7 @@ $tables = getAllTables($con);
     <!-- Edit Table Modal -->
     <div class="modal fade" id="editTableModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Table</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -171,7 +171,7 @@ $tables = getAllTables($con);
     <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteTableModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title">Confirm Delete</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

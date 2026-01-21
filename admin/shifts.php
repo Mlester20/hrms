@@ -105,7 +105,7 @@ $staffResult = $con->query($staffQuery);
                     <!-- Edit Shift Modal -->
                     <div class="modal fade" id="editShiftModal<?php echo $row['shift_id']; ?>" tabindex="-1" aria-labelledby="editShiftModalLabel<?php echo $row['shift_id']; ?>" aria-hidden="true">
                         <div class="modal-dialog">
-                            <div class="modal-content">
+                            <div class="modal-content card">
                                 <form action="../controllers/shiftsController.php" method="POST">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="editShiftModalLabel<?php echo $row['shift_id']; ?>">Edit Shift</h5>
@@ -156,7 +156,7 @@ $staffResult = $con->query($staffQuery);
     <!-- Add Shift Modal -->
     <div class="modal fade" id="addShiftModal" tabindex="-1" aria-labelledby="addShiftModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <form action="../controllers/shiftsController.php" method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addShiftModalLabel">Add Shift</h5>
