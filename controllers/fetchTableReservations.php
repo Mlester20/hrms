@@ -1,6 +1,8 @@
 <?php
 
 function getTableBookings($con, $user_id) {
+    $db = new Database();
+    $con = $db->getConnection();
     try {
         $query = "SELECT 
             tr.reservation_id,
@@ -26,6 +28,8 @@ function getTableBookings($con, $user_id) {
     } catch (Exception $e) {
         $_SESSION['error'] = "Error fetching bookings: " . $e->getMessage();
         return [];
+    }finally{
+        $db->closeConnection();
     }
 }
 

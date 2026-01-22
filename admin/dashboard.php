@@ -349,7 +349,7 @@ include '../controllers/dashboardData.php';
                     <i class="fas fa-peso-sign"></i>
                 </div>
                 <div class="stat-label">Total Revenue</div>
-                <div class="stat-value">₱<?php echo number_format($stats['total_revenue'], 2); ?></div>
+                <div class="stat-value">₱<?php echo number_format($stats['total_revenue'] / 100, 2); ?></div>
                 <div class="stat-change positive">
                     <i class="fas fa-arrow-up"></i>
                     <span>15% this month</span>

@@ -53,7 +53,7 @@ $user_id = $_SESSION['user_id'];
 
         $line_data = array_fill(0, 12, 0);
         while ($row = $line_result->fetch_assoc()) {
-            $line_data[$row['month'] - 1] = round((float)$row['monthly_revenue'], 2);
+            $line_data[$row['month'] - 1] = round((float)$row['monthly_revenue'] / 100, 2);
         }
         $line_stmt->close();
 

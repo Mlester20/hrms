@@ -17,7 +17,7 @@
     right: 0;
     top: 100%;
     width: 350px;
-    background-color: var(--bg-card);
+    background-color: var(--bg-primary);
     border: 1px solid rgba(0,0,0,.15);
     border-radius: 0.25rem;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
@@ -42,7 +42,7 @@
 }
 
 .notification-dropdown .dropdown-header {
-    background-color: #f8f9fa;
+    background-color: var(--bg-primary);
     font-weight: bold;
     padding: 0.75rem 1rem;
     border-bottom: 1px solid rgba(0,0,0,.1);
@@ -67,7 +67,7 @@
 }
 
 .notification-dropdown .notification-item.unread {
-    background-color: #f0f7ff;
+    background-color: var(--bg-primary);
 }
 
 .notification-dropdown .notification-text {
@@ -84,7 +84,7 @@
 .notification-dropdown .view-all {
     font-weight: 600;
     padding: 0.75rem 1rem;
-    background-color: #f8f9fa;
+    background-color: var(--bg-primary);
     border-bottom-left-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
 }

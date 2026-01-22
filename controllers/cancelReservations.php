@@ -53,8 +53,6 @@ try {
     
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-}finally{
-    $db->closeConnection();
 }
 
 mysqli_close($con);

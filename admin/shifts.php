@@ -117,7 +117,7 @@ $staffResult = $con->query($staffQuery);
                                             <label for="staff_id" class="form-label">Staff</label>
                                             <select class="form-control" id="staff_id" name="staff_id" required>
                                                 <?php foreach ($staffResult as $staff): ?>
-                                                    <option value="<?php echo $staff['staff_id']; ?>" <?php echo $staff['staff_id'] == $row['staff_id'] ? 'selected' : ''; ?>>
+                                                    <option class="card" value="<?php echo $staff['staff_id']; ?>" <?php echo $staff['staff_id'] == $row['staff_id'] ? 'selected' : ''; ?>>
                                                         <?php echo htmlspecialchars($staff['name']); ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -167,7 +167,7 @@ $staffResult = $con->query($staffQuery);
                             <label for="staff_id" class="form-label">Staff</label>
                             <select class="form-control" id="staff_id" name="staff_id" required>
                                 <?php foreach ($staffResult as $staff): ?>
-                                    <option value="<?php echo $staff['staff_id']; ?>"><?php echo htmlspecialchars($staff['name']); ?></option>
+                                    <option class="card" value="<?php echo $staff['staff_id']; ?>"><?php echo htmlspecialchars($staff['name']); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

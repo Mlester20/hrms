@@ -87,6 +87,10 @@ if ($reservationResult) {
                                 <div class="legend-color reserved"></div>
                                 <span>Reserved</span>
                             </div>
+                            <div class="legend-item">
+                                <div class="legend-color cancelled"></div>
+                                <span>Cancelled</span>
+                            </div>
                         </div>
 
                         <!-- Restaurant Layout Area -->

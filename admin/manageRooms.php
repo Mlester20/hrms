@@ -125,7 +125,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
                     <div class="modal fade" id="editRoomModal<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="editRoomModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content card">
-                                <form action="../controllers/roomsController.php" method="POST">
+                                <form action="../controllers/roomsController.php" method="POST" enctype="multipart/form-data">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="editRoomModalLabel<?php echo $row['id']; ?>">Edit Room</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -140,7 +140,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
                                             <label for="room_type_id" class="form-label">Room Type</label>
                                             <select class="form-control" id="room_type_id" name="room_type_id" required>
                                                 <?php foreach ($roomTypesResult as $roomType): ?>
-                                                    <option value="<?php echo $roomType['id']; ?>" <?php echo $roomType['id'] == $row['room_type_id'] ? 'selected' : ''; ?>>
+                                                    <option class="card" value="<?php echo $roomType['id']; ?>" <?php echo $roomType['id'] == $row['room_type_id'] ? 'selected' : ''; ?>>
                                                         <?php echo htmlspecialchars($roomType['title']); ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -148,7 +148,11 @@ $roomTypesResult = $con->query($roomTypesQuery);
                                         </div>
                                         <div class="mb-3">
                                             <label for="images" class="form-label">Images</label>
-                                            <input type="file" class="form-control" id="images" name="images" value="<?php echo htmlspecialchars($row['images']); ?>" required>
+                                            <input type="file" class="form-control" id="images" name="images[]" multiple required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="price" class="form-label">Price</label>
+                                            <input type="text" class="form-control" id="price" name="price" value="<?php echo htmlspecialchars($row['price']); ?>" required>
                                         </div>
                                         <!-- <div class="mb-3">
                                             <label for="includes" class="form-label">Room Includes</label>
@@ -214,7 +218,7 @@ $roomTypesResult = $con->query($roomTypesQuery);
                             <label for="room_type_id" class="form-label">Room Type</label>
                             <select class="form-control" id="room_type_id" name="room_type_id" required>
                                 <?php foreach ($roomTypesResult as $roomType): ?>
-                                    <option value="<?php echo $roomType['id']; ?>"><?php echo htmlspecialchars($roomType['title']); ?></option>
+                                    <option class="card" value="<?php echo $roomType['id']; ?>"><?php echo htmlspecialchars($roomType['title']); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

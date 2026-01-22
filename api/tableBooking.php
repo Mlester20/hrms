@@ -37,7 +37,11 @@ try {
         // Use prepared statement to prevent SQL injection
         $query = "
             SELECT t.table_id, t.table_number, t.capacity, t.position_x, t.position_y, t.location,
-                   IF(r.reservation_id IS NULL, 'available', 'reserved') AS status
+                   CASE 
+                       WHEN r.reservation_id IS NULL THEN 'available'
+                       WHEN r.status IN ('pending', 'confirmed') THEN 'reserved'
+                       ELSE 'available'
+                   END AS status
             FROM restaurant_tables t
             LEFT JOIN table_reservations r
             ON t.table_id = r.table_id AND r.reservation_date = ?

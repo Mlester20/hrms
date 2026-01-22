@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 
 // Throws a 401 if the user is not admin
 if(!isset($_SESSION['user_id'])){
