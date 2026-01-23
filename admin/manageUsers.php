@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 
 // Throws a 401 if the user is not admin
 if(!isset($_SESSION['user_id'])){
@@ -144,7 +144,7 @@ while($row = mysqli_fetch_assoc($result)) {
         <?php if($edit_user): ?>
         <div class="modal fade show" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" style="display: block; background: rgba(0,0,0,0.5);">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content card">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
                         <a href="<?= $_SERVER['PHP_SELF'] ?>" class="btn-close" aria-label="Close"></a>

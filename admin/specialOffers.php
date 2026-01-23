@@ -41,13 +41,18 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container py-4">
-        <div class="d-flex justify-content-between align-items-center mb-4 card">
-            <h3 class="text-muted ">Manage Offers</h3>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOfferModal">
+        <div class="d-flex align-items-center mb-4 card p-3">
+            <h3 class="text-white mb-0">Manage Offers</h3>
+
+            <button
+                type="button"
+                class="btn btn-primary ms-auto"
+                data-bs-toggle="modal"
+                data-bs-target="#addOfferModal"
+            >
                 <i class="fas fa-plus"></i> Add New Offer
             </button>
         </div>
-
         <!-- Display messages -->
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -101,7 +106,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
                                         <td>₱<?php echo number_format($offer['price'], 2); ?></td>
                                         <td>
                                             <div class="btn-group gap-2 border-0">
-                                                <a href="../controllers/offersController.php?edit=<?php echo $offer['offers_id']; ?>" class="btn btn-sm btn-warning">
+                                                <a href="?edit=<?php echo $offer['offers_id']; ?>" class="btn btn-sm btn-warning">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $offer['offers_id']; ?>">
@@ -114,7 +119,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
                                     <!-- Delete Modal -->
                                     <div class="modal fade" id="deleteModal<?php echo $offer['offers_id']; ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
-                                            <div class="modal-content">
+                                            <div class="modal-content card">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -150,7 +155,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     <!-- Add Offer Modal -->
     <div class="modal fade" id="addOfferModal" tabindex="-1" aria-labelledby="addOfferModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addOfferModalLabel">Add New Offer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -193,7 +198,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     <?php if ($edit_offer): ?>
     <div class="modal fade" id="editOfferModal" tabindex="-1" aria-labelledby="editOfferModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editOfferModalLabel">Edit Offer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -254,6 +259,5 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="../js/notifications.js"></script>
-    <script src="../js/darkTheme.js"></script>
 </body>
 </html>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2025 at 11:49 AM
+-- Generation Time: Jan 21, 2026 at 08:46 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -91,7 +91,13 @@ CREATE TABLE `bookings` (
 INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `is_read`, `created_at`, `updated_at`) VALUES
 (49, 4, 10, '2025-08-11', '2025-08-12', 1500.00, 'completed', 'paid', '', 1, '2025-08-11 15:24:50', '2025-08-11 15:33:47'),
 (50, 4, 11, '2025-08-17', '2025-08-18', 10500.00, 'completed', 'paid', '', 1, '2025-08-17 10:02:08', '2025-08-18 09:02:43'),
-(51, 4, 6, '2025-08-18', '2025-08-19', 1500.00, 'completed', 'paid', '', 1, '2025-08-18 09:00:32', '2025-08-18 09:02:41');
+(51, 4, 6, '2025-08-18', '2025-08-19', 1500.00, 'completed', 'paid', '', 1, '2025-08-18 09:00:32', '2025-08-18 09:02:41'),
+(52, 4, 9, '2025-12-29', '2025-12-30', 2500.00, 'cancelled', 'paid', '', 1, '2025-12-29 13:52:21', '2026-01-21 06:39:20'),
+(53, 4, 7, '2026-01-20', '2026-01-21', 1500.00, 'cancelled', 'paid', '', 1, '2026-01-20 08:33:48', '2026-01-21 06:38:52'),
+(54, 4, 9, '2026-01-21', '2026-01-23', 5000.00, 'cancelled', '', '', 1, '2026-01-21 07:05:33', '2026-01-21 07:12:46'),
+(55, 4, 6, '2026-01-21', '2026-01-23', 3000.00, 'cancelled', '', '', 1, '2026-01-21 07:07:20', '2026-01-21 07:12:56'),
+(56, 4, 7, '2026-01-21', '2026-01-23', 3000.00, 'cancelled', '', '', 1, '2026-01-21 07:08:48', '2026-01-21 07:10:24'),
+(57, 4, 5, '2026-01-21', '2026-01-23', 3000.00, 'confirmed', '', '', 1, '2026-01-21 07:10:45', '2026-01-21 07:21:18');
 
 --
 -- Triggers `bookings`
@@ -257,7 +263,35 @@ INSERT INTO `notifications` (`notification_id`, `user_id`, `booking_id`, `title`
 (60, 4, 51, 'Stay Completed 🏨', 'Thank you for staying with us! Your booking for Room 6 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:41', '2025-08-18 09:03:03'),
 (61, 4, 51, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 1 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:41', '2025-08-18 09:03:03'),
 (62, 4, 50, 'Stay Completed 🏨', 'Thank you for staying with us! Your booking for Room 11 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:43', '2025-08-18 09:03:03'),
-(63, 4, 50, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 2 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:43', '2025-08-18 09:03:03');
+(63, 4, 50, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 2 has been completed. We hope you had a wonderful experience.', '', 1, '2025-08-18 09:02:43', '2025-08-18 09:03:03'),
+(64, 4, 52, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2025-12-29 13:52:48', '2025-12-29 13:53:12'),
+(65, 4, 52, 'Partial Payment Received ?', 'We have received a partial payment for your booking. Please complete your payment before check-in.', 'payment_received', 1, '2025-12-29 13:53:19', '2026-01-20 08:32:53'),
+(66, 4, 52, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 9 has been completed. We hope you had a wonderful experience.', '', 1, '2026-01-18 08:25:59', '2026-01-20 08:32:53'),
+(67, 4, 52, 'Stay Completed - Thank You! ????', 'Thank you for staying with us! Your booking for Delux (from December 29, 2025 to December 30, 2025) has been automatically completed. We hope you had a wonderful experience and look forward to welcoming you back soon!', '', 1, '2026-01-18 08:25:59', '2026-01-20 08:32:53'),
+(68, 4, 52, 'Booking Cancelled ❌', 'Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-18 08:49:26', '2026-01-20 08:32:53'),
+(69, 4, 52, 'Payment Received! ?', 'We have received your full payment of ₱2,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2026-01-18 08:52:02', '2026-01-20 08:32:53'),
+(70, 4, 52, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-01-18 08:56:36', '2026-01-20 08:32:53'),
+(71, 4, 52, 'Booking Cancelled ❌', 'Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-18 08:57:33', '2026-01-20 08:32:53'),
+(72, 4, 52, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-01-18 08:57:38', '2026-01-20 08:32:53'),
+(73, 4, 52, 'Booking Cancelled ❌', 'Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-18 08:58:02', '2026-01-20 08:32:53'),
+(74, 4, 52, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-01-18 09:01:23', '2026-01-20 08:32:53'),
+(75, 4, 52, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 9 has been completed. We hope you had a wonderful experience.', '', 1, '2026-01-18 09:01:27', '2026-01-20 08:32:53'),
+(76, 4, 52, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Delux has been completed. We hope you had a wonderful experience.', '', 1, '2026-01-18 09:01:27', '2026-01-20 08:32:53'),
+(77, 4, 52, 'Booking Cancelled ❌', 'Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-18 09:01:52', '2026-01-20 08:32:53'),
+(78, 4, 52, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-01-18 09:01:55', '2026-01-20 08:32:53'),
+(79, 4, 52, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 9 has been completed. We hope you had a wonderful experience.', '', 1, '2026-01-18 09:02:14', '2026-01-20 08:32:53'),
+(80, 4, 52, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Delux has been completed. We hope you had a wonderful experience.', '', 1, '2026-01-18 09:02:14', '2026-01-20 08:32:53'),
+(81, 4, 52, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-01-18 09:07:20', '2026-01-20 08:32:53'),
+(82, 4, 52, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 9 has been completed. We hope you had a wonderful experience.', '', 1, '2026-01-18 09:08:36', '2026-01-20 08:32:53'),
+(83, 4, 52, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Delux has been completed. We hope you had a wonderful experience.', '', 1, '2026-01-18 09:08:36', '2026-01-20 08:32:53'),
+(84, 4, 53, 'Payment Received! ?', 'We have received your full payment of ₱1,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2026-01-20 08:34:21', '2026-01-20 08:42:46'),
+(85, 4, 53, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 7 from January 20, 2026 to January 21, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-01-20 08:34:26', '2026-01-20 08:37:09'),
+(86, 4, 53, 'Booking Cancelled ❌', 'Your booking for Room 7 from January 20, 2026 to January 21, 2026 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-21 06:38:52', '2026-01-21 07:21:26'),
+(87, 4, 52, 'Booking Cancelled ❌', 'Your booking for Room 9 from December 29, 2025 to December 30, 2025 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-21 06:39:20', '2026-01-21 07:21:26'),
+(88, 4, 56, 'Booking Cancelled ❌', 'Your booking for Room 7 from January 21, 2026 to January 23, 2026 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-21 07:10:24', '2026-01-21 07:21:26'),
+(89, 4, 55, 'Booking Cancelled ❌', 'Your booking for Room 6 from January 21, 2026 to January 23, 2026 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-21 07:10:27', '2026-01-21 07:21:26'),
+(90, 4, 54, 'Booking Cancelled ❌', 'Your booking for Room 9 from January 21, 2026 to January 23, 2026 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-01-21 07:10:28', '2026-01-21 07:21:26'),
+(91, 4, 57, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 5 from January 21, 2026 to January 23, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-01-21 07:21:18', '2026-01-21 07:21:26');
 
 -- --------------------------------------------------------
 
@@ -401,7 +435,7 @@ CREATE TABLE `shifts` (
 --
 
 INSERT INTO `shifts` (`shift_id`, `staff_id`, `start_time`, `end_time`, `date_start`, `date_end`, `status`) VALUES
-(2, 1, '01:50:00', '13:50:00', '2025-05-05', '2025-05-05', 'done');
+(2, 1, '07:30:00', '17:00:00', '2026-01-21', '2026-01-21', NULL);
 
 -- --------------------------------------------------------
 
@@ -423,7 +457,7 @@ CREATE TABLE `special_offers` (
 
 INSERT INTO `special_offers` (`offers_id`, `title`, `description`, `image`, `price`) VALUES
 (1, 'Date Night Package', 'Romantic dinner for two featuring a 3-course meal with wine pairing. Perfect for anniversaries and special celebrations.', '1746612490_restaurant.jpg', '2000'),
-(2, 'Business Lunch', 'Quick and delicious 2-course business lunch with coffee. Available Monday to Friday from 12:00 PM to 2:00 PM.\r\n\r\n', '1746612814_restaurant.jpg', '5000');
+(2, 'Test Edit Function', 'Quick and delicious 2-course business lunch with coffee. Available Monday to Friday from 12:00 PM to 2:00 PM.\r\n\r\n', '1768981339_Screenshot 2026-01-05 122056.png', '5000');
 
 -- --------------------------------------------------------
 
@@ -473,7 +507,7 @@ CREATE TABLE `table_reservations` (
 
 INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_date`, `time_slot`, `guest_count`, `special_requests`, `user_id`, `status`) VALUES
 (18, 7, '2025-08-19', '19:00:00', 5, '', 4, 'cancelled'),
-(19, 7, '2025-08-19', '10:00:00', 3, '', 4, 'pending');
+(19, 7, '2025-08-19', '10:00:00', 3, '', 4, 'done');
 
 -- --------------------------------------------------------
 
@@ -497,7 +531,8 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `staff_id`, `title`, `description`, `deadline`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'AC repair', 'Maintenance of Aircon at Room 3 and Room 4', '2025-05-09 17:00:00', 'Done', '2025-05-11 14:38:03', '2025-05-17 09:40:52');
+(1, 1, 'AC repair', 'Maintenance of Aircon at Room 3 and Room 4', '2025-05-09 17:00:00', 'Done', '2025-05-11 14:38:03', '2025-05-17 09:40:52'),
+(2, 1, 'Maintenance', 'Maintenance of Aircons in Room 235 to 240', '2026-01-21 08:30:00', 'Pending', '2026-01-20 08:26:40', '2026-01-20 08:26:40');
 
 -- --------------------------------------------------------
 
@@ -691,7 +726,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -709,7 +744,7 @@ ALTER TABLE `description`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `restaurant_menu`
@@ -751,7 +786,7 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT for table `special_offers`
 --
 ALTER TABLE `special_offers`
-  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `staffs`
@@ -769,7 +804,7 @@ ALTER TABLE `table_reservations`
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

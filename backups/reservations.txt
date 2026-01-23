@@ -83,16 +83,6 @@ $reservations = getReservations($con);
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">
-    <style>
-        .status-column {
-            width: 140px;
-            min-width: 140px;
-        }
-        .status-column .form-select {
-            width: 100%;
-            font-size: 0.875rem;
-        }
-    </style>
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
@@ -130,24 +120,23 @@ $reservations = getReservations($con);
                             <table id="reservationsTable" class="table table-white">
                                 <thead>
                                     <tr>
-                                        <!-- <th>ID</th> -->
-                                        <th>Guest Name</th>
+                                        <th>ID</th>
+                                        <th>Guest</th>
                                         <th>Room</th>
                                         <th>Check In</th>
                                         <th>Check Out</th>
-                                        <!-- <th>Total Price</th> -->
+                                        <th>Total Price</th>
                                         <th>Booking Status</th>
                                         <th>Payment Status</th>
-                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="reservationsBody">
                                     <?php while($row = mysqli_fetch_assoc($reservations_data['data'])): ?>
                                         <tr>
-                                            <!-- <td><?php echo $row['booking_id']; ?></td> -->
+                                            <td><?php echo $row['booking_id']; ?></td>
                                             <td>
                                                 <?php echo $row['guest_name']; ?><br>
-                                                <!-- <small class="text-muted"><?php echo $row['guest_email']; ?></small> -->
+                                                <small class="text-muted"><?php echo $row['guest_email']; ?></small>
                                             </td>
                                             <td>
                                                 <?php echo $row['room_title']; ?><br>
@@ -155,8 +144,8 @@ $reservations = getReservations($con);
                                             </td>
                                             <td><?php echo date('M d, Y', strtotime($row['check_in_date'])); ?></td>
                                             <td><?php echo date('M d, Y', strtotime($row['check_out_date'])); ?></td>
-                                            <!-- <td>₱<?php echo number_format($row['total_price'], 2); ?></td> -->
-                                            <td class="status-column">
+                                            <td>₱<?php echo number_format($row['total_price'], 2); ?></td>
+                                            <td>
                                                 <form method="POST">
                                                     <input type="hidden" name="booking_id" value="<?php echo $row['booking_id']; ?>">
                                                     <input type="hidden" name="status_type" value="booking">
@@ -178,7 +167,7 @@ $reservations = getReservations($con);
                                                     <input type="hidden" name="update_status" value="1">
                                                 </form>
                                             </td>
-                                            <td class="status-column">
+                                            <td>
                                                 <form method="POST">
                                                     <input type="hidden" name="booking_id" value="<?php echo $row['booking_id']; ?>">
                                                     <input type="hidden" name="status_type" value="payment">
@@ -191,12 +180,6 @@ $reservations = getReservations($con);
                                                     </select>
                                                     <input type="hidden" name="update_status" value="1">
                                                 </form>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailsModal" 
-                                                        onclick="showDetails(<?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
                                             </td>
                                         </tr>
                                     <?php endwhile; ?>
@@ -245,56 +228,6 @@ $reservations = getReservations($con);
         </div>
     </div>
 
-    <!-- Details Modal -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content card">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center" id="detailsModalLabel">Reservation Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <h6 class="text-muted">Guest Information</h6>
-                            <p><strong>Name:</strong> <span id="guestName"></span></p>
-                            <p><strong>Email:</strong> <span id="guestEmail"></span></p>
-                        </div>
-                        <div class="col-md-6">
-                            <h6 class="text-muted">Booking Information</h6>
-                            <p><strong>Booking ID:</strong> <span id="bookingId"></span></p>
-                            <p><strong>Status:</strong> <span id="bookingStatus" class="badge"></span></p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <h6 class="text-muted">Room Details</h6>
-                            <p><strong>Room Title:</strong> <span id="roomTitle"></span></p>
-                            <p><strong>Room Type:</strong> <span id="roomType"></span></p>
-                        </div>
-                        <div class="col-md-6">
-                            <h6 class="text-muted">Dates</h6>
-                            <p><strong>Check In:</strong> <span id="checkIn"></span></p>
-                            <p><strong>Check Out:</strong> <span id="checkOut"></span></p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6 class="text-muted">Payment Information</h6>
-                            <p><strong>Total Price:</strong> <span id="totalPrice"></span></p>
-                            <p><strong>Payment Status:</strong> <span id="paymentStatus" class="badge"></span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- js external scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -317,10 +250,8 @@ $reservations = getReservations($con);
                 case 'pending': return '#ffc107';
                 case 'confirmed': return '#28a745';
                 case 'canceled': return '#dc3545';
-                case 'cancelled': return '#dc3545';
                 case 'complete': return '#0dcaf0';
-                case 'completed': return '##141937';
-                default: return '#6c757d';
+                default: return '#ffffff';
             }
         }
 
@@ -329,42 +260,8 @@ $reservations = getReservations($con);
                 case 'unpaid': return '#dc3545';
                 case 'partially_paid': return '#ffc107';
                 case 'paid': return '#28a745';
-                default: return '#6c757d';
+                default: return '#ffffff';
             }
-        }
-
-        function showDetails(data) {
-            // Populate guest information
-            document.getElementById('guestName').textContent = data.guest_name;
-            document.getElementById('guestEmail').textContent = data.guest_email;
-            
-            // Populate booking information
-            document.getElementById('bookingId').textContent = data.booking_id;
-            
-            // Set booking status badge
-            const bookingStatusBadge = document.getElementById('bookingStatus');
-            bookingStatusBadge.textContent = data.booking_status.charAt(0).toUpperCase() + data.booking_status.slice(1);
-            bookingStatusBadge.style.backgroundColor = getStatusColor(data.booking_status);
-            bookingStatusBadge.style.color = '#ffffff';
-            
-            // Populate room details
-            document.getElementById('roomTitle').textContent = data.room_title;
-            document.getElementById('roomType').textContent = data.room_type;
-            
-            // Populate dates
-            const checkInDate = new Date(data.check_in_date);
-            const checkOutDate = new Date(data.check_out_date);
-            document.getElementById('checkIn').textContent = checkInDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            document.getElementById('checkOut').textContent = checkOutDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            
-            // Populate payment information
-            document.getElementById('totalPrice').textContent = '₱' + parseFloat(data.total_price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            
-            // Set payment status badge
-            const paymentStatusBadge = document.getElementById('paymentStatus');
-            paymentStatusBadge.textContent = data.payment_status === 'partially_paid' ? 'Partially Paid' : data.payment_status.charAt(0).toUpperCase() + data.payment_status.slice(1);
-            paymentStatusBadge.style.backgroundColor = getPaymentStatusColor(data.payment_status);
-            paymentStatusBadge.style.color = '#ffffff';
         }
     </script>
 </body>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 include '../controllers/fetchTablesReservation.php';
 
 // Check if the user is not logged in

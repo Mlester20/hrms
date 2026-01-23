@@ -10,9 +10,42 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/app.css">
+    <style>
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .navbar-custom {
+            background-color: rgba(10, 14, 39, 0.95);
+            border-bottom: 1px solid #1a1f3a;
+            padding: 1rem 0;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--accent-blue) !important;
+        }
+        .navbar-brand img {
+            height: 40px;
+            width: auto;
+        }
+    </style>
 </head>
 <body>
-    <div class="background-blur"></div>
+    <!-- Header -->
+    <nav class="navbar navbar-custom">
+        <div class="container-fluid ps-4">
+            <a class="navbar-brand" href="index.php">
+                <img src="images/final.png" alt="Hotel Logo">
+                <span>Hotel & Restaurant</span>
+            </a>
+        </div>
+    </nav>
 
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">

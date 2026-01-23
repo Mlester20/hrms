@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 
 
 // Handle bulk delete
@@ -22,31 +22,38 @@ if (isset($_POST['bulk_delete']) && isset($_POST['selected_concerns'])) {
     exit();
 }
 
-//perform query to fetch all concerns
-try {
-    // Fetch concerns with user details using JOIN
-    $query = "SELECT 
-        c.id,
-        c.subject,
-        c.message,
-        c.created_at,
-        u.name,
-        u.email,
-        u.address
-    FROM concerns c
-    LEFT JOIN users u ON c.user_id = u.user_id
-    ORDER BY c.created_at DESC";
+    //connection
+    $db = new Database();
+    $con = $db->getConnection();
 
-    $result = mysqli_query($con, $query);
-    
-    if (!$result) {
-        throw new Exception("Database error: " . mysqli_error($con));
+    //perform query to fetch all concerns
+    try {
+        // Fetch concerns with user details using JOIN
+        $query = "SELECT 
+            c.id,
+            c.subject,
+            c.message,
+            c.created_at,
+            u.name,
+            u.email,
+            u.address
+        FROM concerns c
+        LEFT JOIN users u ON c.user_id = u.user_id
+        ORDER BY c.created_at DESC";
+
+        $result = mysqli_query($con, $query);
+        
+        if (!$result) {
+            throw new Exception("Database error: " . mysqli_error($con));
+        }
+
+        $concerns = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    } catch (Exception $e) {
+        $_SESSION['error'] = $e->getMessage();
+        $concerns = [];
+    }finally{
+        $db->closeConnection();
     }
 
-    $concerns = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-} catch (Exception $e) {
-    $_SESSION['error'] = $e->getMessage();
-    $concerns = [];
-}
 ?>

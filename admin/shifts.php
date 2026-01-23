@@ -105,7 +105,7 @@ $staffResult = $con->query($staffQuery);
                     <!-- Edit Shift Modal -->
                     <div class="modal fade" id="editShiftModal<?php echo $row['shift_id']; ?>" tabindex="-1" aria-labelledby="editShiftModalLabel<?php echo $row['shift_id']; ?>" aria-hidden="true">
                         <div class="modal-dialog">
-                            <div class="modal-content">
+                            <div class="modal-content card">
                                 <form action="../controllers/shiftsController.php" method="POST">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="editShiftModalLabel<?php echo $row['shift_id']; ?>">Edit Shift</h5>
@@ -117,7 +117,7 @@ $staffResult = $con->query($staffQuery);
                                             <label for="staff_id" class="form-label">Staff</label>
                                             <select class="form-control" id="staff_id" name="staff_id" required>
                                                 <?php foreach ($staffResult as $staff): ?>
-                                                    <option value="<?php echo $staff['staff_id']; ?>" <?php echo $staff['staff_id'] == $row['staff_id'] ? 'selected' : ''; ?>>
+                                                    <option class="card" value="<?php echo $staff['staff_id']; ?>" <?php echo $staff['staff_id'] == $row['staff_id'] ? 'selected' : ''; ?>>
                                                         <?php echo htmlspecialchars($staff['name']); ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -156,7 +156,7 @@ $staffResult = $con->query($staffQuery);
     <!-- Add Shift Modal -->
     <div class="modal fade" id="addShiftModal" tabindex="-1" aria-labelledby="addShiftModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <form action="../controllers/shiftsController.php" method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addShiftModalLabel">Add Shift</h5>
@@ -167,7 +167,7 @@ $staffResult = $con->query($staffQuery);
                             <label for="staff_id" class="form-label">Staff</label>
                             <select class="form-control" id="staff_id" name="staff_id" required>
                                 <?php foreach ($staffResult as $staff): ?>
-                                    <option value="<?php echo $staff['staff_id']; ?>"><?php echo htmlspecialchars($staff['name']); ?></option>
+                                    <option class="card" value="<?php echo $staff['staff_id']; ?>"><?php echo htmlspecialchars($staff['name']); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

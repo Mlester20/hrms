@@ -2,7 +2,7 @@
 // create_booking.php - API endpoint to create a new booking
 header('Content-Type: application/json');
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 
 // Set default response
 $response = [
@@ -16,6 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode($response);
     exit;
 }
+
+$db = new Database();
+$con = $db->getConnection();
 
 try {
     // Get form data
@@ -160,6 +163,8 @@ try {
     
 } catch (Exception $e) {
     $response['message'] = $e->getMessage();
+}finally{
+    $db->closeConnection();
 }
 
 // Return response

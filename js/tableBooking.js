@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                         `;
 
-                        // Only add click event for available tables
-                        if (table.status === 'available') {
+                        // Only add click event for available tables (and cancelled tables which are treated as available)
+                        if (table.status === 'available' || table.status === 'cancelled') {
                             tableDiv.addEventListener('click', () => selectTable(table));
                         }
 

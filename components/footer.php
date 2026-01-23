@@ -46,7 +46,7 @@
         </div>
         <div class="copyright">
             <div class="container">
-                <p>&copy; 2025 Seed's Hotel & Restaurant. All Rights Reserved.</p>
+                <p>&copy; <?= date("Y"); ?> Seed's Hotel & Restaurant. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
