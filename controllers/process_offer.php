@@ -14,7 +14,6 @@ if (!isset($_SESSION['user_id'])) {
     $con = $db->getConnection();
     
     try{
-
         // Process form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $action = isset($_POST['action']) ? $_POST['action'] : '';

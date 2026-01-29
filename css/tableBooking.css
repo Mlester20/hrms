@@ -8,6 +8,15 @@
     color: #666;
 }
 
+.booking-header h2 {
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+
+.booking-header .lead {
+    color: #6c757d;
+}
+
 /* Restaurant Layout */
 .restaurant-layout-container {
     background-color: #fff;
@@ -66,32 +75,36 @@
 .layout-area {
     position: relative;
     background-color: #f8f9fa;
-    border: 1px solid #ddd;
+    border: 2px dashed #dee2e6;
     border-radius: 8px;
     height: 500px;
     margin: 0 auto;
     overflow: hidden;
+    padding: 20px;
 }
 
 .restaurant-entrance {
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-    padding: 10px 15px;
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 15px 30px;
     text-align: center;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
 .restaurant-entrance i {
-    color: #333;
+    color: #fff;
     font-size: 20px;
-    display: block;
-    margin-bottom: 5px;
 }
 
 .tables-container {
@@ -100,18 +113,39 @@
     height: 100%;
 }
 
+/* Table Item States with Enhanced Transitions */
 .table-item {
     position: absolute;
     background-color: #28a745;
+    border: 2px solid transparent;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 1;
 }
 
+.table-item.available {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.table-item.available:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
 .table-item.reserved {
     background-color: #dc3545;
+    border-color: #dc3545;
     cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.table-item.reserved:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 .table-item.cancelled {
@@ -126,8 +160,19 @@
 
 .table-item.selected {
     background-color: #007bff;
+    border-color: #0056b3;
     transform: scale(1.05);
     z-index: 2;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
 }
 
 .table-item.reserved:hover,
@@ -149,62 +194,78 @@
     font-weight: bold;
 }
 
+.table-number {
+    font-weight: bold;
+    font-size: 16px;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
 .table-info {
     position: absolute;
-    bottom: -20px;
+    top: 100%; /* Exactly below the table */
     left: 0;
     width: 100%;
     text-align: center;
-    font-size: 12px;
-    color: #333;
+    font-size: 11px;
+    color: black;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    margin-top: 5px;
 }
 
 /* Table sizes */
 .table-item.2-seater {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 
 .table-item.4-seater {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
 }
 
 .table-item.6-seater {
     width: 100px;
-    height: 70px;
+    height: 100px;
 }
 
 .table-item.8-seater {
     width: 120px;
-    height: 70px;
+    height: 120px;
 }
 
 /* Restaurant features */
 .restaurant-feature {
     position: absolute;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
     text-align: center;
     z-index: 1;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .restaurant-feature.bar {
+    background-color: #17a2b8;
     width: 120px;
-    height: 60px;
+    height: auto;
 }
 
 .restaurant-feature.kitchen {
+    background-color: #ffc107;
+    color: #333;
     width: 120px;
-    height: 60px;
+    height: auto;
 }
 
 .restaurant-feature i {
     font-size: 20px;
-    display: block;
-    margin-bottom: 5px;
 }
 
 /* Reservation Form */
@@ -212,46 +273,85 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
 }
 
 .reservation-form h3 {
     color: #333;
-    font-size: 22px;
+    font-size: 1.25rem;
     margin-bottom: 20px;
     font-weight: 600;
 }
 
 .reservation-form .form-label {
     font-weight: 500;
+    color: #495057;
+}
+
+.reservation-form .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .btn-primary {
     background-color: #d4af37;
     border-color: #d4af37;
     font-weight: 600;
-    padding: 10px 15px;
+    padding: 12px 15px;
     transition: all 0.3s ease;
 }
 
 .btn-primary:hover, .btn-primary:focus {
     background-color: #c19b2b;
     border-color: #c19b2b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .btn-primary:disabled {
     background-color: #e9ecef;
     border-color: #ced4da;
     color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
 }
 
+/* Reserve Button Specific */
+#reserveButton {
+    font-weight: 600;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+#reserveButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#reserveButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Selected Table Info Card */
 .selected-table-info .card {
     border-color: #007bff;
+    border-left: 4px solid #007bff;
+    background-color: #f8f9fa;
 }
 
 .selected-table-info .card-title {
     color: #007bff;
     font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.selected-table-info .card-text {
+    font-size: 0.9rem;
+    color: #495057;
 }
 
 /* Availability Calendar */
@@ -264,49 +364,153 @@
 
 .availability-calendar h3 {
     color: #333;
-    font-size: 22px;
-    margin-bottom: 20px;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
     font-weight: 600;
+}
+
+.calendar-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.calendar-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.calendar-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.calendar-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.calendar-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .calendar-container table {
     font-size: 14px;
+    margin-bottom: 0;
 }
 
 .calendar-container th {
     background-color: #f8f9fa;
 }
 
+.calendar-container td,
+.calendar-container th {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+/* Availability Status Colors */
+.text-success {
+    font-weight: 600;
+}
+
+.text-warning {
+    font-weight: 600;
+}
+
+.text-danger {
+    font-weight: 600;
+}
+
+/* Info Alert Styling */
+.alert-info {
+    background-color: #e7f3ff;
+    border-color: #b3d9ff;
+    color: #004085;
+}
+
+.alert-info ol {
+    font-size: 0.9rem;
+}
+
+/* Loading States */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
+}
+
+/* Alert Positioning */
+.alert.position-fixed {
+    max-width: 400px;
+    z-index: 9999;
+}
+
+/* Form Validation Feedback */
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+}
 
 /* Responsive Adjustments */
 @media (max-width: 992px) {
+    .restaurant-layout-container {
+        margin-bottom: 30px;
+    }
+    
     .layout-area {
         height: 400px;
+        min-height: 400px;
     }
 }
 
 @media (max-width: 768px) {
     .layout-area {
         height: 350px;
+        min-height: 350px;
+    }
+    
+    .legend-item {
+        display: flex;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+    
+    .table-item {
+        transform: scale(0.9);
     }
     
     .table-item.2-seater {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
     
     .table-item.4-seater {
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
     }
     
     .table-item.6-seater {
-        width: 80px;
-        height: 60px;
+        width: 90px;
+        height: 90px;
     }
     
     .table-item.8-seater {
-        width: 100px;
-        height: 60px;
+        width: 110px;
+        height: 110px;
     }
+    
+    .availability-calendar,
+    .reservation-form {
+        padding: 15px;
+    }
+}
+
+/* Smooth transitions for all interactive elements */
+.table-item,
+.btn,
+.form-control,
+.card {
+    transition: all 0.3s ease;
 }

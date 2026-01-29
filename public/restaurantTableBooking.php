@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Fetch all tables from the database
 $tables = [];
-$query = "SELECT * FROM restaurant_tables"; 
+$query = "SELECT * FROM restaurant_tables ORDER BY table_id ASC"; 
 $result = mysqli_query($con, $query);
 
 if ($result) {
@@ -19,20 +19,6 @@ if ($result) {
     }
 } else {
     echo "Error fetching tables: " . mysqli_error($con);
-}
-
-// Get current date
-$currentDate = date('Y-m-d');
-
-// Fetch today's reservations
-$reservations = [];
-$reservationQuery = "SELECT * FROM table_reservations WHERE reservation_date = '$currentDate'";
-$reservationResult = mysqli_query($con, $reservationQuery);
-
-if ($reservationResult) {
-    while ($row = mysqli_fetch_assoc($reservationResult)) {
-        $reservations[$row['table_id']][$row['time_slot']] = $row;
-    }
 }
 ?>
 
@@ -58,7 +44,7 @@ if ($reservationResult) {
             <div class="col-12">
                 <div class="booking-header text-center mb-5">
                     <h2 class="text-muted">Reserve Your Table</h2>
-                    <p class="lead">Select a table and time to enjoy our exquisite dining experience at Seeds Restaurant</p>
+                    <p class="lead">Select a date, time, and table to enjoy our exquisite dining experience at Seeds Restaurant</p>
                 </div>
             </div>
         </div>
@@ -69,7 +55,7 @@ if ($reservationResult) {
                 <div class="restaurant-layout-container">
                     <div class="restaurant-layout-header mb-4">
                         <h3><i class="fas fa-map-marker-alt"></i> Restaurant Floor Plan</h3>
-                        <p>Select a table to make a reservation</p>
+                        <p>Select your date and time first, then choose an available table</p>
                     </div>
                     
                     <div class="restaurant-layout">
@@ -87,10 +73,6 @@ if ($reservationResult) {
                                 <div class="legend-color reserved"></div>
                                 <span>Reserved</span>
                             </div>
-                            <div class="legend-item">
-                                <div class="legend-color cancelled"></div>
-                                <span>Cancelled</span>
-                            </div>
                         </div>
 
                         <!-- Restaurant Layout Area -->
@@ -101,19 +83,19 @@ if ($reservationResult) {
                                 <span>Entrance</span>
                             </div>
 
-                            <!-- Tables -->
+                            <!-- Tables Container - populated by JavaScript -->
                             <div class="tables-container">
                                 <?php foreach ($tables as $table): ?>
-                                    <div class="table-item <?php echo $table['capacity']; ?>-seater" 
+                                    <div class="table-item <?php echo $table['capacity']; ?>-seater available" 
                                          data-table-id="<?php echo $table['table_id']; ?>" 
                                          data-capacity="<?php echo $table['capacity']; ?>"
                                          data-location="<?php echo $table['location']; ?>"
                                          style="top: <?php echo $table['position_y']; ?>px; left: <?php echo $table['position_x']; ?>px;">
                                         <div class="table-top">
-                                            <span class="table-number"><?php echo $table['table_id']; ?></span>
+                                            <span class="table-number"><?php echo isset($table['table_number']) ? $table['table_number'] : $table['table_id']; ?></span>
                                         </div>
                                         <div class="table-info">
-                                            <span><?php echo $table['capacity']; ?> seats</span>
+                                            <span class="text-black mt-2"><?php echo $table['capacity']; ?> seats</span>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -139,108 +121,86 @@ if ($reservationResult) {
                 <div class="reservation-form">
                     <h3><i class="far fa-calendar-check"></i> Make a Reservation</h3>
                     
-                    <form id="tableReservationForm" action="process_table_reservation.php" method="POST">
+                    <form id="tableReservationForm" method="POST">
                         <input type="hidden" id="selectedTableId" name="table_id" value="">
                         
                         <div class="mb-3">
-                            <label for="reservationDate" class="form-label">Date</label>
+                            <label for="reservationDate" class="form-label">Date <span class="text-danger">*</span></label>
                             <input type="date" class="form-control" id="reservationDate" name="reservation_date" min="<?php echo date('Y-m-d'); ?>" required>
+                            <small class="text-muted">Select a date to view availability</small>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="timeSlot" class="form-label">Time</label>
-                            <!-- <select class="form-select" id="timeSlot" name="time_slot" required>
-                                <option value="">Select time</option>
-                                <option value="07:00">07:00 AM</option>
-                                <option value="08:00">08:00 AM</option>
-                                <option value="09:00">09:00 AM</option>
-                                <option value="10:00">10:00 AM</option>
-                                <option value="11:00">11:00 AM</option>
-                                <option value="12:00">12:00 PM</option>
-                                <option value="13:00">1:00 PM</option>
-                                <option value="14:00">2:00 PM</option>
-                                <option value="18:00">6:00 PM</option>
-                                <option value="19:00">7:00 PM</option>
-                                <option value="20:00">8:00 PM</option>
-                                <option value="21:00">9:00 PM</option>
-                            </select> -->
+                            <label for="timeSlot" class="form-label">Time <span class="text-danger">*</span></label>
                             <input type="time" class="form-control" id="timeSlot" name="time_slot" required>
+                            <small class="text-muted">Available hours: 7:00 AM - 9:00 PM</small>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="guestCount" class="form-label">Number of Guests</label>
+                            <label for="guestCount" class="form-label">Number of Guests <span class="text-danger">*</span></label>
                             <input type="number" class="form-control" id="guestCount" name="guest_count" min="1" max="12" required>
+                            <small class="text-muted">Maximum capacity varies by table</small>
                         </div>
                         
                         <div class="mb-3">
                             <label for="specialRequests" class="form-label">Special Requests (Optional)</label>
-                            <textarea class="form-control" id="specialRequests" name="special_requests" rows="3"></textarea>
+                            <textarea class="form-control" id="specialRequests" name="special_requests" rows="3" placeholder="Allergies, celebrations, accessibility needs, etc."></textarea>
                         </div>
                         
                         <div class="selected-table-info mb-3 d-none">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Selected Table</h5>
-                                    <p class="card-text">Table #<span id="displayTableId"></span></p>
-                                    <p class="card-text">Capacity: <span id="displayTableCapacity"></span> persons</p>
-                                    <p class="card-text">Location: <span id="displayTableLocation"></span></p>
+                                    <h5 class="card-title"><i class="fas fa-check-circle text-success"></i> Selected Table</h5>
+                                    <p class="card-text mb-1">Table #<strong><span id="displayTableId"></span></strong></p>
+                                    <p class="card-text mb-1">Capacity: <strong><span id="displayTableCapacity"></span> persons</strong></p>
+                                    <p class="card-text mb-0">Location: <strong><span id="displayTableLocation"></span></strong></p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary" id="reserveButton" disabled>Reserve Now</button>
+                            <button type="submit" class="btn btn-primary btn-lg" id="reserveButton" disabled>
+                                <i class="fas fa-calendar-check me-2"></i>Reserve Table
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info mt-3" role="alert">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>How to book:</strong>
+                            <ol class="mb-0 mt-2 ps-3">
+                                <li>Select your preferred date and time</li>
+                                <li>Click on an available table (green)</li>
+                                <li>Fill in guest details and submit</li>
+                            </ol>
                         </div>
                     </form>
                 </div>
 
                 <!-- Availability Calendar -->
                 <div class="availability-calendar mt-4">
-                    <h3><i class="far fa-clock"></i> Today's Availability</h3>
+                    <h3><i class="far fa-clock"></i> Time Slot Availability</h3>
+                    <p class="text-muted small">Showing availability for selected date</p>
                     <div class="calendar-container">
-                        <table class="table table-bordered">
-                            <thead>
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-light">
                                 <tr>
                                     <th>Time</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody id="availabilityTable">
+                                <!-- Populated dynamically by JavaScript -->
                                 <tr>
-                                    <td>11:00 AM</td>
-                                    <td class="text-success">Available</td>
-                                </tr>
-                                <tr>
-                                    <td>12:00 PM</td>
-                                    <td class="text-success">Available</td>
-                                </tr>
-                                <tr>
-                                    <td>1:00 PM</td>
-                                    <td class="text-success">Available</td>
-                                </tr>
-                                <tr>
-                                    <td>2:00 PM</td>
-                                    <td class="text-success">Available</td>
-                                </tr>
-                                <tr>
-                                    <td>6:00 PM</td>
-                                    <td class="text-success">Available</td>
-                                </tr>
-                                <tr>
-                                    <td>7:00 PM</td>
-                                    <td class="text-success">Available</td>
-                                </tr>
-                                <tr>
-                                    <td>8:00 PM</td>
-                                    <td class="text-warning">Few Tables Left</td>
-                                </tr>
-                                <tr>
-                                    <td>9:00 PM</td>
-                                    <td class="text-success">Available</td>
+                                    <td colspan="2" class="text-center text-muted">
+                                        <i class="fas fa-spinner fa-spin me-2"></i>Loading availability...
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+                    <small class="text-muted">
+                        <i class="fas fa-sync-alt"></i> Availability updates automatically
+                    </small>
                 </div>
             </div>
         </div>
