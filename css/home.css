@@ -1,14 +1,28 @@
-/* Base Styles */
+:root {
+    --bg-primary: #0a0e27;
+    --bg-secondary: #141937;
+    --bg-card: #1a1f3a;
+    --accent-blue: #00d4ff;
+    --accent-cyan: #00bcd4;
+    --accent-purple: #6b5ce7;
+    --text-primary: #ffffff;
+    --text-secondary: #8b92b8;
+    --success: #00ff88;
+    --warning: #ffb800;
+    --danger: #ff4757;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    color: #333;
+    background-color: var(--bg-primary);
     display: flex;
     flex-direction: column;
     min-height: 100vh;

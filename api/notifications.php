@@ -1,5 +1,4 @@
 <?php
-// Ensure that have no output before our JSON
 ob_start();
 
 include '../components/config.php';
@@ -67,7 +66,7 @@ try {
                 break;
                 
             default:
-                continue 2; // Skip this notification
+                continue 2;
         }
 
         // Add special requests if any

@@ -20,6 +20,7 @@ if ($result) {
     echo "Error fetching descriptions: " . mysqli_error($con);
 }
 
+
 $offers_query = "SELECT * FROM special_offers ORDER BY offers_id";
 $offers_result = mysqli_query($con, $offers_query);
 $offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
