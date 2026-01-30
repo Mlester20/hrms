@@ -1,6 +1,14 @@
 <?php
 session_start();
-include '../components/config.php';
+
+require '../controllers/fetchDescription.php';
+
+// Check if admin is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../index.php');
+    exit();
+}       
+
 ?>
 
 <!DOCTYPE html>
@@ -22,22 +30,109 @@ include '../components/config.php';
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container my-4">
-        <h4 class="text-center card-title">Add Home Description</h4>
+        <h4 class="text-center card-title">Description</h4>
     </div>
 
-    <div class="container my-4 mt-4">
-        <form action="../controllers/descriptionController.php" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="5"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" name="save">Submit</button>
-        </form>
+    <div class="container mt-4">
+        <table class="table table-bordered text-white">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description Title</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?= $row['description_id'] ?></td>
+
+                    <!-- Trimmed title -->
+                    <td class="text-truncate" style="max-width:300px;">
+                        <?= htmlspecialchars($row['description_name']) ?>
+                    </td>
+
+                    <td>
+                        <!-- Edit Button -->
+                        <button
+                            class="btn btn-warning btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editDescriptionModal<?= $row['description_id'] ?>">
+                            <i class="fas fa-edit"></i>
+                        </button>
+
+                        <!-- Delete Button -->
+                        <!-- <a href="../controllers/descriptionController.php?deleteDescription=<?= $row['description_id'] ?>"
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('Delete this description?')">
+                            <i class="fas fa-trash"></i>
+                        </a> -->
+                    </td>
+                </tr>
+
+                <!-- ✅ EDIT DESCRIPTION MODAL -->
+                <div class="modal fade"
+                    id="editDescriptionModal<?= $row['description_id'] ?>"
+                    tabindex="-1"
+                    aria-hidden="true">
+
+                    <div class="modal-dialog">
+                        <div class="modal-content card">
+                            <form action="../controllers/descriptionController.php" method="POST">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Description</h5>
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <!-- Hidden ID -->
+                                    <input type="hidden"
+                                        name="description_id"
+                                        value="<?= $row['description_id'] ?>">
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Description Title</label>
+                                        <input
+                                            type="text"
+                                            name="description_name"
+                                            class="form-control"
+                                            value="<?= htmlspecialchars($row['description_name']) ?>"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button"
+                                            class="btn btn-secondary"
+                                            data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                    <button type="submit"
+                                            name="updateDescription"
+                                            class="btn btn-primary">
+                                        Save Changes
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            <?php endwhile; ?>
+
+            </tbody>
+        </table>
+    </div>
+    
 
     <!-- External Js Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="../js/notifications.js"></script>
-    <script src="../js/darkTheme.js"></script>
 </body>
 </html>
