@@ -1,51 +1,33 @@
 <?php   
 session_start();
-require_once '../components/connection.php';
 
+require_once '../includes/flash.php';
+require_once '../components/connection.php';
+require_once '../models/authModel.php';
+
+$auth = new authModel();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $con->real_escape_string(trim($_POST['email']));
-    $password = $con->real_escape_string(md5(trim($_POST['password']))); // Hash input password with MD5
-    $db = new Database();
-    $con = $db->getConnection();
+    try {
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
 
-    try{
-        $query = "SELECT user_id, name, role FROM users WHERE email = ? AND password = ?";
-        $stmt = $con->prepare($query);
-        
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-
-            if ($row = mysqli_fetch_assoc($result)) {
-                $_SESSION['user_id'] = $row['user_id']; // Store user_id in session
-                $_SESSION['email'] = $email;
-                $_SESSION['name'] = $row['name'];
-                $_SESSION['address'] = $row['address'];
-                $_SESSION['phone'] = $row['phone'];
-                $_SESSION['role'] = $row['role'];
-
-                // Redirect based on role
-                if ($row['role'] === 'admin') {
-                    header("Location: ../admin/dashboard.php");
-                } else {
-                    header("Location: ../public/home.php");
-                }
-                exit();
+        if ($auth->login($con, $email, $password)) {
+            if ($_SESSION['role'] === 'admin') {
+                header('Location: ../admin/dashboard.php');
             } else {
-                echo "<script type='text/javascript'>alert('Invalid Username or Password!');
-                document.location='../index.php'</script>";  
+                header('Location: ../public/home.php');
             }
-
-            mysqli_stmt_close($stmt);
+            exit();
         } else {
-            echo "<script>alert('Database error. Please try again later.');</script>";
+            setFlash('error', 'Invalid email or password. Please try again.');
+            header('Location: ../index.php');
+            exit(); 
         }
-    }catch(Exception $e){
-        throw new Exception("Error Processing Request->" . $e, 1);
-    }finally{
-        $db->closeConnection();
+    } catch (Exception $e) {
+        setFlash('error', $e->getMessage());
+        header('Location: ../index.php');
+        exit();
     }
 }
 ?>

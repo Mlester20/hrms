@@ -1,3 +1,7 @@
+<?php
+require_once 'includes/flash.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,6 +62,8 @@
                             <hr>
                         </div>
                         
+                        <?php showFlash(); ?>
+
                         <form action="controllers/auth.php" method="POST">
 
                         <div class="text-center my-3">                            

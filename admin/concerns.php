@@ -1,5 +1,8 @@
 <?php
-include '../controllers/fetchConcerns.php';
+session_start();
+
+include '../controllers/concernsController.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -14,63 +17,13 @@ include '../controllers/fetchConcerns.php';
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/app.css">
-    <style>
-        .concern-card {
-            transition: transform 0.2s;
-            border: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .concern-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .bulk-actions {
-            display: none;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .bulk-actions.visible {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .concern-checkbox {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1;
-        }
-        .created-time {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-        .alert {
-            animation: fadeOut 5s forwards;
-        }
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        .user-info p {
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-        .user-info i {
-            width: 20px;
-            color: #6c757d;
-        }
-    </style>
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="card-title text-success ">Customer Concerns</h4>
+            <h4 class="card-title">Customer Concerns</h4>
             <div>
                 <button id="selectAllBtn" class="btn btn-outline-primary me-2">
                     <i class="fas fa-check-square"></i> Select All
@@ -160,7 +113,7 @@ include '../controllers/fetchConcerns.php';
     <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title">Confirm Delete</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -179,6 +132,5 @@ include '../controllers/fetchConcerns.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/deleteBulk.js"></script>
-    <script src="../js/darkTheme.js"></script>
 </body>
 </html>

@@ -22,14 +22,13 @@
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-color: var(--bg-primary);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Times New Roman', serif;
+    font-family: 'Arial', sans-serif;
     font-weight: 500;
 }
 

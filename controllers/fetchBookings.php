@@ -14,9 +14,6 @@ if (!isset($user_id)) {
 
 $user_id = $_SESSION['user_id'];
 
-    //connection
-    $db = new Database();
-    $con = $db->getConnection();
     
     try{
         // Process booking cancellation if requested

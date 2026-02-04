@@ -1,6 +1,14 @@
 <?php
 session_start();
-include '../components/config.php';
+
+require_once '../components/connection.php';
+require_once '../models/shiftsModel.php';
+require_once '../includes/flash.php';
+
+$shiftsModel = new shiftsModel();
+$shiftsData = $shiftsModel->getAllShifts($con);
+$shifts = $shiftsData['shifts'];
+$staffResult = $shiftsData['staffs'];
 
 // Handle Add Shift
 if (isset($_POST['addShift'])) {
@@ -11,17 +19,12 @@ if (isset($_POST['addShift'])) {
     $date_end = $_POST['date_end'];
     $status = 'pending'; // Default status
 
-    $query = "INSERT INTO shifts (staff_id, start_time, end_time, date_start, date_end, status) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("isssss", $staff_id, $start_time, $end_time, $date_start, $date_end, $status);
-
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Shift added successfully!";
+    if($shiftsModel->addShifts($con, $staff_id, $start_time, $end_time, $date_start, $date_end, $status)) {
+        setFlash("success", "Shift added successfully!");
     } else {
-        $_SESSION['error'] = "Failed to add shift.";
+        setFlash("error", "Failed to add shift.");
     }
 
-    $stmt->close();
     header('Location: ../admin/shifts.php');
     exit();
 }
@@ -36,17 +39,12 @@ if (isset($_POST['updateShift'])) {
     $date_end = $_POST['date_end'];
     $status = $_POST['status'];
 
-    $query = "UPDATE shifts SET staff_id = ?, start_time = ?, end_time = ?, date_start = ?, date_end = ?, status = ? WHERE shift_id = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("isssssi", $staff_id, $start_time, $end_time, $date_start, $date_end, $status, $shift_id);
-
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Shift updated successfully!";
+    if($shiftsModel->updateShift($con, $shift_id, $staff_id, $start_time, $end_time, $date_start, $date_end, $status)) {
+        setFlash("success", "Shift updated successfully!");
     } else {
-        $_SESSION['error'] = "Failed to update shift.";
+        setFlash("error", "Failed to update shift.");
     }
 
-    $stmt->close();
     header('Location: ../admin/shifts.php');
     exit();
 }
@@ -55,17 +53,12 @@ if (isset($_POST['updateShift'])) {
 if (isset($_GET['deleteShift'])) {
     $shift_id = $_GET['deleteShift'];
 
-    $query = "DELETE FROM shifts WHERE shift_id = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("i", $shift_id);
-
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Shift deleted successfully!";
+    if($shiftsModel->deleteShift($con, $shift_id)) {
+        setFlash("success", "Shift deleted successfully!");
     } else {
-        $_SESSION['error'] = "Failed to delete shift.";
+        setFlash("error", "Failed to delete shift.");
     }
 
-    $stmt->close();
     header('Location: ../admin/shifts.php');
     exit();
 }
@@ -74,17 +67,12 @@ if (isset($_GET['deleteShift'])) {
 if (isset($_GET['markDone'])) {
     $shift_id = $_GET['markDone'];
 
-    $query = "UPDATE shifts SET status = 'done' WHERE shift_id = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("i", $shift_id);
-
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Shift marked as done!";
+    if($shiftsModel->markShiftAsDone($con, $shift_id)) {
+        setFlash("success", "Shift marked as done!");
     } else {
-        $_SESSION['error'] = "Failed to mark shift as done.";
+        setFlash("error", "Failed to mark shift as done.");
     }
 
-    $stmt->close();
     header('Location: ../admin/shifts.php');
     exit();
 }

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require '../controllers/fetchDescription.php';
+require '../controllers/descriptionController.php';
 
 // Check if admin is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -44,7 +44,7 @@ if (!isset($_SESSION['user_id'])) {
             </thead>
             <tbody>
 
-            <?php while ($row = $result->fetch_assoc()): ?>
+            <?php foreach ($result as $row): ?>
                 <tr>
                     <td><?= $row['description_id'] ?></td>
 
@@ -61,13 +61,6 @@ if (!isset($_SESSION['user_id'])) {
                             data-bs-target="#editDescriptionModal<?= $row['description_id'] ?>">
                             <i class="fas fa-edit"></i>
                         </button>
-
-                        <!-- Delete Button -->
-                        <!-- <a href="../controllers/descriptionController.php?deleteDescription=<?= $row['description_id'] ?>"
-                        class="btn btn-danger btn-sm"
-                        onclick="return confirm('Delete this description?')">
-                            <i class="fas fa-trash"></i>
-                        </a> -->
                     </td>
                 </tr>
 
@@ -123,7 +116,7 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                 </div>
 
-            <?php endwhile; ?>
+            <?php endforeach; ?>
 
             </tbody>
         </table>

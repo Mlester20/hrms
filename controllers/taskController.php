@@ -1,68 +1,72 @@
 <?php
-session_start();
-include '../components/config.php';
+require_once '../components/connection.php';
+require_once '../models/taskModel.php';
 
-// Add Task
-if (isset($_POST['addTask'])) {
-    $staff_id = $con->real_escape_string($_POST['staff_id']);
-    $title = $con->real_escape_string($_POST['title']);
-    $description = $con->real_escape_string($_POST['description']);
-    $deadline = $con->real_escape_string($_POST['deadline']);
-    $status = $con->real_escape_string($_POST['status']);
+$taskModel = new taskModel();
 
-    $query = "INSERT INTO tasks (staff_id, title, description, deadline, status, created_at, updated_at) 
-              VALUES ('$staff_id', '$title', '$description', '$deadline', '$status', NOW(), NOW())";
+    // Handle Add Task
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addTask'])) {
+        try {
+            $staff_id = $_POST['staff_id'];
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+            $deadline = $_POST['deadline'];
+            $status = $_POST['status'];
 
-    if ($con->query($query)) {
-        $_SESSION['success'] = "Task added successfully";
-    } else {
-        $_SESSION['error'] = "Error adding task: " . $con->error;
+            $taskModel->addTask($con, $staff_id, $title, $deadline, $status, $description);
+            $_SESSION['success'] = 'Task added successfully!';
+            header('Location: ../admin/employeeTask.php');
+            exit();
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Error adding task: ' . $e->getMessage();
+            header('Location: ../admin/employeeTask.php');
+            exit();
+        }
     }
 
-    header('Location: ../admin/employeeTask.php');
-    exit();
-}
+    // Handle Update Task
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['updateTask'])) {
+        try {
+            $task_id = $_POST['task_id'];
+            $staff_id = $_POST['staff_id'];
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+            $deadline = $_POST['deadline'];
+            $status = $_POST['status'];
 
-// Update Task
-if (isset($_POST['updateTask'])) {
-    $task_id = $con->real_escape_string($_POST['task_id']);
-    $staff_id = $con->real_escape_string($_POST['staff_id']);
-    $title = $con->real_escape_string($_POST['title']);
-    $description = $con->real_escape_string($_POST['description']);
-    $deadline = $con->real_escape_string($_POST['deadline']);
-    $status = $con->real_escape_string($_POST['status']);
-
-    $query = "UPDATE tasks 
-              SET staff_id = '$staff_id', 
-                  title = '$title', 
-                  description = '$description', 
-                  deadline = '$deadline', 
-                  status = '$status', 
-                  updated_at = NOW() 
-              WHERE id = '$task_id'";
-
-    if ($con->query($query)) {
-        $_SESSION['success'] = "Task updated successfully";
-    } else {
-        $_SESSION['error'] = "Error updating task: " . $con->error;
+            $taskModel->updateTask($con, $task_id, $staff_id, $title, $deadline, $status, $description);
+            $_SESSION['success'] = 'Task updated successfully!';
+            header('Location: ../admin/employeeTask.php');
+            exit();
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Error updating task: ' . $e->getMessage();
+            header('Location: ../admin/employeeTask.php');
+            exit();
+        }
     }
 
-    header('Location: ../admin/employeeTask.php');
-    exit();
-}
-
-// Delete Task
-if (isset($_GET['deleteTask'])) {
-    $task_id = $con->real_escape_string($_GET['deleteTask']);
-
-    $query = "DELETE FROM tasks WHERE id = '$task_id'";
-
-    if ($con->query($query)) {
-        $_SESSION['success'] = "Task deleted successfully";
-    } else {
-        $_SESSION['error'] = "Error deleting task: " . $con->error;
+    // Handle Delete Task
+    if (isset($_GET['deleteTask'])) {
+        try {
+            $task_id = $_GET['deleteTask'];
+            $taskModel->deleteTask($con, $task_id);
+            $_SESSION['success'] = 'Task deleted successfully!';
+            header('Location: ../admin/employeeTask.php');
+            exit();
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Error deleting task: ' . $e->getMessage();
+            header('Location: ../admin/employeeTask.php');
+            exit();
+        }
     }
 
-    header('Location: ../admin/employeeTask.php');
-    exit();
-}
+
+
+// Get all tasks and staffs for the page
+$tasks = $taskModel->getAllTasks($con);
+
+// Get all staff for dropdown
+$query = "SELECT staff_id, name FROM staffs ORDER BY name ASC";
+$staff_result = $con->query($query);
+
+?>

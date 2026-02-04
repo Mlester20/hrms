@@ -1,16 +1,13 @@
 <?php
 session_start();
-include '../components/config.php';
 
-// Check if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
+require_once '../components/connection.php';
+require_once '../includes/flash.php';
+require_once '../models/staffsModel.php';
 
-// Fetch all staff members
-$query = "SELECT * FROM staffs";
-$result = $con->query($query);
+// Initialize the model and fetch all staffs
+$staffsModel = new staffsModel($con);
+$result = $staffsModel->getAllStaffs();
 ?>
 
 <!DOCTYPE html>
@@ -30,19 +27,14 @@ $result = $con->query($query);
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container mt-4">
-        <!-- Display Success or Error Messages -->
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
+
+        <?php showFlash(); ?>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="text-center text-muted">Staffs</h3>
@@ -92,7 +84,7 @@ $result = $con->query($query);
                     <div class="modal fade" id="editStaffModal<?php echo $row['staff_id']; ?>" tabindex="-1" aria-labelledby="editStaffModalLabel<?php echo $row['staff_id']; ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content card">
-                                <form action="../controllers/staffsController.php" method="POST" enctype="multipart/form-data">
+                                <form action="../controllers/staffsController.php" method="POST">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="editStaffModalLabel<?php echo $row['staff_id']; ?>">Edit Staff</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -128,10 +120,6 @@ $result = $con->query($query);
                                                     <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($row['email']); ?>" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="profile" class="form-label">Profile Image</label>
-                                                    <input type="file" class="form-control" id="profile" name="profile">
-                                                </div>
-                                                <div class="mb-3">
                                                     <label for="password" class="form-label">Password (Leave blank to keep current password)</label>
                                                     <input type="password" class="form-control" id="password" name="password">
                                                 </div>
@@ -155,7 +143,7 @@ $result = $con->query($query);
     <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content card">
-                <form action="../controllers/staffsController.php" method="POST" enctype="multipart/form-data">
+                <form action="../controllers/staffsController.php" method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addStaffModalLabel">Add Staff</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -190,10 +178,6 @@ $result = $con->query($query);
                                     <input type="email" class="form-control" id="email" name="email" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="profile" class="form-label">Profile Image</label>
-                                    <input type="file" class="form-control" id="profile" name="profile" required>
-                                </div>
-                                <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" required>
                                 </div>
@@ -213,6 +197,5 @@ $result = $con->query($query);
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="../js/notifications.js"></script>
-    <script src="../js/darkTheme.js"></script>
 </body>
 </html>

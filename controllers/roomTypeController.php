@@ -1,66 +1,59 @@
 <?php
 session_start();
-include '../components/config.php';
+require_once '../components/connection.php';
+require_once '../models/roomTypeModel.php';
+require_once '../includes/flash.php';
 
-// Handle Add Room Type
-if (isset($_POST['addRoomType'])) {
+$roomTypeModel = new roomTypeModel();
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 10;
+$data = $roomTypeModel->getRoomTypes($con, $page, $limit);
+$roomTypes = $data['roomTypes'];
+$total_pages = $data['total_pages'];
+
+// ===== Handle Add Room Type =====
+if(isset($_POST['addRoomType'])) {
     $title = $_POST['title'];
     $detail = $_POST['detail'];
-
-    $query = "INSERT INTO room_type (title, detail) VALUES (?, ?)";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("ss", $title, $detail);
-
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Room type added successfully!";
+    
+    if ($roomTypeModel->addRoomType($con, $title, $detail)) {
+        setFlash('success', 'Room type added successfully!');
     } else {
-        $_SESSION['error'] = "Failed to add room type.";
+        setFlash('error', 'Failed to add room type. Please try again.');
     }
 
-    $stmt->close();
     header('Location: ../admin/roomType.php');
     exit();
 }
 
-// Handle Update Room Type
-if (isset($_POST['updateRoomType'])) {
+// ===== Handle Update Room Type =====
+if(isset($_POST['updateRoomType'])) {
     $id = $_POST['id'];
     $title = $_POST['title'];
     $detail = $_POST['detail'];
-
-    $query = "UPDATE room_type SET title = ?, detail = ? WHERE id = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("ssi", $title, $detail, $id);
-
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Room type updated successfully!";
+    
+    if ($roomTypeModel->updateRoomType($con, $id, $title, $detail)) {
+        setFlash('success', 'Room type updated successfully!');
     } else {
-        $_SESSION['error'] = "Failed to update room type.";
+        setFlash('error', 'Failed to update room type. Please try again.');
     }
 
-    $stmt->close();
     header('Location: ../admin/roomType.php');
     exit();
 }
 
-// Handle Delete Room Type
-if (isset($_GET['deleteRoomType'])) {
-    $id = $_GET['deleteRoomType'];
-
-    $query = "DELETE FROM room_type WHERE id = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("i", $id);
-
-    if ($stmt->execute()) {
-        $_SESSION['success'] = "Room type deleted successfully!";
+// ===== Handle Delete Room Type =====
+if(isset($_POST['deleteRoomType'])) {
+    $id = $_POST['id'];
+    
+    if ($roomTypeModel->deleteRoomType($con, $id) === true) {
+        setFlash('success', 'Room type deleted successfully!');
     } else {
-        $_SESSION['error'] = "Failed to delete room type.";
+        setFlash('error', 'Failed to delete room type. Please try again.');
     }
 
-    $stmt->close();
     header('Location: ../admin/roomType.php');
     exit();
 }
 
-$con->close();
 ?>
