@@ -1,13 +1,11 @@
 <?php
-include '../controllers/manageTablesController.php';
 
-//check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
+require_once '../middleware/auth.php';
+require_once '../controllers/manageTablesController.php';
+require_once '../includes/flash.php';
 
-$tables = getAllTables($con);
+requireAdmin();
+
 ?>
 
 <!DOCTYPE html>
@@ -35,12 +33,7 @@ $tables = getAllTables($con);
             </button>
         </div>
 
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+        <?php showFlash(); ?>
 
         <div class="table-responsive">
             <table class="table table-hover">
@@ -55,7 +48,7 @@ $tables = getAllTables($con);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($tables as $table): ?>
+                    <?php foreach ($allTables as $table): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($table['table_number']); ?></td>
                             <td><?php echo htmlspecialchars($table['capacity']); ?> persons</td>

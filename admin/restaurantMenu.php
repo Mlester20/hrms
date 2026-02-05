@@ -1,160 +1,55 @@
 <?php
-session_start();
-include '../components/config.php';
 
-//check if user is logged in
-if(!isset($_SESSION['user_id'])){
-    header('Location: ../index.php');
-    exit();
-}
+require_once '../controllers/restaurantMenuController.php';
+require_once '../includes/flash.php';
+require_once '../middleware/auth.php';
 
-if (isset($_POST['add_menu'])) {
-    $menu_name = mysqli_real_escape_string($con, $_POST['menu_name']);
-    $menu_description = mysqli_real_escape_string($con, $_POST['menu_description']);
-    $price = mysqli_real_escape_string($con, $_POST['price']);
-    
-    // Image upload handling
-    $image = '';
-    if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
-        $filename = $_FILES['image']['name'];
-        $filetype = pathinfo($filename, PATHINFO_EXTENSION);
-        
-        // Verify file extension
-        if(in_array(strtolower($filetype), $allowed)) {
-            // Create unique filename
-            $new_filename = uniqid() . '.' . $filetype;
-            $upload_dir = '../uploads/';
-            
-            // Create directory if it doesn't exist
-            if (!file_exists($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            
-            $upload_path = $upload_dir . $new_filename;
-            
-            // Upload the file
-            if(move_uploaded_file($_FILES['image']['tmp_name'], $upload_path)) {
-                $image = $new_filename;
-            } else {
-                $error = "Failed to upload image";
-            }
-        } else {
-            $error = "Invalid file type. Only JPG, JPEG, PNG and WEBP files are allowed.";
-        }
-    }
+requireAdmin();
 
-    // Insert menu item
-    if(!isset($error)) {
-        $sql = "INSERT INTO restaurant_menu (menu_name, menu_description, image, price) VALUES ('$menu_name', '$menu_description', '$image', '$price')";
-        if (mysqli_query($con, $sql)) {
-            $_SESSION['success'] = "Menu item added successfully";
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        } else {
-            $error = "Error: " . mysqli_error($con);
-        }
-    }
-}
-    
-    // Update menu item
-    if (isset($_POST['update_menu'])) {
-        $menu_id = mysqli_real_escape_string($con, $_POST['menu_id']);
-        $menu_name = mysqli_real_escape_string($con, $_POST['menu_name']);
-        $menu_description = mysqli_real_escape_string($con, $_POST['menu_description']);
-        $price = mysqli_real_escape_string($con, $_POST['price']);
-        $current_image = mysqli_real_escape_string($con, $_POST['current_image']);
-        
-        // Image upload handling - only if a new image is uploaded
-        $image = $current_image; // Default to current image
-        if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-            $allowed = ['jpg', 'jpeg', 'png', 'webp'];
-            $filename = $_FILES['image']['name'];
-            $filetype = pathinfo($filename, PATHINFO_EXTENSION);
-            
-            // Verify file extension
-            if(in_array(strtolower($filetype), $allowed)) {
-                // Create unique filename
-                $new_filename = uniqid() . '.' . $filetype;
-                $upload_dir = '../uploads/menu/';
-                
-                // Create directory if it doesn't exist
-                if (!file_exists($upload_dir)) {
-                    mkdir($upload_dir, 0777, true);
-                }
-                
-                $upload_path = $upload_dir . $new_filename;
-                
-                // Upload the file
-                if(move_uploaded_file($_FILES['image']['tmp_name'], $upload_path)) {
-                    $image = $new_filename;
-                    
-                    // Delete old image if it exists
-                    if($current_image && file_exists('../uploads/menu/' . $current_image)) {
-                        unlink('../uploads/menu/' . $current_image);
-                    }
-                } else {
-                    $error = "Failed to upload image";
-                }
-            } else {
-                $error = "Invalid file type. Only JPG, JPEG, PNG and WEBP files are allowed.";
-            }
-        }
-
-        // Update menu item
-        if(!isset($error)) {
-            $sql = "UPDATE restaurant_menu SET menu_name='$menu_name', menu_description='$menu_description', image='$image', price='$price' WHERE menu_id=$menu_id";
-            if (mysqli_query($con, $sql)) {
-                $_SESSION['success'] = "Menu item updated successfully";
-                header("Location: " . $_SERVER['PHP_SELF']);
-                exit();
-            } else {
-                $error = "Error: " . mysqli_error($con);
-            }
-        }
-    }
-    
-    // Delete menu item
-    if (isset($_POST['delete_menu'])) {
-        $menu_id = mysqli_real_escape_string($con, $_POST['menu_id']);
-        
-        // Get image filename before deleting the record
-        $query = "SELECT image FROM restaurant_menu WHERE menu_id = $menu_id";
-        $result = mysqli_query($con, $query);
-        if($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $image = $row['image'];
-            
-            // Delete the record
-            $sql = "DELETE FROM restaurant_menu WHERE menu_id=$menu_id";
-            if (mysqli_query($con, $sql)) {
-                // Delete the image file
-                if($image && file_exists('../uploads/menu/' . $image)) {
-                    unlink('../uploads/menu/' . $image);
-                }
-                $_SESSION['success'] = "Menu item deleted successfully";
-                header("Location: " . $_SERVER['PHP_SELF']);
-                exit();
-            } else {
-                $error = "Error: " . mysqli_error($con);
-            }
-        }
-    }
-
-
+$error = null;
 $edit_menu = null;
-if(isset($_GET['edit']) && !empty($_GET['edit'])) {
-    $menu_id = mysqli_real_escape_string($con, $_GET['edit']);
-    $query = "SELECT * FROM restaurant_menu WHERE menu_id = $menu_id";
-    $result = mysqli_query($con, $query);
-    if($result && mysqli_num_rows($result) > 0) {
-        $edit_menu = mysqli_fetch_assoc($result);
+
+// Handle Add Menu
+if (isset($_POST['add_menu'])) {
+    try {
+        $success_message = handleAddMenu($con, $restaurantMenuModel);
+        $_SESSION['success'] = $success_message;
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } catch(Exception $e) {
+        $error = $e->getMessage();
     }
 }
 
-// Fetch all menu items
-$query = "SELECT * FROM restaurant_menu ORDER BY menu_id DESC";
-$menu_items = mysqli_query($con, $query);
+// Handle Update Menu
+if (isset($_POST['update_menu'])) {
+    try {
+        $success_message = handleUpdateMenu($con, $restaurantMenuModel);
+        $_SESSION['success'] = $success_message;
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } catch(Exception $e) {
+        $error = $e->getMessage();
+    }
+}
+
+// Handle Delete Menu
+if (isset($_POST['delete_menu'])) {
+    try {
+        $success_message = handleDeleteMenu($con, $restaurantMenuModel);
+        $_SESSION['success'] = $success_message;
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } catch(Exception $e) {
+        $error = $e->getMessage();
+    }
+}
+
+// Get menu item for editing
+if(isset($_GET['edit']) && !empty($_GET['edit'])) {
+    $edit_menu = $restaurantMenuModel->getMenuById($con, $_GET['edit']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -209,7 +104,7 @@ $menu_items = mysqli_query($con, $query);
                 </div>
                 <?php endif; ?>
                 
-                <?php if(isset($error)): ?>
+                <?php if($error): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <?php echo $error; ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -288,8 +183,8 @@ $menu_items = mysqli_query($con, $query);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if(mysqli_num_rows($menu_items) > 0): ?>
-                                        <?php while($item = mysqli_fetch_assoc($menu_items)): ?>
+                                    <?php if(mysqli_num_rows($restaurantMenus) > 0): ?>
+                                        <?php while($item = mysqli_fetch_assoc($restaurantMenus)): ?>
                                             <tr>
                                                 <td><?php echo $item['menu_id']; ?></td>
                                                 <td>
@@ -350,38 +245,7 @@ $menu_items = mysqli_query($con, $query);
     
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="../js/darkTheme.js"></script>
     <script src="../js/notifications.js"></script>
-    <script>
-        // Function to preview image before upload
-        function previewImage(input) {
-            var preview = document.getElementById('imagePreview');
-            preview.innerHTML = '';
-            
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    var img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.classList.add('preview-image');
-                    preview.appendChild(img);
-                }
-                
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        
-        // Auto-hide alerts after 5 seconds
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                var alerts = document.querySelectorAll('.alert');
-                alerts.forEach(function(alert) {
-                    var bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
-                });
-            }, 5000);
-        });
-    </script>
+    <script src="../js/restaurantPreviewImage.js"></script>
 </body>
 </html>

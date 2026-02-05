@@ -1,14 +1,10 @@
 <?php
-session_start();
-include '../components/connection.php';
-include '../controllers/fetchTablesReservation.php';
 
-// Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
+require_once '../components/connection.php';
+require_once '../controllers/tablesReservationController.php';
+require_once '../middleware/auth.php';
 
+requireAdmin(); // Ensure the user is an admin
 
 ?>
 
@@ -17,7 +13,7 @@ if (!isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Table Reservations - <?php include '../components/title.php'; ?></title>
+    <title>Table Reservations - <?php require_once '../components/title.php'; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -26,7 +22,7 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
-    <?php include '../components/header_admin.php'; ?>
+    <?php require_once '../components/header_admin.php'; ?>
 
     <div class="container mt-5">
         <div class="text-end col-md-4 mb-3">
@@ -88,7 +84,6 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/reservations.js"></script>
     <script src="../js/notifications.js"></script>
-    <script src="../js/darkTheme.js"></script>
     <script src="../js/searchTableReservation.js"></script>
 </body>
 </html>
