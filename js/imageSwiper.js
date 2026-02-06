@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="room-info">
                         <h3>${room.title || 'Unnamed Room'}</h3>
                         <p>From ₱${room.price || '0'} per night</p>
-                        <a href="room-details.php?id=${room.id}" class="room-details-btn">View Details</a>
+                        <a href="roomBookings.php" class="room-details-btn">Book Now</a>
                     </div>
                 </div>`;
                 

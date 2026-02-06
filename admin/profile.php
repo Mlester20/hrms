@@ -1,14 +1,11 @@
 <?php
 session_start();
+
 require_once '../includes/flash.php';
 require_once '../components/connection.php';
 require_once '../models/profileModel.php';
+require_once '../middleware/auth.php';
 
-// Check if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
 
 $profileModel = new profileModel();
 $user_id = $_SESSION['user_id'];

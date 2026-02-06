@@ -64,26 +64,7 @@ if(isset($_GET['edit']) && !empty($_GET['edit'])) {
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/app.css">
-    <style>
-        .menu-img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-        .table-responsive {
-            overflow-x: auto;
-        }
-        .menu-form {
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .preview-image {
-            max-width: 200px;
-            max-height: 200px;
-            margin-top: 10px;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     
@@ -93,25 +74,10 @@ if(isset($_GET['edit']) && !empty($_GET['edit'])) {
         <div class="row">
             <div class="col-12">
                 <h4 class="mb-4 text-center mt-4">Restaurant Menu Management</h4>
-                
-                <?php if(isset($_SESSION['success'])): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <?php 
-                    echo $_SESSION['success']; 
-                    unset($_SESSION['success']);
-                    ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <?php endif; ?>
-                
-                <?php if($error): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <?php echo $error; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <?php endif; ?>
             </div>
         </div>
+
+        <?php showFlash(); ?>
         
         <div class="row">
             <div class="col-md-4">

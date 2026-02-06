@@ -29,7 +29,7 @@ function handleAddMenu($con, $restaurantMenuModel) {
     
     // Add menu to database
     $restaurantMenuModel->addMenu($con, $menu_name, $menu_description, $image, $price);
-    return "Menu item added successfully";
+    return setFlash("Success", "Menu Added Successfully!");
 }
 
 // Handle Update Menu
@@ -62,7 +62,7 @@ function handleUpdateMenu($con, $restaurantMenuModel) {
     
     // Update menu in database
     $restaurantMenuModel->updateMenu($con, $menu_id, $menu_name, $menu_description, $image, $price);
-    return "Menu item updated successfully";
+    return setFlash("Success", "Menu Updated Successfully!");
 }
 
 // Handle Delete Menu
@@ -81,7 +81,7 @@ function handleDeleteMenu($con, $restaurantMenuModel) {
         $restaurantMenuModel->deleteImageFile($menu_item['image']);
     }
     
-    return "Menu item deleted successfully";
+    return setFlash("Success", "Menu Deleted Successfully!");
 }
 
 ?>

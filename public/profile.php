@@ -1,80 +1,24 @@
 <?php
 session_start();
-include '../components/config.php';
 
-// Check if user is not logged in
+require_once '../includes/flash.php';
+require_once '../components/connection.php';
+require_once '../models/profileModel.php';
+
+// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
     exit();
 }
 
-// Fetch user details
+$profileModel = new profileModel();
 $user_id = $_SESSION['user_id'];
-$query = "SELECT name, address, email, phone FROM users WHERE user_id = ?";
-$stmt = $con->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-$stmt->close();
 
-// Handle profile update
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $address = $_POST['address'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $current_password = $_POST['current_password'];
-    $new_password = $_POST['new_password'];
-    $confirm_password = $_POST['confirm_password'];
-
-    // Verify current password
-    $passwordQuery = "SELECT password FROM users WHERE user_id = ?";
-    $stmt = $con->prepare($passwordQuery);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $stmt->bind_result($hashedPassword);
-    $stmt->fetch();
-    $stmt->close();
-
-    // Use MD5 for verification instead of password_verify
-    if (md5($current_password) === $hashedPassword) {
-        // Update user details
-        $updateQuery = "UPDATE users SET name = ?, address = ?, email = ?, phone = ? WHERE user_id = ?";
-        $stmt = $con->prepare($updateQuery);
-        $stmt->bind_param("ssssi", $name, $address, $email, $phone, $user_id);
-
-        if ($stmt->execute()) {
-            $_SESSION['success'] = "Profile updated successfully!";
-        } else {
-            $_SESSION['error'] = "Failed to update profile.";
-        }
-        $stmt->close();
-
-        // Handle password change if new password is provided
-        if (!empty($new_password) && !empty($confirm_password)) {
-            if ($new_password === $confirm_password) {
-                // Use MD5 for new password hashing instead of password_hash
-                $new_hashed_password = md5($new_password);
-                $passwordUpdateQuery = "UPDATE users SET password = ? WHERE user_id = ?";
-                $stmt = $con->prepare($passwordUpdateQuery);
-                $stmt->bind_param("si", $new_hashed_password, $user_id);
-
-                if ($stmt->execute()) {
-                    $_SESSION['success'] = "Password updated successfully!";
-                } else {
-                    $_SESSION['error'] = "Failed to update password.";
-                }
-                $stmt->close();
-            } else {
-                $_SESSION['error'] = "New password and confirm password do not match.";
-            }
-        }
-    } else {
-        $_SESSION['error'] = "Incorrect current password. Please try again.";
-    }
-
-    header('Location: profile.php');
+try {
+    $user = $profileModel->getProfile($con, $user_id);
+} catch (Exception $e) {
+    $_SESSION['error'] = $e->getMessage();
+    header('Location: ../index.php');
     exit();
 }
 ?>
@@ -89,30 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8y+4g5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e" crossorigin="anonymous" />
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <!-- Header admin component -->
     <?php include '../components/header.php'; ?>
 
     <div class="container mt-4">
-        <!-- Display Success or Error Messages -->
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+        <?php showFlash(); ?>
 
         <h3 class="text-center text-muted">Profile Information</h3>
         <div class="card mx-auto mt-4" style="max-width: 800px;">
             <div class="card-body">
-                <form action="profile.php" method="POST">
+                <form action="../controllers/updateUserController.php" method="POST">
                     <div class="row">
                         <!-- First Column -->
                         <div class="col-md-6">
