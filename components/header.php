@@ -17,17 +17,19 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="bookingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-book"></i> Bookings
+                        <i class="fas fa-book"></i> Lists
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
                         <li><a class="dropdown-item" href="restaurantTableBooking.php"> <i class="fas fa-table"></i> Book a Table</a></li>
-                        <li><a class="dropdown-item" href="roomBookings.php"><i class="fas fa-bed"></i> Book a Room</a></li>  
+                        <li><a class="dropdown-item" href="roomBookings.php"><i class="fas fa-bed"></i> Book a Room</a></li>
+                        <li><a class="dropdown-item" href="order.php"><i class="fas fa-burger"></i> Order Food</a></li>
+                        <li><a class="dropdown-item" href="myOrders.php"><i class="fas fa-burger"></i>My Food Orders</a></li>  
                     </ul>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="bookingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-book"></i> My Bookings
+                        <i class="fas fa-book"></i> My Reservations
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
                         <li><a class="dropdown-item" href="bookings.php"><i class="fas fa-bed"></i> My Room Bookings</a></li>

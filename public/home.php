@@ -1,36 +1,9 @@
 <?php
-session_start();
-include '../components/config.php';
 
-// Check if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
-
-$descriptions = [];
-$query = "SELECT description_id, description_name FROM description"; 
-$result = mysqli_query($con, $query);
-
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $descriptions[] = $row;
-    }
-} else {
-    echo "Error fetching descriptions: " . mysqli_error($con);
-}
-
-
-$offers_query = "SELECT * FROM special_offers ORDER BY offers_id";
-$offers_result = mysqli_query($con, $offers_query);
-$offers = mysqli_fetch_all($offers_result, MYSQLI_ASSOC);
-
-$query = "SELECT r.review_text, r.rating, u.name FROM reviews r 
-          JOIN users u ON r.user_id = u.user_id 
-          ORDER BY r.created_at DESC 
-          LIMIT 10"; // limit to latest 10 reviews
-
-$result = mysqli_query($con, $query);
+require_once '../controllers/fetchDescription.php';
+require_once '../controllers/fetchSpecialOffers.php';
+require_once '../middleware/auth.php';
+requireLogin();
 
 ?>
 
@@ -39,7 +12,7 @@ $result = mysqli_query($con, $query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> <?php include '../components/title.php'; ?> </title>
+    <title> Home | <?php include '../components/title.php'; ?> </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/customAdminHeader.css">
@@ -71,6 +44,7 @@ $result = mysqli_query($con, $query);
                         <h5>WELCOME TO SEEDS HOTEL</h5>
                         <h2>Our Hotel has been present for over 20 years.</h2>
                         <p class="main-subtitle">We make the best for all our customers.</p>
+           
                         <p class="about-description">
                             <?php 
                             if (!empty($descriptions)) {
@@ -143,7 +117,9 @@ $result = mysqli_query($con, $query);
                                 <li><strong>Dinner:</strong> 6:00 PM - 10:30 PM</li>
                             </ul>
                         </div>
-                        <button class="btn btn-primary mt-3">View Menu</button>
+                        <button class="btn btn-primary mt-3">
+                            <a href="menu.php" class="text-decoration-none text-reset">View Menu</a>
+                        </button>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -181,64 +157,73 @@ $result = mysqli_query($con, $query);
             <!-- Special Offers Carousel -->
             <div class="special-offers mt-5">
                 <h3 class="text-center mb-4">Special Offers</h3>
-                <div id="specialOffersCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <!-- Dynamic Indicators -->
-                    <div class="carousel-indicators">
-                        <?php foreach($offers as $key => $offer): ?>
-                            <button type="button" 
-                                    data-bs-target="#specialOffersCarousel" 
-                                    data-bs-slide-to="<?php echo $key; ?>" 
-                                    <?php echo $key === 0 ? 'class="active" aria-current="true"' : ''; ?>
-                                    aria-label="Slide <?php echo $key + 1; ?>">
-                            </button>
-                        <?php endforeach; ?>
-                    </div>
 
-                    <!-- Dynamic Carousel Items -->
-                    <div class="carousel-inner">
-                        <?php foreach($offers as $key => $offer): ?>
-                            <div class="carousel-item <?php echo $key === 0 ? 'active' : ''; ?>">
-                                <div class="row align-items-center">
-                                    <div class="col-md-6">
-                                        <img src="../uploads/<?php echo htmlspecialchars($offer['image']); ?>" 
-                                            class="d-block w-100 rounded" 
-                                            alt="<?php echo htmlspecialchars($offer['title']); ?>">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="offer-content p-4">
-                                            <h4><?php echo htmlspecialchars($offer['title']); ?></h4>
-                                            <p><?php echo htmlspecialchars($offer['description']); ?></p>
-                                            <p class="offer-price">₱<?php echo number_format($offer['price'], 2); ?></p>
-                                            <a href="restaurantTableBooking.php" class="btn btn-primary btn-lg d-inline-block mt-3">
-                                                <i class="fas fa-utensils"></i> Book a Table
-                                            </a>
+                <?php if (!empty($offers)): ?>
+                    <div id="specialOffersCarousel" class="carousel slide" data-bs-ride="carousel">
+
+                        <!-- Indicators -->
+                        <div class="carousel-indicators">
+                            <?php foreach ($offers as $key => $offer): ?>
+                                <button
+                                    type="button"
+                                    data-bs-target="#specialOffersCarousel"
+                                    data-bs-slide-to="<?= $key ?>"
+                                    class="<?= $key === 0 ? 'active' : '' ?>"
+                                    <?= $key === 0 ? 'aria-current="true"' : '' ?>
+                                    aria-label="Slide <?= $key + 1 ?>">
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <!-- Carousel Items -->
+                        <div class="carousel-inner">
+                            <?php foreach ($offers as $key => $offer): ?>
+                                <div class="carousel-item <?= $key === 0 ? 'active' : '' ?>">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <img src="../uploads/<?= htmlspecialchars($offer['image']) ?>"
+                                                class="d-block w-100 rounded"
+                                                alt="<?= htmlspecialchars($offer['title']) ?>">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="offer-content p-4">
+                                                <h4><?= htmlspecialchars($offer['title']) ?></h4>
+                                                <p><?= htmlspecialchars($offer['description']) ?></p>
+                                                <p class="offer-price">
+                                                    ₱<?= number_format($offer['price'], 2) ?>
+                                                </p>
+                                                <a href="restaurantTableBooking.php"
+                                                class="btn btn-primary btn-lg mt-3">
+                                                    <i class="fas fa-utensils"></i> Book a Table
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <!-- Controls (only if more than 1) -->
+                        <?php if (count($offers) > 1): ?>
+                            <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#specialOffersCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+
+                            <button class="carousel-control-next" type="button"
+                                    data-bs-target="#specialOffersCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        <?php endif; ?>
+
                     </div>
-
-                    <!-- Only show controls if there are multiple offers -->
-                    <?php if(count($offers) > 1): ?>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#specialOffersCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#specialOffersCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    <?php endif; ?>
-                </div>
-
-                <!-- Show message if no offers are available -->
-                <?php if(empty($offers)): ?>
+                <?php else: ?>
                     <div class="alert alert-info text-center">
                         No special offers available at the moment.
                     </div>
                 <?php endif; ?>
             </div>
+
             
         </div>
     </section>
@@ -277,36 +262,6 @@ $result = mysqli_query($con, $query);
         </div>
     </div>
 
-    <div class="container-fluid p-0">
-        <section class="review-section">
-            <div class="container">
-                <h2 class="text-center text-muted section-title">Our Customers' Feedback</h2>
-            </div>
-                
-            <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
-                <div class="carousel-inner">
-                    <?php
-                    $isFirst = true;
-                    while ($row = mysqli_fetch_assoc($result)):
-                    ?>
-                    <div class="carousel-item <?php if ($isFirst) { echo 'active'; $isFirst = false; } ?>">
-                        <div class="review-card">
-                            <div class="card-body text-center">
-                                <h4 class="reviewer-name">Customer's Name: <?php echo htmlspecialchars($row['name']); ?></h4>
-                                <div class="stars">
-                                    <?php for ($i = 0; $i < $row['rating']; $i++): ?>
-                                    <i class="fas fa-star"></i>
-                                    <?php endfor; ?>
-                                </div>
-                                <p class="review-text">"<?php echo htmlspecialchars($row['review_text']); ?>"</p>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endwhile; ?>
-                </div>
-            </div>
-        </section>
-    </div>
 
     <!-- Footer Section -->
     <?php include '../components/footer.php'; ?>

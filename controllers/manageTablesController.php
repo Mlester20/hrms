@@ -1,16 +1,12 @@
 <?php
 session_start();
-include '../components/connection.php';
 
-    try{
-        // Fetch all tables
-        function getAllTables($con) {
-            $db = new Database();
-            $con = $db->getConnection();
-            $query = "SELECT * FROM restaurant_tables ORDER BY table_number";
-            $result = mysqli_query($con, $query);
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
-        }
+require_once '../components/connection.php';
+require_once '../models/tablesModel.php';
+require_once '../includes/flash.php';
+
+        $tables = new tablesModel();
+        $allTables = $tables->getAllTables($con);
 
         // Add new table
         if (isset($_POST['add_table'])) {
@@ -20,15 +16,12 @@ include '../components/connection.php';
             $position_y = mysqli_real_escape_string($con, $_POST['position_y']);
             $location = mysqli_real_escape_string($con, $_POST['location']);
 
-            $query = "INSERT INTO restaurant_tables (table_number, capacity, position_x, position_y, location) 
-                    VALUES (?, ?, ?, ?, ?)";
-            $stmt = mysqli_prepare($con, $query);
-            mysqli_stmt_bind_param($stmt, "iiids", $table_number, $capacity, $position_x, $position_y, $location);
+            $stmt = $tables->addTable($con, $table_number, $capacity, $position_x, $position_y, $location);
             
-            if (mysqli_stmt_execute($stmt)) {
-                $_SESSION['success'] = "Table added successfully!";
+            if ($stmt) {
+                setFlash("Table added successfully!", "success");
             } else {
-                $_SESSION['error'] = "Error adding table: " . mysqli_error($con);
+                setFlash("Error adding table: " . mysqli_error($con), "error");
             }
             header('Location: ../admin/manageTables.php');
             exit();
@@ -43,16 +36,12 @@ include '../components/connection.php';
             $position_y = mysqli_real_escape_string($con, $_POST['position_y']);
             $location = mysqli_real_escape_string($con, $_POST['location']);
 
-            $query = "UPDATE restaurant_tables 
-                    SET table_number=?, capacity=?, position_x=?, position_y=?, location=? 
-                    WHERE table_id=?";
-            $stmt = mysqli_prepare($con, $query);
-            mysqli_stmt_bind_param($stmt, "iiidsi", $table_number, $capacity, $position_x, $position_y, $location, $table_id);
+            $stmt = $tables->updateTable($con, $table_id, $table_number, $capacity, $position_x, $position_y, $location);
             
-            if (mysqli_stmt_execute($stmt)) {
-                $_SESSION['success'] = "Table updated successfully!";
+            if ($stmt) {
+                setFlash("Table updated successfully!", "success");
             } else {
-                $_SESSION['error'] = "Error updating table: " . mysqli_error($con);
+                setFlash("Error updating table: " . mysqli_error($con), "error");
             }
             header('Location: ../admin/manageTables.php');
             exit();
@@ -62,22 +51,14 @@ include '../components/connection.php';
         if (isset($_POST['delete_table'])) {
             $table_id = mysqli_real_escape_string($con, $_POST['table_id']);
             
-            $query = "DELETE FROM restaurant_tables WHERE table_id = ?";
-            $stmt = mysqli_prepare($con, $query);
-            mysqli_stmt_bind_param($stmt, "i", $table_id);
+            $stmt = $tables->deleteTable($con, $table_id);
             
-            if (mysqli_stmt_execute($stmt)) {
-                $_SESSION['success'] = "Table deleted successfully!";
+            if ($stmt) {
+                setFlash("Table deleted successfully!", "success");
             } else {
-                $_SESSION['error'] = "Error deleting table: " . mysqli_error($con);
+                setFlash("Error deleting table: " . mysqli_error($con), "error");
             }
             header('Location: ../admin/manageTables.php');
             exit();
         }
-    }catch( Exception $e ){
-        throw new Exception("Error fetching tables". $e->getMessage(), 500);
-    }finally{
-        $db->closeConnection();
-    }
-
 ?>

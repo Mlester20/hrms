@@ -1,6 +1,8 @@
 <?php
-session_start();
-include '../components/config.php';
+require_once '../includes/flash.php';
+
+require_once '../components/connection.php';
+require_once '../controllers/roomTypeController.php';
 
 // Check if user is not logged in
 if (!isset($_SESSION['user_id'])) {
@@ -8,20 +10,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Pagination settings
-$records_per_page = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $records_per_page;
-
-// Get total number of room types
-$total_query = "SELECT COUNT(*) as total FROM room_type";
-$total_result = $con->query($total_query);
-$total_rows = $total_result->fetch_assoc()['total'];
-$total_pages = ceil($total_rows / $records_per_page);
-
-// Fetch room types with pagination
-$query = "SELECT * FROM room_type LIMIT $offset, $records_per_page";
-$result = $con->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +25,7 @@ $result = $con->query($query);
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/app.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <!-- Header admin component -->
@@ -51,6 +40,8 @@ $result = $con->query($query);
             </button>
         </div>
 
+        <?php showFlash(); ?>
+
         <!-- Room Types Table -->
         <table class="table table-bordered text-white">
             <thead>
@@ -62,7 +53,7 @@ $result = $con->query($query);
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
+                <?php foreach ($roomTypes as $row): ?>
                     <tr>
                         <td><?php echo $row['id']; ?></td>
                         <td><?php echo htmlspecialchars($row['title']); ?></td>
@@ -72,10 +63,11 @@ $result = $con->query($query);
                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editRoomTypeModal<?php echo $row['id']; ?>">
                                 <i class="fas fa-edit"></i> 
                             </button>
-                            <!-- Delete Button -->
-                            <a href="../controllers/roomTypeController.php?deleteRoomType=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this room type?')">
-                                <i class="fas fa-trash"></i> 
-                            </a>
+                            <!-- Delete Button with Sweet Alert Confirmation -->
+                            <button type="button" class="btn btn-danger btn-sm" 
+                                    onclick="confirmDelete(<?php echo $row['id']; ?>, 'deleteForm', 'this room type')">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
 
@@ -107,7 +99,7 @@ $result = $con->query($query);
                             </div>
                         </div>
                     </div>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
 
@@ -167,10 +159,26 @@ $result = $con->query($query);
         </div>
     </div>
 
+    <!-- Hidden form para sa delete (gagamitin ng Sweet Alert) -->
+    <form id="deleteForm" method="POST" action="../controllers/roomTypeController.php" style="display:none;">
+        <input type="hidden" name="id" id="deleteId">
+        <input type="hidden" name="deleteRoomType" value="1">
+    </form>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/darkTheme.js"></script>
+    
+    <!-- Sweet Alert Utilities (Centralized) -->
+    <script src="../js/sweetalert-utils.js"></script>
+    
+    <script>
+        // Auto-show alerts pag may session messages
+        document.addEventListener('DOMContentLoaded', function() {
+            showSessionAlerts();
+        });
+    </script>
 </body>
 </html>

@@ -4,31 +4,38 @@ include '../components/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
-    $password = md5(trim($_POST['password'])); // Hash input password with MD5
+    $password = trim($_POST['password']);
 
-    // Use prepared statements to prevent SQL Injection
-    $query = "SELECT staff_id, name, position, address, profile, shift_type, phone_number FROM staffs WHERE email = ? AND password = ?";
+    
+    $query = "SELECT staff_id, name, position, address, profile, shift_type, phone_number, password FROM staffs WHERE email = ?";
     $stmt = mysqli_prepare($con, $query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+        mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($result)) {
-            // Store staff details in session
-            $_SESSION['staff_id'] = $row['staff_id'];
-            $_SESSION['name'] = $row['name'];
-            $_SESSION['position'] = $row['position'];
-            $_SESSION['address'] = $row['address'];
-            $_SESSION['profile'] = $row['profile'];
-            $_SESSION['shift_type'] = $row['shift_type'];
-            $_SESSION['phone_number'] = $row['phone_number'];
-            $_SESSION['email'] = $email;
+            // Verify password using bcrypt
+            if (password_verify($password, $row['password'])) {
+                // Store staff details in session
+                $_SESSION['staff_id'] = $row['staff_id'];
+                $_SESSION['name'] = $row['name'];
+                $_SESSION['position'] = $row['position'];
+                $_SESSION['address'] = $row['address'];
+                $_SESSION['profile'] = $row['profile'];
+                $_SESSION['shift_type'] = $row['shift_type'];
+                $_SESSION['phone_number'] = $row['phone_number'];
+                $_SESSION['email'] = $email;
 
-            // Redirect to staff dashboard or home page
-            header("Location: ../staffs/home.php");
-            exit();
+                // Redirect to staff dashboard or home page
+                header("Location: ../staffs/home.php");
+                exit();
+            } else {
+                // Invalid credentials
+                echo "<script type='text/javascript'>alert('Invalid Email or Password!');
+                document.location='index.php'</script>";
+            }
         } else {
             // Invalid credentials
             echo "<script type='text/javascript'>alert('Invalid Email or Password!');

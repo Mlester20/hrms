@@ -1,3 +1,6 @@
+<?php
+require_once 'includes/flash.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +22,10 @@
                     <div class="card-body">
                         <h4 class="text-center mb-4">Register</h4>
                         
-                        <form action="controllers/register.php" method="POST">
+                        <!-- Flash Messages -->
+                        <?php showFlash(); ?>
+                        
+                        <form action="controllers/registerController.php" method="POST">
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="input-group">

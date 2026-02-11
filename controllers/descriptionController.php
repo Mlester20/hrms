@@ -1,101 +1,30 @@
 <?php
-session_start();
-include '../components/connection.php';
 
-/* =========================
-   ADD DESCRIPTION
-========================= */
-if (isset($_POST['save'])) {
+require_once '../components/connection.php';
+require_once '../models/descriptionModel.php';
 
-    $db = new Database();
-    $con = $db->getConnection();
-    $stmt = null;
+    /* =========================
+        GET DESCRIPTION
+    ========================= */
+    $descriptionModel = new descriptionModel();
+    $result = $descriptionModel->getAllDescriptions($con);
+    
 
-    try {
-        $description = isset($_POST['description'])
-            ? trim($_POST['description'])
-            : '';
+    /* =========================
+        UPDATE DESCRIPTION
+    ========================= */
+    if (isset($_POST['updateDescription'])) {
+        $description_id = $_POST['description_id'];
+        $description_name = $_POST['description_name'];
 
-        if (empty($description)) {
-            throw new Exception('Description cannot be empty.');
+        try {
+            $descriptionModel->updateDescription($con, $description_id, $description_name);
+            header('Location: ../admin/description.php?success=Description updated successfully');
+            exit();
+        } catch (Exception $e) {
+            header('Location: ../admin/description.php?error=' . urlencode($e->getMessage()));
+            exit();
         }
-
-        $stmt = $con->prepare(
-            "INSERT INTO description (description_name) VALUES (?)"
-        );
-
-        if (!$stmt) {
-            throw new Exception('Prepare failed: ' . $con->error);
-        }
-
-        $stmt->bind_param('s', $description);
-
-        if ($stmt->execute()) {
-            echo "<script>
-                alert('Description Added Successfully!');
-                window.location.href='../admin/description.php';
-            </script>";
-        } else {
-            throw new Exception('Execute failed: ' . $stmt->error);
-        }
-
-    } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage();
-    } finally {
-        if ($stmt) $stmt->close();
-        $db->closeConnection();
     }
-}
 
-
-/* =========================
-   UPDATE DESCRIPTION
-========================= */
-if (isset($_POST['updateDescription'])) {
-
-    $db = new Database();
-    $con = $db->getConnection();
-    $stmt = null;
-
-    try {
-        $id = isset($_POST['description_id'])
-            ? intval($_POST['description_id'])
-            : 0;
-
-        $description = isset($_POST['description_name'])
-            ? trim($_POST['description_name'])
-            : '';
-
-        if ($id <= 0 || empty($description)) {
-            throw new Exception('Invalid input.');
-        }
-
-        $stmt = $con->prepare(
-            "UPDATE description
-             SET description_name = ?
-             WHERE description_id = ?"
-        );
-
-        if (!$stmt) {
-            throw new Exception('Prepare failed: ' . $con->error);
-        }
-
-        $stmt->bind_param('si', $description, $id);
-
-        if ($stmt->execute()) {
-            echo "<script>
-                alert('Description Updated Successfully!');
-                window.location.href='../admin/description.php';
-            </script>";
-        } else {
-            throw new Exception('Execute failed: ' . $stmt->error);
-        }
-
-    } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage();
-    } finally {
-        if ($stmt) $stmt->close();
-        $db->closeConnection();
-    }
-}
 ?>

@@ -18,7 +18,7 @@
                         <h3>Quick Links</h3>
                         <ul class="footer-links">
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">Rooms</a></li>
+                            <li><a href="viewAllRooms.php">Rooms</a></li>
                             <li><a href="about.php">About Us</a></li>
                             <li><a href="contact.php">Contact</a></li>
                             <li><a href="#">Blog</a></li>

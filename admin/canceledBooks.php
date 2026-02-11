@@ -1,5 +1,8 @@
 <?php
-include_once '../controllers/canceledBooks.php';
+session_start();
+
+require_once '../components/connection.php';
+require_once '../controllers/canceledBooksController.php';
 
 //check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -20,6 +23,7 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="stylesheet" href="../css/app.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
@@ -42,7 +46,7 @@ if (!isset($_SESSION['user_id'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while($booking = mysqli_fetch_assoc($result)) { ?>
+                    <?php foreach ($canceledBookings as $booking) { ?>
                         <tr>
                             <td>#<?php echo $booking['booking_id']; ?></td>
                             <td><?php echo $booking['guest_name']; ?></td>
@@ -75,6 +79,5 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <!-- custom js scripts -->
     <script src="../js/notifications.js"></script>
-    <script src="../js/darkTheme.js"></script>
 </body>
 </html>

@@ -1,21 +1,39 @@
 <?php
 session_start();
-include '../components/config.php';
-include '../controllers/offersController.php';
 
-// Check if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
+require_once '../components/config.php';
+require_once '../controllers/offersController.php';
+require_once '../includes/flash.php';
+require_once '../middleware/auth.php';
+
+//call auth middleware
+requireAdmin();
+
+// Initialize controller
+$controller = new OffersController($con);
+
+// Process form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $result = $controller->processRequest($_POST, $_FILES);
+    
+    if ($result['success']) {
+        $_SESSION['success_message'] = $result['message'];
+    } else {
+        $_SESSION['error_message'] = $result['message'];
+    }
+    
+    // Redirect to avoid form resubmission
+    header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }
 
 // Get all offers
-$offers = getAllOffers($con);
+$offers = $controller->getAllOffers();
 
 // Get offer for editing if ID is provided
 $edit_offer = null;
 if (isset($_GET['edit']) && !empty($_GET['edit'])) {
-    $edit_offer = getOfferById($con, $_GET['edit']);
+    $edit_offer = $controller->getOfferById($_GET['edit']);
     if (!$edit_offer) {
         $_SESSION['error_message'] = "Offer not found!";
     }
@@ -35,6 +53,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/app.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     
@@ -53,16 +72,8 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
                 <i class="fas fa-plus"></i> Add New Offer
             </button>
         </div>
-        <!-- Display messages -->
-        <?php if (isset($_SESSION['success_message'])): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php 
-                    echo $_SESSION['success_message']; 
-                    unset($_SESSION['success_message']);
-                ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+        
+        <?php showFlash(); ?>
 
         <?php if (isset($_SESSION['error_message'])): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -129,7 +140,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                    <form action="../controllers/process_offer.php" method="post">
+                                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                                         <input type="hidden" name="action" value="delete">
                                                         <input type="hidden" name="offers_id" value="<?php echo $offer['offers_id']; ?>">
                                                         <button type="submit" class="btn btn-danger">Delete</button>
@@ -160,7 +171,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
                     <h5 class="modal-title" id="addOfferModalLabel">Add New Offer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="../controllers/process_offer.php" method="post" enctype="multipart/form-data">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <input type="hidden" name="action" value="add">
                         
@@ -203,7 +214,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
                     <h5 class="modal-title" id="editOfferModalLabel">Edit Offer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="../controllers/process_offer.php" method="post" enctype="multipart/form-data">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="offers_id" value="<?php echo $edit_offer['offers_id']; ?>">

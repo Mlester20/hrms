@@ -1,74 +1,38 @@
 <?php
-session_start();
+
 require_once '../components/config.php';
 require_once '../controllers/roomReservationsController.php';
+require_once '../includes/flash.php';
 
-$auto_completed = runAutoCompletionCheck($con);
-if ($auto_completed > 0) {
-    echo "<div class='alert alert-success'>
-        $auto_completed bookings were automatically completed.
-    </div>";
-}
-
+// Helper functions
 function getPaymentStatusColor($status) {
     switch ($status) {
         case 'unpaid':
-            return '#dc3545'; // red
+            return '#dc3545';
         case 'partially_paid':
-            return '#ffc107'; // yellow
+            return '#ffc107';
         case 'paid':
-            return '#28a745'; // green
+            return '#28a745';
         default:
-            return '#ffffff'; // white
+            return '#ffffff';
     }
 }
 
 function getStatusColor($status) {
     switch ($status) {
         case 'pending':
-            return '#ffc107'; // yellow
+            return '#ffc107';
         case 'confirmed':
-            return '#28a745'; // green
+            return '#28a745';
         case 'canceled':
-            return '#dc3545'; // red
+            return '#dc3545';
         case 'complete':
-            return '#0dcaf0'; // blue
+            return '#0dcaf0';
         default:
-            return '#ffffff'; // white
+            return '#ffffff';
     }
 }
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit;
-}
-
-// Get current page from URL parameter
-$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$current_page = max(1, $current_page); // Ensure page is at least 1
-
-// Fetch reservations with pagination
-$reservations_data = getReservations($con, $current_page, 5);
-$reservations = $reservations_data['data'];
-
-// Handle status updates
-if (isset($_POST['update_status'])) {
-    $booking_id = $_POST['booking_id'];
-    $new_status = $_POST['new_status'];
-    $type = $_POST['status_type'];
-    
-    if (updateBookingStatus($con, $booking_id, $new_status, $type)) {
-        $_SESSION['success'] = "Status updated successfully!";
-    } else {
-        $_SESSION['error'] = "Failed to update status!";
-    }
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit;
-}
-
-// Fetch reservations
-$reservations = getReservations($con);
 ?>
 
 <!DOCTYPE html>
@@ -83,6 +47,7 @@ $reservations = getReservations($con);
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .status-column {
             width: 140px;
@@ -106,25 +71,8 @@ $reservations = getReservations($con);
                 <div class="card shadow">
                     <h5 class="text-center mt-4">Room Reservations</h5>
                     <div class="card-body">
-                        <?php if (isset($_SESSION['success'])): ?>
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <?php 
-                                    echo $_SESSION['success'];
-                                    unset($_SESSION['success']);
-                                ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if (isset($_SESSION['error'])): ?>
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <?php 
-                                    echo $_SESSION['error'];
-                                    unset($_SESSION['error']);
-                                ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        <?php endif; ?>
+                        
+                        <?php showFlash(); ?>
 
                         <div class="table-responsive">
                             <table id="reservationsTable" class="table table-white">
@@ -302,70 +250,6 @@ $reservations = getReservations($con);
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="../js/notifications.js"></script>
     <script src="../js/searchGuess.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#reservationsTable').DataTable({
-                "paging": false,  // Disable DataTables pagination since we're using our own
-                "ordering": true,
-                "info": false,    // Disable DataTables info display since we're showing our own
-                "searching": true // Keep the search functionality
-            });
-        });
-
-        function getStatusColor(status) {
-            switch(status) {
-                case 'pending': return '#ffc107';
-                case 'confirmed': return '#28a745';
-                case 'canceled': return '#dc3545';
-                case 'cancelled': return '#dc3545';
-                case 'complete': return '#0dcaf0';
-                case 'completed': return '##141937';
-                default: return '#6c757d';
-            }
-        }
-
-        function getPaymentStatusColor(status) {
-            switch(status) {
-                case 'unpaid': return '#dc3545';
-                case 'partially_paid': return '#ffc107';
-                case 'paid': return '#28a745';
-                default: return '#6c757d';
-            }
-        }
-
-        function showDetails(data) {
-            // Populate guest information
-            document.getElementById('guestName').textContent = data.guest_name;
-            document.getElementById('guestEmail').textContent = data.guest_email;
-            
-            // Populate booking information
-            document.getElementById('bookingId').textContent = data.booking_id;
-            
-            // Set booking status badge
-            const bookingStatusBadge = document.getElementById('bookingStatus');
-            bookingStatusBadge.textContent = data.booking_status.charAt(0).toUpperCase() + data.booking_status.slice(1);
-            bookingStatusBadge.style.backgroundColor = getStatusColor(data.booking_status);
-            bookingStatusBadge.style.color = '#ffffff';
-            
-            // Populate room details
-            document.getElementById('roomTitle').textContent = data.room_title;
-            document.getElementById('roomType').textContent = data.room_type;
-            
-            // Populate dates
-            const checkInDate = new Date(data.check_in_date);
-            const checkOutDate = new Date(data.check_out_date);
-            document.getElementById('checkIn').textContent = checkInDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            document.getElementById('checkOut').textContent = checkOutDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-            
-            // Populate payment information
-            document.getElementById('totalPrice').textContent = '₱' + parseFloat(data.total_price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            
-            // Set payment status badge
-            const paymentStatusBadge = document.getElementById('paymentStatus');
-            paymentStatusBadge.textContent = data.payment_status === 'partially_paid' ? 'Partially Paid' : data.payment_status.charAt(0).toUpperCase() + data.payment_status.slice(1);
-            paymentStatusBadge.style.backgroundColor = getPaymentStatusColor(data.payment_status);
-            paymentStatusBadge.style.color = '#ffffff';
-        }
-    </script>
+    <script src="../js/room_reservations.js"></script>
 </body>
 </html>

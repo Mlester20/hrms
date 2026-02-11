@@ -1,22 +1,12 @@
 <?php
-session_start();
-include '../components/config.php';
 
-// Check if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
+require_once '../controllers/shiftsController.php';
+require_once '../middleware/auth.php';
+require_once '../includes/flash.php';
 
-// Fetch all shifts with staff details
-$query = "SELECT shifts.*, staffs.name, staffs.position 
-          FROM shifts 
-          INNER JOIN staffs ON shifts.staff_id = staffs.staff_id";
-$result = $con->query($query);
+requireAdmin();
 
-// Fetch all staff members for the dropdown
-$staffQuery = "SELECT staff_id, name FROM staffs";
-$staffResult = $con->query($staffQuery);
+
 ?>
 
 <!DOCTYPE html>
@@ -31,25 +21,12 @@ $staffResult = $con->query($staffQuery);
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/app.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
 
     <div class="container mt-4">
-        <!-- Display Success or Error Messages -->
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="text-center text-muted">Shifts</h3>
             <!-- Button to trigger Add Modal -->
@@ -57,6 +34,8 @@ $staffResult = $con->query($staffQuery);
                 <i class="fas fa-plus"></i> Add Shift
             </button>
         </div>
+
+        <?php showFlash(); ?>
 
         <!-- Shifts Table -->
         <table class="table table-bordered">
@@ -74,7 +53,7 @@ $staffResult = $con->query($staffQuery);
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
+                <?php foreach ($shifts as $row): ?>
                     <tr>
                         <td><?php echo $row['shift_id']; ?></td>
                         <td><?php echo htmlspecialchars($row['name']); ?></td>
@@ -148,7 +127,7 @@ $staffResult = $con->query($staffQuery);
                             </div>
                         </div>
                     </div>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
