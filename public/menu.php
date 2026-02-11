@@ -1,6 +1,6 @@
 <?php
-session_start();
 
+require_once '../controllers/menusController.php';
 require_once '../middleware/auth.php';
 requireLogin(); 
 
@@ -17,6 +17,7 @@ requireLogin();
     <link rel="stylesheet" href="../css/customAdminHeader.css">
     <link rel="stylesheet" href="../css/clientNavbar.css">
     <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/notifications.css">
 </head>
 <body>
     
@@ -24,5 +25,12 @@ requireLogin();
 
 
 
+
+    <!-- external js scripts -->
+    <script src="../js/orders.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </body>
 </html>

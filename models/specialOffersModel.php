@@ -11,78 +11,113 @@ class SpecialOffersModel {
      * Get all offers ordered by ID descending
      */
     public function getAllOffers() {
-        $query = "SELECT * FROM special_offers ORDER BY offers_id DESC";
-        $result = mysqli_query($this->con, $query);
-        $offers = [];
-        
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
+        try {
+            $query = "SELECT * FROM special_offers ORDER BY offers_id DESC";
+            $stmt = $this->con->prepare($query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $offers = [];
+            while ($row = $result->fetch_assoc()) {
                 $offers[] = $row;
             }
+            $stmt->close();
+            
+            return $offers;
+        } catch(Exception $e) {
+            throw new Exception("Error fetching offers: " . $e->getMessage());
         }
-        
-        return $offers;
     }
     
     /**
      * Get single offer by ID
      */
     public function getOfferById($id) {
-        $id = mysqli_real_escape_string($this->con, $id);
-        $query = "SELECT * FROM special_offers WHERE offers_id = '$id'";
-        $result = mysqli_query($this->con, $query);
-        
-        if (mysqli_num_rows($result) > 0) {
-            return mysqli_fetch_assoc($result);
+        try {
+            $query = "SELECT * FROM special_offers WHERE offers_id = ?";
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                $offer = $result->fetch_assoc();
+                $stmt->close();
+                return $offer;
+            }
+            
+            $stmt->close();
+            return null;
+        } catch(Exception $e) {
+            throw new Exception("Error fetching offer by ID: " . $e->getMessage());
         }
-        
-        return null;
     }
     
     /**
      * Insert new offer into database
      */
     public function insertOffer($title, $description, $image_name, $price) {
-        $title = mysqli_real_escape_string($this->con, $title);
-        $description = mysqli_real_escape_string($this->con, $description);
-        $price = mysqli_real_escape_string($this->con, $price);
-        $image_name = mysqli_real_escape_string($this->con, $image_name);
-        
-        $query = "INSERT INTO special_offers (title, description, image, price) 
-                  VALUES ('$title', '$description', '$image_name', '$price')";
-        
-        return mysqli_query($this->con, $query);
+        try {
+            $query = "INSERT INTO special_offers (title, description, image, price) 
+                      VALUES (?, ?, ?, ?)";
+            
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param("sssi", $title, $description, $image_name, $price);
+            
+            if ($stmt->execute()) {
+                $stmt->close();
+                return true;
+            }
+            throw new Exception("Failed to execute query");
+        } catch(Exception $e) {
+            throw new Exception("Error inserting offer: " . $e->getMessage());
+        }
     }
     
     /**
      * Update existing offer in database
      */
     public function updateOfferData($id, $title, $description, $image_name, $price) {
-        $id = mysqli_real_escape_string($this->con, $id);
-        $title = mysqli_real_escape_string($this->con, $title);
-        $description = mysqli_real_escape_string($this->con, $description);
-        $price = mysqli_real_escape_string($this->con, $price);
-        $image_name = mysqli_real_escape_string($this->con, $image_name);
-        
-        $query = "UPDATE special_offers 
-                  SET title='$title', description='$description', image='$image_name', price='$price' 
-                  WHERE offers_id='$id'";
-        
-        return mysqli_query($this->con, $query);
+        try {
+            $query = "UPDATE special_offers 
+                      SET title = ?, description = ?, image = ?, price = ? 
+                      WHERE offers_id = ?";
+            
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param("sssii", $title, $description, $image_name, $price, $id);
+            
+            if ($stmt->execute()) {
+                $stmt->close();
+                return true;
+            }
+            throw new Exception("Failed to execute query");
+        } catch(Exception $e) {
+            throw new Exception("Error updating offer: " . $e->getMessage());
+        }
     }
     
     /**
      * Delete offer from database
      */
     public function deleteOfferData($id) {
-        $id = mysqli_real_escape_string($this->con, $id);
-        $query = "DELETE FROM special_offers WHERE offers_id = '$id'";
-        
-        return mysqli_query($this->con, $query);
+        try {
+            $query = "DELETE FROM special_offers WHERE offers_id = ?";
+            
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param("i", $id);
+            
+            if ($stmt->execute()) {
+                $stmt->close();
+                return true;
+            }
+            throw new Exception("Failed to execute query");
+        } catch(Exception $e) {
+            throw new Exception("Error deleting offer: " . $e->getMessage());
+        }
     }
     
     /**
-     * Get database error message
+     * Get database error message (deprecated - use exceptions instead)
      */
     public function getError() {
         return mysqli_error($this->con);

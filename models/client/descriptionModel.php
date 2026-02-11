@@ -11,17 +11,20 @@ class DescriptionModel
 
     public function getDescriptions()
     {
-        $query = "SELECT description_id, description_name FROM description";
-        $result = mysqli_query($this->con, $query);
+        try{
+            $query = "SELECT description_id, description_name FROM description";
+            $result = mysqli_query($this->con, $query);
 
-        $descriptions = [];
+            $descriptions = [];
 
-        if ($result) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $descriptions[] = $row;
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $descriptions[] = $row;
+                }
             }
+            return $descriptions;
+        }catch(Exception $e){
+            throw new Exception("Error getting Descriptions ". $e->getMessage(), 500);
         }
-
-        return $descriptions;
     }
 }

@@ -750,3 +750,50 @@ h1, h2, h3, h4, h5, h6 {
         margin-bottom: 40px;
     }
 }
+
+/* ===== POS SPLIT SCREEN LAYOUT ===== */
+
+body {
+    margin: 0;
+}
+
+/* Main wrapper */
+.pos-wrapper {
+    display: flex;
+    height: calc(100vh - 90px); /* adjust if header height differs */
+}
+
+/* LEFT SIDE - MENU */
+.pos-left {
+    flex: 2;
+    padding: 30px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+}
+
+/* RIGHT SIDE - CART */
+.pos-right {
+    flex: 1;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+    background-color: #ffffff;
+    display: flex;
+}
+
+/* Cart card full height */
+.cart-sticky {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scroll only cart items */
+#cartItems {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Optional: make menu cards cleaner */
+.card {
+    border-radius: 12px;
+}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2026 at 04:42 PM
+-- Generation Time: Feb 11, 2026 at 04:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -244,8 +244,8 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`menu_id`, `menu_name`, `category`, `price`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(2, 'Crispy Garlic Shrimp', 'appetizer', 320.00, 'Lightly battered shrimp fried until golden and tossed in garlic butter.', 'available', '2026-01-28 07:39:56', '2026-01-28 07:39:56'),
-(3, 'Pizza', 'main', 1500.00, 'Test', 'available', '2026-01-28 08:08:13', '2026-01-28 08:08:28');
+(3, 'Pizza', 'main', 1500.00, 'Hand-crafted pizza with slow-cooked tomato sauce, premium mozzarella, at aromatic herbs', 'available', '2026-01-28 08:08:13', '2026-02-09 07:05:17'),
+(4, 'Test Menu', 'appetizer', 1500.00, 'fasd', 'available', '2026-02-11 05:10:06', '2026-02-11 05:10:06');
 
 -- --------------------------------------------------------
 
@@ -287,6 +287,64 @@ INSERT INTO `notifications` (`notification_id`, `user_id`, `booking_id`, `title`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `room_number` varchar(10) NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `order_status` enum('pending','preparing','ready','delivered','cancelled') DEFAULT 'pending',
+  `payment_status` enum('unpaid','paid') DEFAULT 'unpaid',
+  `payment_method` varchar(50) NOT NULL,
+  `special_instructions` text DEFAULT NULL,
+  `ordered_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `delivered_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `room_number`, `total_amount`, `order_status`, `payment_status`, `payment_method`, `special_instructions`, `ordered_at`, `delivered_at`) VALUES
+(22, 15, '201', 1500.00, 'ready', 'unpaid', 'pay_on_delivery', NULL, '2026-02-11 14:40:28', NULL),
+(23, 15, '201', 1500.00, 'ready', 'unpaid', 'pay_on_delivery', NULL, '2026-02-11 14:43:01', NULL),
+(24, 15, '12', 1500.00, 'ready', 'unpaid', 'pay_on_delivery', '', '2026-02-11 14:44:02', NULL),
+(25, 15, '12', 1500.00, 'ready', 'unpaid', 'pay_on_delivery', '', '2026-02-11 15:29:05', NULL),
+(26, 15, '10', 3000.00, 'cancelled', 'unpaid', 'pay_on_delivery', '', '2026-02-11 15:36:39', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `order_item_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `subtotal` decimal(10,2) NOT NULL,
+  `notes` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `menu_id`, `quantity`, `price`, `subtotal`, `notes`) VALUES
+(18, 22, 3, 1, 1500.00, 1500.00, NULL),
+(19, 23, 4, 1, 1500.00, 1500.00, NULL),
+(20, 24, 4, 1, 1500.00, 1500.00, NULL),
+(21, 25, 3, 1, 1500.00, 1500.00, NULL),
+(22, 26, 3, 1, 1500.00, 1500.00, NULL),
+(23, 26, 4, 1, 1500.00, 1500.00, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `restaurant_auth`
 --
 
@@ -306,7 +364,8 @@ CREATE TABLE `restaurant_auth` (
 INSERT INTO `restaurant_auth` (`user_id`, `name`, `email`, `password`, `role`, `created_at`) VALUES
 (1, 'Mark Lester', 'user@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'staff', '0000-00-00'),
 (3, 'admin', 'admin@gmail.com', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin', '0000-00-00'),
-(4, 'Cashier', 'cashier@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'cashier', '2025-11-27');
+(4, 'Cashier', 'cashier@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'cashier', '2025-11-27'),
+(5, 'adas', 'cashier1@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'cashier', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -357,7 +416,7 @@ INSERT INTO `restaurant_tables` (`table_id`, `table_number`, `capacity`, `positi
 (4, 4, 4, 350, 100, 'Center'),
 (5, 5, 2, 450, 100, 'Window'),
 (6, 6, 10, 550, 100, 'Center'),
-(7, 7, 5, 650, 100, 'Corners');
+(17, 7, 5, 650, 100, 'Window');
 
 -- --------------------------------------------------------
 
@@ -394,7 +453,7 @@ CREATE TABLE `rooms` (
 
 INSERT INTO `rooms` (`id`, `title`, `room_type_id`, `images`, `price`, `includes`) VALUES
 (13, 'Room 10', 6, '[\"room_69835fdb696984.19123526.jpg\"]', '2500', 'Free Wifi'),
-(14, 'Room 3', 5, '[\"room_6971be6de54485.80918773.jpg\",\"room_6971be6de5a178.37352919.jpg\",\"room_6971be6de5e9a6.66284070.jpg\"]', '1500', 'Free Wifi'),
+(14, 'Room 3', 5, '[\"room_69858a25b9b2a2.98859330.jpg\"]', '1500', 'Free Wifi'),
 (16, 'Room 1', 5, '[\"room_69835e5db187b5.12197900.jpg\"]', '1500', 'Free Wifi');
 
 -- --------------------------------------------------------
@@ -461,8 +520,8 @@ CREATE TABLE `special_offers` (
 
 INSERT INTO `special_offers` (`offers_id`, `title`, `description`, `image`, `price`) VALUES
 (1, 'Date Night Package', 'Romantic dinner for two featuring a 3-course meal with wine pairing. Perfect for anniversaries and special celebrations.', '1746612490_restaurant.jpg', '2000'),
-(2, 'Test Edit Function', 'Quick and delicious 2-course business lunch with coffee. Available Monday to Friday from 12:00 PM to 2:00 PM.\r\n\r\n', '1768981339_Screenshot 2026-01-05 122056.png', '5000'),
-(5, 'Test Edit function', 'Test', '1769062263_room1.jpg', '5000');
+(2, 'Lunch', 'Quick and delicious 2-course business lunch with coffee. Available Monday to Friday from 12:00 PM to 2:00 PM.\r\n\r\n', '1770301994_room1.jpg', '5000'),
+(5, 'Date Night for Valentine\'s Day', 'Romantic dinner for two featuring a 3-course meal with wine pairing. Perfect for Valentine\'s Day and special celebrations.', '1769062263_room1.jpg', '5000');
 
 -- --------------------------------------------------------
 
@@ -505,6 +564,13 @@ CREATE TABLE `table_reservations` (
   `status` enum('pending','done','cancelled','confirmed') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `table_reservations`
+--
+
+INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_date`, `time_slot`, `guest_count`, `special_requests`, `user_id`, `status`) VALUES
+(47, 17, '2026-02-06', '07:00:00', 5, '', 15, 'pending');
+
 -- --------------------------------------------------------
 
 --
@@ -543,7 +609,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `address`, `email`, `password`, `role`, `phone`) VALUES
-(12, 'admin', 'Rizal, Roxas', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'admin', NULL),
+(12, 'admin', 'Rizal, Roxas', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'admin', '639360991034'),
 (14, 'Armando Raguindin', 'Roxas, Isabela', 'raguindin.armando@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'user', '09360991034'),
 (15, 'Mark Lester', 'Roxas, Isabela', 'raguindin.lester20@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'user', '09360991034'),
 (16, 'Armando Raguindin', 'Roxas, Isabela', 'armando@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'user', '09360991034');
@@ -617,6 +683,21 @@ ALTER TABLE `notifications`
   ADD KEY `idx_user_id` (`user_id`),
   ADD KEY `idx_booking_id` (`booking_id`),
   ADD KEY `idx_is_read` (`is_read`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`order_item_id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `menu_id` (`menu_id`);
 
 --
 -- Indexes for table `restaurant_auth`
@@ -744,7 +825,7 @@ ALTER TABLE `description`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -753,22 +834,34 @@ ALTER TABLE `notifications`
   MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
 -- AUTO_INCREMENT for table `restaurant_auth`
 --
 ALTER TABLE `restaurant_auth`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `restaurant_menu`
 --
 ALTER TABLE `restaurant_menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `restaurant_tables`
 --
 ALTER TABLE `restaurant_tables`
-  MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -798,7 +891,7 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT for table `special_offers`
 --
 ALTER TABLE `special_offers`
-  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `staffs`
@@ -810,7 +903,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `table_reservations`
 --
 ALTER TABLE `table_reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `tasks`
@@ -853,6 +946,19 @@ ALTER TABLE `concerns`
 ALTER TABLE `notifications`
   ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`menu_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `reviews`
