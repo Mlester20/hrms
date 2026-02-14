@@ -1,6 +1,6 @@
 <?php
 require_once '../controllers/roomsController.php';
-require_once '../middleware/auth.php';
+require_once '../middleware/authMiddleware.php';
 require_once '../includes/flash.php';
 
 requireAdmin();

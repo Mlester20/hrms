@@ -13,9 +13,17 @@ class staffsModel {
      */
     public function getAllStaffs() {
         try {
-            $query = "SELECT * FROM staffs";
-            $result = $this->con->query($query);
-            return $result;
+            $query = "SELECT * FROM staffs ORDER BY staff_id DESC";
+            $stmt = $this->con->prepare($query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $staffs = [];
+            while($row = mysqli_fetch_assoc($result)){
+                $staffs[] = $row;
+            }
+            return $staffs;
+            $stmt->close();
         } catch(Exception $e) {
             throw new Exception("Error fetching staffs: " . $e->getMessage());
         }

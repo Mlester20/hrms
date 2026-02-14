@@ -3,12 +3,8 @@ session_start();
 
 require_once '../components/connection.php';
 require_once '../controllers/canceledBooksController.php';
-
-//check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
+require_once '../middleware/authMiddleware.php';
+requireAdmin();
 ?>
 
 <!DOCTYPE html>

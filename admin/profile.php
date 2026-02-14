@@ -4,8 +4,8 @@ session_start();
 require_once '../includes/flash.php';
 require_once '../components/connection.php';
 require_once '../models/profileModel.php';
-require_once '../middleware/auth.php';
-
+require_once '../middleware/authMiddleware.php';
+requireAdmin();
 
 $profileModel = new profileModel();
 $user_id = $_SESSION['user_id'];

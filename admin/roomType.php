@@ -1,14 +1,10 @@
 <?php
-require_once '../includes/flash.php';
 
+require_once '../includes/flash.php';
 require_once '../components/connection.php';
 require_once '../controllers/roomTypeController.php';
-
-// Check if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
+require_once '../middleware/authMiddleware.php';
+requireAdmin();
 
 ?>
 

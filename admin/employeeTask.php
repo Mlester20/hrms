@@ -2,12 +2,8 @@
 session_start();
 
 require_once '../controllers/taskController.php';
+require_once '../middleware/authMiddleware.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
