@@ -4,8 +4,9 @@ session_start();
 require_once '../components/config.php';
 require_once '../models/staffsModel.php';
 require_once '../includes/flash.php';
-// Initialize the model
+
 $staffsModel = new staffsModel($con);
+$staffs =$staffsModel->getAllStaffs($con);
 
 // Handle Add Staff
 if (isset($_POST['addStaff'])) {

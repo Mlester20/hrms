@@ -1,13 +1,11 @@
 <?php
-session_start();
 
 require_once '../components/connection.php';
 require_once '../includes/flash.php';
-require_once '../models/staffsModel.php';
+require_once '../controllers/staffsController.php';
+require_once '../middleware/authMiddleware.php';
+requireAdmin();
 
-// Initialize the model and fetch all staffs
-$staffsModel = new staffsModel($con);
-$result = $staffsModel->getAllStaffs();
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +58,7 @@ $result = $staffsModel->getAllStaffs();
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
+                <?php foreach($staffs as $row): ?>
                     <tr>
                         <td><?php echo $row['staff_id']; ?></td>
                         <td><?php echo htmlspecialchars($row['name']); ?></td>
@@ -135,7 +133,7 @@ $result = $staffsModel->getAllStaffs();
                             </div>
                         </div>
                     </div>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

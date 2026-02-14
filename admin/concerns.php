@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-include '../controllers/concernsController.php';
+require_once '../controllers/concernsController.php';
+require_once '../middleware/authMiddleware.php';
 
 ?>
 

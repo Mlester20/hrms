@@ -3,9 +3,7 @@ session_start();
 
 require_once '../components/connection.php';
 require_once '../controllers/dashboardController.php';
-require_once '../middleware/auth.php';
-require_once '../includes/flash.php';
-
+require_once '../middleware/authMiddleware.php';
 requireAdmin();
 ?>
 
@@ -26,8 +24,6 @@ requireAdmin();
 <body>
 
     <?php require_once '../components/header_admin.php'; ?>
-    
-    <?php showFlash(); ?>
 
     <div class="container-fluid main-content">
         <!-- Header Section -->

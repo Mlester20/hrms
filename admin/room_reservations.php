@@ -3,6 +3,8 @@
 require_once '../components/config.php';
 require_once '../controllers/roomReservationsController.php';
 require_once '../includes/flash.php';
+require_once '../middleware/authMiddleware.php';
+requireAdmin();
 
 // Helper functions
 function getPaymentStatusColor($status) {

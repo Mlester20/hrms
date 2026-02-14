@@ -75,7 +75,7 @@ function createMenuCard(item) {
                 <p class="card-text flex-grow-1">${item.menu_description}</p>
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <span class="menu-price">₱${parseFloat(item.price).toFixed(2)}</span>
-                    <a href="../public/order.php" class="btn btn-sm btn-outline-primary">
+                    <a href="../views/order.php" class="btn btn-sm btn-outline-primary">
                         <i class="fas fa-burger me-1"></i> Order Now
                     </a>
                 </div>

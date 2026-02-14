@@ -3,12 +3,8 @@ session_start();
 
 include '../components/connection.php';
 include '../controllers/usersController.php';
-
-// Throws a 401 if the user is not admin
-if(!isset($_SESSION['user_id'])){
-    header('Location: ../index.php');
-    exit();
-}
+require_once '../middleware/authMiddleware.php';
+requireAdmin();
 
 ?>
 

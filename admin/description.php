@@ -2,12 +2,7 @@
 session_start();
 
 require '../controllers/descriptionController.php';
-
-// Check if admin is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}       
+require_once '../middleware/authMiddleware.php';
 
 ?>
 
