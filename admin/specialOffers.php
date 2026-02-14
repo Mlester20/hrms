@@ -4,7 +4,7 @@ session_start();
 require_once '../components/config.php';
 require_once '../controllers/offersController.php';
 require_once '../includes/flash.php';
-require_once '../middleware/auth.php';
+require_once '../middleware/authMiddleware.php';
 
 //call auth middleware
 requireAdmin();

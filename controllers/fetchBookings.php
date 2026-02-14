@@ -33,7 +33,7 @@ $user_id = $_SESSION['user_id'];
             
             mysqli_stmt_close($cancel_stmt);
 
-            header('location: ../public/bookings.php');
+            header('location: ../views/bookings.php');
             exit();
         }
 

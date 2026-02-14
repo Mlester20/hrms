@@ -2,8 +2,7 @@
 
 require_once '../controllers/restaurantMenuController.php';
 require_once '../includes/flash.php';
-require_once '../middleware/auth.php';
-
+require_once '../middleware/authMiddleware.php';
 requireAdmin();
 
 $error = null;

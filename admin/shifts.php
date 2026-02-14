@@ -1,9 +1,8 @@
 <?php
 
 require_once '../controllers/shiftsController.php';
-require_once '../middleware/auth.php';
 require_once '../includes/flash.php';
-
+require_once '../middleware/authMiddleware.php';
 requireAdmin();
 
 

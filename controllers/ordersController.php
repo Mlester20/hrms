@@ -23,14 +23,14 @@ if(isset($_POST['create_order'])) {
     // Validate cart
     if(empty($cart_items)) {
         setFlash("error", "Cart is empty!");
-        header("Location: ../public/order.php");
+        header("Location: ../views/order.php");
         exit();
     }
     
     // Validate payment method
     if(empty($payment_method)) {
         setFlash("error", "Please select a payment method!");
-        header("Location: ../public/order.php");
+        header("Location: ../views/order.php");
         exit();
     }
     
@@ -60,7 +60,7 @@ if(isset($_POST['create_order'])) {
         setFlash("success", "Order placed successfully!");
         
         ob_end_clean();
-        header("location: ../public/order.php"); // ✅ Redirect to orders page
+        header("location: ../views/order.php"); // ✅ Redirect to orders page
         exit();
         
     } catch(Exception $e) {
@@ -68,7 +68,7 @@ if(isset($_POST['create_order'])) {
         setFlash("error", $e->getMessage());
         
         ob_end_clean();
-        header("Location: ../public/order.php");
+        header("Location: ../views/order.php");
         exit();
     }
 }

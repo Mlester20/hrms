@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/flash.php';
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +16,7 @@ require_once 'includes/flash.php';
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/app.css">
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
     <style>
         body {
             background: var(--bg-primary);
@@ -51,6 +53,8 @@ require_once 'includes/flash.php';
         </div>
     </nav>
 
+    <?php showFlash(); ?>
+
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
             <div class="col-md-4">
@@ -62,8 +66,6 @@ require_once 'includes/flash.php';
                             <hr>
                         </div>
                         
-                        <?php showFlash(); ?>
-
                         <form action="controllers/auth.php" method="POST">
 
                         <div class="text-center my-3">                            
