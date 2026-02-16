@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2026 at 04:37 PM
+-- Generation Time: Feb 16, 2026 at 07:30 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -90,7 +90,9 @@ CREATE TABLE `bookings` (
 
 INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `is_read`, `created_at`, `updated_at`) VALUES
 (64, 15, 16, '2026-02-04', '2026-02-05', 1500.00, 'completed', 'paid', '', 1, '2026-02-04 14:54:28', '2026-02-04 15:40:25'),
-(65, 15, 13, '2026-02-09', '2026-02-10', 2500.00, 'completed', 'paid', '', 1, '2026-02-04 15:22:30', '2026-02-04 15:40:22');
+(65, 15, 13, '2026-02-09', '2026-02-10', 2500.00, 'completed', 'paid', '', 1, '2026-02-04 15:22:30', '2026-02-04 15:40:22'),
+(66, 15, 13, '2026-02-14', '2026-02-15', 2500.00, 'completed', 'paid', '', 1, '2026-02-14 03:54:25', '2026-02-16 05:46:58'),
+(67, 15, 13, '2026-02-16', '2026-02-17', 2500.00, 'confirmed', '', '', 1, '2026-02-16 05:46:34', '2026-02-16 05:47:06');
 
 --
 -- Triggers `bookings`
@@ -233,6 +235,7 @@ CREATE TABLE `menus` (
   `menu_name` varchar(150) NOT NULL,
   `category` varchar(100) NOT NULL,
   `price` decimal(10,2) NOT NULL,
+  `product_image` varchar(250) NOT NULL,
   `description` text DEFAULT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -243,9 +246,8 @@ CREATE TABLE `menus` (
 -- Dumping data for table `menus`
 --
 
-INSERT INTO `menus` (`menu_id`, `menu_name`, `category`, `price`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'Pizza', 'main', 1500.00, 'Hand-crafted pizza with slow-cooked tomato sauce, premium mozzarella, at aromatic herbs', 'available', '2026-01-28 08:08:13', '2026-02-09 07:05:17'),
-(4, 'Test Menu', 'appetizer', 1500.00, 'fasd', 'available', '2026-02-11 05:10:06', '2026-02-11 05:10:06');
+INSERT INTO `menus` (`menu_id`, `menu_name`, `category`, `price`, `product_image`, `description`, `status`, `created_at`, `updated_at`) VALUES
+(8, 'Pizza', 'appetizer', 400.00, 'menu_6992b29beafb0_1771221659.webp', 'Hawaiian pizza', 'available', '2026-02-16 06:00:59', '2026-02-16 06:01:21');
 
 -- --------------------------------------------------------
 
@@ -282,7 +284,12 @@ INSERT INTO `notifications` (`notification_id`, `user_id`, `booking_id`, `title`
 (128, 15, 65, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 13 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:22', '2026-02-04 15:40:37'),
 (129, 15, 65, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 10 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:22', '2026-02-04 15:40:37'),
 (130, 15, 64, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 16 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:25', '2026-02-04 15:40:37'),
-(131, 15, 64, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 1 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:25', '2026-02-04 15:40:37');
+(131, 15, 64, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 1 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:25', '2026-02-04 15:40:37'),
+(132, 15, 66, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 13 from February 14, 2026 to February 15, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-02-14 08:18:49', '2026-02-14 08:38:06'),
+(133, 15, 66, 'Payment Received! ?', 'We have received your full payment of ₱2,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2026-02-14 08:19:00', '2026-02-14 08:38:06'),
+(134, 15, 66, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 13 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-16 05:46:58', '2026-02-16 05:52:21'),
+(135, 15, 66, 'Stay Completed - Thank You! ????', 'Thank you for staying with us! Your booking for Room 10 (from February 14, 2026 to February 15, 2026) has been automatically completed. We hope you had a wonderful experience and look forward to welcoming you back soon!', '', 1, '2026-02-16 05:46:58', '2026-02-16 05:53:11'),
+(136, 15, 67, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 13 from February 16, 2026 to February 17, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-02-16 05:47:06', '2026-02-16 05:53:11');
 
 -- --------------------------------------------------------
 
@@ -308,11 +315,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_id`, `room_number`, `total_amount`, `order_status`, `payment_status`, `payment_method`, `special_instructions`, `ordered_at`, `delivered_at`) VALUES
-(22, 15, '201', 1500.00, 'ready', 'unpaid', 'pay_on_delivery', NULL, '2026-02-11 14:40:28', NULL),
-(23, 15, '201', 1500.00, 'ready', 'unpaid', 'pay_on_delivery', NULL, '2026-02-11 14:43:01', NULL),
-(24, 15, '12', 1500.00, 'ready', 'unpaid', 'pay_on_delivery', '', '2026-02-11 14:44:02', NULL),
-(25, 15, '12', 1500.00, 'ready', 'unpaid', 'pay_on_delivery', '', '2026-02-11 15:29:05', NULL),
-(26, 15, '10', 3000.00, 'cancelled', 'unpaid', 'pay_on_delivery', '', '2026-02-11 15:36:39', NULL);
+(28, 15, '10', 400.00, 'pending', 'unpaid', 'pay_on_delivery', '', '2026-02-16 06:29:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -335,12 +338,7 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`order_item_id`, `order_id`, `menu_id`, `quantity`, `price`, `subtotal`, `notes`) VALUES
-(18, 22, 3, 1, 1500.00, 1500.00, NULL),
-(19, 23, 4, 1, 1500.00, 1500.00, NULL),
-(20, 24, 4, 1, 1500.00, 1500.00, NULL),
-(21, 25, 3, 1, 1500.00, 1500.00, NULL),
-(22, 26, 3, 1, 1500.00, 1500.00, NULL),
-(23, 26, 4, 1, 1500.00, 1500.00, NULL);
+(25, 28, 8, 1, 400.00, 400.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -364,7 +362,7 @@ CREATE TABLE `restaurant_auth` (
 INSERT INTO `restaurant_auth` (`user_id`, `name`, `email`, `password`, `role`, `created_at`) VALUES
 (1, 'Mark Lester', 'user@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'staff', '0000-00-00'),
 (3, 'admin', 'admin@gmail.com', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin', '0000-00-00'),
-(4, 'Cashier', 'cashier@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'cashier', '2025-11-27'),
+(4, 'Mark Lester Raguindin', 'cashier@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'cashier', '2025-11-27'),
 (5, 'adas', 'cashier1@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'cashier', '0000-00-00');
 
 -- --------------------------------------------------------
@@ -380,15 +378,6 @@ CREATE TABLE `restaurant_menu` (
   `image` varchar(500) NOT NULL,
   `price` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `restaurant_menu`
---
-
-INSERT INTO `restaurant_menu` (`menu_id`, `menu_name`, `menu_description`, `image`, `price`) VALUES
-(9, 'Pizza', 'Good 2-4 persons', '6820ad1831b26.jpg', 2500),
-(10, 'Pizza', 'Pizza Burger', '68286635d44d8.jpg', 1500),
-(11, 'Pizza', '4 Slices Pizza', '682866d1485b8.jpg', 500);
 
 -- --------------------------------------------------------
 
@@ -569,7 +558,9 @@ CREATE TABLE `table_reservations` (
 --
 
 INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_date`, `time_slot`, `guest_count`, `special_requests`, `user_id`, `status`) VALUES
-(47, 17, '2026-02-06', '07:00:00', 5, '', 15, 'pending');
+(47, 17, '2026-02-06', '07:00:00', 5, '', 15, 'pending'),
+(48, 4, '2026-02-14', '12:00:00', 4, '', 15, 'pending'),
+(49, 3, '2026-02-15', '12:00:00', 6, '', 15, 'pending');
 
 -- --------------------------------------------------------
 
@@ -807,7 +798,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -825,25 +816,25 @@ ALTER TABLE `description`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `restaurant_auth`
@@ -903,7 +894,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `table_reservations`
 --
 ALTER TABLE `table_reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `tasks`
