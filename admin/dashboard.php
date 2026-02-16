@@ -32,7 +32,7 @@ requireAdmin();
                 <h2 class="mb-1">Dashboard Analytics</h2>
                 <p class="text-secondary mb-0">Welcome back! Here's what's happening today.</p>
             </div>
-            <button class="btn btn-generate">
+            <button class="btn btn-generate" onclick="downloadReport()">
                 <i class="fas fa-download me-2"></i>Generate Report
             </button>
         </div>

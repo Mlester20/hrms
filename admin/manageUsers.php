@@ -47,7 +47,7 @@ requireAdmin();
             <div class="col-12">
                 <div class="card">
                     <div class="card-header text-white">
-                        <h4 class="mb-0 text-center">Manage Users</h4>
+                        <h4 class="mb-0 text-center">Users</h4>
                     </div>
                     <div class="card-body">
                         <?php if(count($users) > 0): ?>

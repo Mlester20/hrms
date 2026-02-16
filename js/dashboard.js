@@ -45,15 +45,51 @@ function animateCard(card) {
     }, 100);
 }
 
+// Updated setTimeFilter with dynamic data fetching
 function setTimeFilter(btn, period) {
-    document
-        .querySelectorAll('.filter-btn')
+    // Remove active class from all buttons
+    const parentFilters = btn.parentElement;
+    parentFilters.querySelectorAll('.filter-btn')
         .forEach(b => b.classList.remove('active'));
 
+    // Add active class to clicked button
     btn.classList.add('active');
 
-    // Add your filter logic here
-    console.log('Filter set to:', period);
+    // Show loading state
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+    // Fetch new revenue data
+    fetch(`../api/getRevenueData.php?period=${period}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update chart data
+                revenueChart.data.labels = data.labels;
+                revenueChart.data.datasets[0].data = data.data;
+                revenueChart.update('active');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error || 'Failed to load revenue data'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching revenue data:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Connection Error',
+                text: 'Failed to fetch revenue data. Please try again.'
+            });
+        })
+        .finally(() => {
+            // Restore button state
+            btn.disabled = false;
+            btn.textContent = originalText;
+        });
 }
 
 // Chart Data (these must be defined globally via PHP before this file loads)
@@ -262,3 +298,37 @@ window.addEventListener('resize', function () {
     bookingsChart.resize();
     revenueChart.resize();
 });
+
+// Generate and download report
+function downloadReport() {
+    Swal.fire({
+        title: 'Generating Report',
+        html: 'Please wait while we prepare your report...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    // Create a hidden iframe to trigger download
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = '../api/generateReport.php';
+    document.body.appendChild(iframe);
+
+    // Close loading after 2 seconds
+    setTimeout(() => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Report Generated!',
+            text: 'Your report is downloading now.',
+            timer: 2000,
+            showConfirmButton: false
+        });
+        
+        // Remove iframe after download
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+        }, 3000);
+    }, 2000);
+}
