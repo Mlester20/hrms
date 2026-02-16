@@ -2,7 +2,7 @@
 
 require_once '../components/connection.php';
 require_once '../controllers/tablesReservationController.php';
-require_once '../middleware/auth.php';
+require_once '../middleware/authMiddleware.php';
 
 requireAdmin(); // Ensure the user is an admin
 
