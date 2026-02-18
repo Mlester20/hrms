@@ -32,8 +32,8 @@
                         <i class="fas fa-book"></i> My Reservations
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
-                        <li><a class="dropdown-item" href="bookings.php"><i class="fas fa-bed"></i> Room Bookings</a></li>
-                        <li><a class="dropdown-item" href="tableBookings.php"><i class="fas fa-table"></i> Table Bookings</a></li>
+                        <li><a class="dropdown-item" href="bookings.php"><i class="fas fa-bed"></i> Room Reservations</a></li>
+                        <li><a class="dropdown-item" href="tableBookings.php"><i class="fas fa-table"></i> Table Reservations</a></li>
                         <!-- <li><a class="dropdown-item" href="#">Cancelled Bookings</a></li> -->
                     </ul>
                 </li>

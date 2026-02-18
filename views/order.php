@@ -49,7 +49,6 @@ requireLogin();
     <?php require_once '../components/header.php'; ?>
 
     <div class="pos-wrapper">
-
         <!-- LEFT SIDE -->
         <div class="pos-left">
 
@@ -83,10 +82,10 @@ requireLogin();
                                 <?= htmlspecialchars($menu['menu_name']) ?>
                             </h5>
 
-                            <p class="text-muted small">
+                            <!-- <p class="text-muted small">
                                 <i class="fas fa-tag"></i>
                                 <?= ucfirst(htmlspecialchars($menu['category'])) ?>
-                            </p>
+                            </p> -->
 
                             <?php if (!empty($menu['description'])): ?>
                             <!-- <p class="text-muted small mb-2">

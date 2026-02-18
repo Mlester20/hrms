@@ -1,5 +1,6 @@
 <?php
-// Turn on error reporting but don't display errors directly
+
+
 ini_set('display_errors', 0); 
 ini_set('log_errors', 1);
 error_reporting(E_ALL);

@@ -1,5 +1,6 @@
 <?php
 
+require_once '../controllers/checkAvailability.php';
 require_once '../controllers/fetchDescription.php';
 require_once '../controllers/fetchSpecialOffers.php';
 require_once '../middleware/authMiddleware.php';
@@ -56,15 +57,6 @@ requireLogin();
                             }
                             ?>
                         </p>
-                        <!-- <div class="ceo-signature">
-                            <div class="ceo-img">
-                                <img src="../images/me.jpg" alt="CEO">
-                            </div>
-                            <div class="signature-details">
-                                <h4>Mark Lester Raguindin</h4>
-                                <p>Ceo</p>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
                 <div class="col-lg-6">
