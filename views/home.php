@@ -1,6 +1,6 @@
 <?php
 
-require_once '../controllers/checkAvailability.php';
+require '../controllers/checkAvailability.php';
 require_once '../controllers/fetchDescription.php';
 require_once '../controllers/fetchSpecialOffers.php';
 require_once '../middleware/authMiddleware.php';
@@ -13,7 +13,7 @@ requireLogin();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Home | <?php include '../components/title.php'; ?> </title>
+    <title> Home | <?php include '../includes/title.php'; ?> </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/customAdminHeader.css">
@@ -69,6 +69,8 @@ requireLogin();
             </div>
         </div>
     </section>
+
+    <?php require_once '../components/checkAvailability.php'; ?>
 
 
     <!-- Restaurant Section -->
@@ -238,7 +240,7 @@ requireLogin();
     <div class="container my-5">
         <div class="row mb-4">
             <div class="col-12 text-center">
-                <h1 class="card-title text-center text-muted">Our Delicious Menu</h1>
+                <h1 class="text-center text-muted">Our Delicious Menu</h1>
                 <p class="lead">Explore our carefully crafted dishes made with the freshest ingredients</p>
             </div>
         </div>
@@ -269,5 +271,6 @@ requireLogin();
     <script src="../js/animation.js"></script>
     <script src="../js/Menus.js"></script>
     <script src="../js/fetchClientNotifications.js"></script>
+    <script src="../js/checkAvailability.js"></script>
 </body>
 </html>

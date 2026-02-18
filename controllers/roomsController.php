@@ -8,19 +8,17 @@ require_once '../includes/flash.php';
 // Initialize the model
 $roomModel = new roomModel($con);
 
-// Pagination settings
+
 $records_per_page = 5;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $records_per_page;
 
-// Get total number of rooms and calculate total pages
 $total_rows = $roomModel->getTotalRoomsCount();
 $total_pages = ceil($total_rows / $records_per_page);
 
-// Fetch rooms with pagination
+
 $result = $roomModel->getRoomsWithPagination($offset, $records_per_page);
 
-// Fetch all room types for the dropdown
 $roomTypesResult = $roomModel->getAllRoomTypes();
 
 // Handle Add Room
