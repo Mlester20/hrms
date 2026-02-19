@@ -1,17 +1,4 @@
 <?php
-/**
- * components/checkAvailability.php
- *
- * Requires the following variables from the controller:
- *  - $today, $tomorrow
- *  - $f_check_in, $f_check_out, $f_room_type
- *  - $roomTypes        array of room type rows
- *  - $availableRooms   array of available room rows (populated after search)
- *  - $searchPerformed  bool
- *  - $availError       string (validation error message)
- */
-
-// Night count helper (used in results)
 $nights = 0;
 if (!empty($f_check_in) && !empty($f_check_out)) {
     $nights = (int)((strtotime($f_check_out) - strtotime($f_check_in)) / 86400);
@@ -78,10 +65,10 @@ if (!empty($f_check_in) && !empty($f_check_out)) {
                                 <option value="">All Types</option>
                                 <?php foreach ($roomTypes as $type): ?>
                                     <option
-                                        value="<?= htmlspecialchars($type['room_type_id']) ?>"
-                                        <?= $f_room_type == $type['room_type_id'] ? 'selected' : '' ?>
+                                        value="<?= htmlspecialchars($type['id']) ?>"
+                                        <?= $f_room_type == $type['id'] ? 'selected' : '' ?>
                                     >
-                                        <?= htmlspecialchars(ucfirst($type['room_type_id'])) ?>
+                                        <?= htmlspecialchars($type['title']) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -140,7 +127,7 @@ if (!empty($f_check_in) && !empty($f_check_out)) {
                         <?php
                             $room_id      = $room['id']           ?? '';
                             $room_title   = $room['title']         ?? 'Untitled Room';
-                            $room_type    = $room['room_type_id']  ?? 'Standard';
+                            $room_type    = $room['room_type_title'] ?? $room['room_type_id'] ?? 'Standard';
                             $room_image   = $room['image']         ?? '';
                             $room_price   = $room['price']         ?? 0;
                             $room_inc     = $room['includes']      ?? '';
@@ -204,7 +191,7 @@ if (!empty($f_check_in) && !empty($f_check_out)) {
                                                 <p class="mb-0 fw-bold fs-5 text-primary">₱<?= number_format($total, 2) ?></p>
                                             </div>
                                             <a
-                                                href="roomBookings.php?room_id=<?= urlencode($room_id) ?>&check_in=<?= urlencode($f_check_in) ?>&check_out=<?= urlencode($f_check_out) ?>"
+                                                href="booking.php?room_id=<?= urlencode($room_id) ?>&check_in=<?= urlencode($f_check_in) ?>&check_out=<?= urlencode($f_check_out) ?>"
                                                 class="btn btn-primary rounded-pill px-4"
                                             >
                                                 Book Now <i class="fas fa-arrow-right ms-1"></i>

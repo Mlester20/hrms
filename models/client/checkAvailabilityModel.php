@@ -11,8 +11,9 @@ class CheckAvailabilityModel {
 
         if (!empty($room_type_id)) {
             $sql = "
-                SELECT r.*
+                SELECT r.*, rt.title AS room_type_title
                 FROM rooms r
+                LEFT JOIN room_type rt ON rt.id = r.room_type_id
                 WHERE r.id NOT IN (
                     SELECT b.room_id
                     FROM bookings b
@@ -27,8 +28,9 @@ class CheckAvailabilityModel {
             mysqli_stmt_bind_param($stmt, 'sss', $check_out, $check_in, $room_type_id);
         } else {
             $sql = "
-                SELECT r.*
+                SELECT r.*, rt.title AS room_type_title
                 FROM rooms r
+                LEFT JOIN room_type rt ON rt.id = r.room_type_id
                 WHERE r.id NOT IN (
                     SELECT b.room_id
                     FROM bookings b
@@ -54,11 +56,14 @@ class CheckAvailabilityModel {
         return $rooms;
     }
 
-    /**
-     * Fetch all distinct room types for the filter dropdown.
-     */
     public function getRoomTypes($con) {
-        $sql = "SELECT DISTINCT room_type_id FROM rooms ORDER BY room_type_id ASC";
+        $sql = "
+            SELECT rt.id, rt.title
+            FROM room_type rt
+            INNER JOIN rooms r ON r.room_type_id = rt.id
+            GROUP BY rt.id, rt.title
+            ORDER BY rt.title ASC
+        ";
         $result = mysqli_query($con, $sql);
 
         $types = [];
