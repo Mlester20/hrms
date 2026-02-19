@@ -20,6 +20,7 @@
                         <i class="fas fa-book"></i> Lists
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="bookingsDropdown">
+                        <li><a class="dropdown-item" href="rooms.php"> <i class="fas fa-bed"></i> View All Rooms</a></li>
                         <li><a class="dropdown-item" href="restaurantTableBooking.php"> <i class="fas fa-table"></i> Book a Table</a></li>
                         <li><a class="dropdown-item" href="roomBookings.php"><i class="fas fa-bed"></i> Book a Room</a></li>
                         <li><a class="dropdown-item" href="order.php"><i class="fas fa-burger"></i> Order Food</a></li>

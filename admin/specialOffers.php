@@ -1,43 +1,17 @@
 <?php
 session_start();
 
-require_once '../components/config.php';
+require_once '../components/connection.php';
 require_once '../controllers/offersController.php';
 require_once '../includes/flash.php';
 require_once '../middleware/authMiddleware.php';
-
 //call auth middleware
 requireAdmin();
 
-// Initialize controller
 $controller = new OffersController($con);
-
-// Process form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $result = $controller->processRequest($_POST, $_FILES);
-    
-    if ($result['success']) {
-        $_SESSION['success_message'] = $result['message'];
-    } else {
-        $_SESSION['error_message'] = $result['message'];
-    }
-    
-    // Redirect to avoid form resubmission
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit();
-}
-
-// Get all offers
+$edit_offer = $controller->handleRequest($_POST, $_FILES, $_GET);
 $offers = $controller->getAllOffers();
 
-// Get offer for editing if ID is provided
-$edit_offer = null;
-if (isset($_GET['edit']) && !empty($_GET['edit'])) {
-    $edit_offer = $controller->getOfferById($_GET['edit']);
-    if (!$edit_offer) {
-        $_SESSION['error_message'] = "Offer not found!";
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +19,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Offers - <?php include '../components/title.php'; ?> </title>
+    <title>Manage Offers - <?php include '../includes/title.php'; ?> </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8y+4g5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e5c5e" crossorigin="anonymous" />
     <link rel="stylesheet" href="../css/customAdminHeader.css">
@@ -53,7 +27,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     <link rel="stylesheet" href="../css/notifications.css">
     <link rel="shortcut icon" href="../images/final.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/app.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
 </head>
 <body>
     
@@ -74,16 +48,6 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
         </div>
         
         <?php showFlash(); ?>
-
-        <?php if (isset($_SESSION['error_message'])): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?php 
-                    echo $_SESSION['error_message']; 
-                    unset($_SESSION['error_message']);
-                ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
 
         <!-- Offers Table -->
         <div class="card shadow">

@@ -5,50 +5,6 @@ require_once '../includes/flash.php';
 require_once '../middleware/authMiddleware.php';
 requireAdmin();
 
-$error = null;
-$edit_menu = null;
-
-// Handle Add Menu
-if (isset($_POST['add_menu'])) {
-    try {
-        $success_message = handleAddMenu($con, $restaurantMenuModel);
-        $_SESSION['success'] = $success_message;
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    } catch(Exception $e) {
-        $error = $e->getMessage();
-    }
-}
-
-// Handle Update Menu
-if (isset($_POST['update_menu'])) {
-    try {
-        $success_message = handleUpdateMenu($con, $restaurantMenuModel);
-        $_SESSION['success'] = $success_message;
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    } catch(Exception $e) {
-        $error = $e->getMessage();
-    }
-}
-
-// Handle Delete Menu
-if (isset($_POST['delete_menu'])) {
-    try {
-        $success_message = handleDeleteMenu($con, $restaurantMenuModel);
-        $_SESSION['success'] = $success_message;
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    } catch(Exception $e) {
-        $error = $e->getMessage();
-    }
-}
-
-// Get menu item for editing
-if(isset($_GET['edit']) && !empty($_GET['edit'])) {
-    $edit_menu = $restaurantMenuModel->getMenuById($con, $_GET['edit']);
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +12,7 @@ if(isset($_GET['edit']) && !empty($_GET['edit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menus | <?php include '../components/title.php'; ?></title>
+    <title>Menus | <?php include '../includes/title.php'; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="../css/customAdminHeader.css">
@@ -148,8 +104,8 @@ if(isset($_GET['edit']) && !empty($_GET['edit'])) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if(mysqli_num_rows($restaurantMenus) > 0): ?>
-                                        <?php while($item = mysqli_fetch_assoc($restaurantMenus)): ?>
+                                    <?php if(count($restaurantMenus) > 0): ?>
+                                         <?php foreach($restaurantMenus as $item): ?>
                                             <tr>
                                                 <td><?php echo $item['menu_id']; ?></td>
                                                 <td>
@@ -193,7 +149,7 @@ if(isset($_GET['edit']) && !empty($_GET['edit'])) {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        <?php endwhile; ?>
+                                        <?php endforeach; ?>
                                     <?php else: ?>
                                         <tr>
                                             <td colspan="6" class="text-center">No menu items found</td>
