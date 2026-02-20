@@ -43,11 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         setFlash('error', $e->getMessage());
     }
 
-    header('Location: ../public/profile.php');
+    header('Location: ../views/profile.php');
     exit();
 } else {
     // If not POST request, redirect back
-    header('Location: ../public/profile.php');
+    header('Location: ../views/profile.php');
     exit();
 }
 ?>

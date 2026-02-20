@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2026 at 07:30 AM
+-- Generation Time: Feb 20, 2026 at 01:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,21 +40,6 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `auth_users`
---
-
-CREATE TABLE `auth_users` (
-  `id` int(11) NOT NULL,
-  `google_id` varchar(255) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `role` enum('user','admin') DEFAULT 'user',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `banner`
 --
 
@@ -83,16 +68,6 @@ CREATE TABLE `bookings` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `bookings`
---
-
-INSERT INTO `bookings` (`booking_id`, `user_id`, `room_id`, `check_in_date`, `check_out_date`, `total_price`, `status`, `payment_status`, `special_requests`, `is_read`, `created_at`, `updated_at`) VALUES
-(64, 15, 16, '2026-02-04', '2026-02-05', 1500.00, 'completed', 'paid', '', 1, '2026-02-04 14:54:28', '2026-02-04 15:40:25'),
-(65, 15, 13, '2026-02-09', '2026-02-10', 2500.00, 'completed', 'paid', '', 1, '2026-02-04 15:22:30', '2026-02-04 15:40:22'),
-(66, 15, 13, '2026-02-14', '2026-02-15', 2500.00, 'completed', 'paid', '', 1, '2026-02-14 03:54:25', '2026-02-16 05:46:58'),
-(67, 15, 13, '2026-02-16', '2026-02-17', 2500.00, 'confirmed', '', '', 1, '2026-02-16 05:46:34', '2026-02-16 05:47:06');
 
 --
 -- Triggers `bookings`
@@ -267,30 +242,6 @@ CREATE TABLE `notifications` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `notifications`
---
-
-INSERT INTO `notifications` (`notification_id`, `user_id`, `booking_id`, `title`, `message`, `type`, `is_read`, `created_at`, `updated_at`) VALUES
-(119, 15, 64, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 16 from February 04, 2026 to February 05, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-02-04 14:54:52', '2026-02-04 14:55:02'),
-(120, 15, 64, 'Payment Received! ?', 'We have received your full payment of ₱1,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2026-02-04 14:54:54', '2026-02-04 14:55:02'),
-(121, 15, 64, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 16 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 14:55:15', '2026-02-04 14:55:29'),
-(122, 15, 64, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 1 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 14:55:15', '2026-02-04 15:22:10'),
-(123, 15, 64, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 16 from February 04, 2026 to February 05, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-02-04 15:21:48', '2026-02-04 15:22:08'),
-(124, 15, 65, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 13 from February 09, 2026 to February 10, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-02-04 15:23:08', '2026-02-04 15:37:40'),
-(125, 15, 65, 'Payment Received! ?', 'We have received your full payment of ₱2,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2026-02-04 15:23:10', '2026-02-04 15:37:40'),
-(126, 15, 65, 'Booking Cancelled ❌', 'Your booking for Room 13 from February 09, 2026 to February 10, 2026 has been cancelled. If you have any questions, please contact us.', 'booking_cancelled', 1, '2026-02-04 15:36:52', '2026-02-04 15:37:40'),
-(127, 15, 65, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 13 from February 09, 2026 to February 10, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-02-04 15:37:19', '2026-02-04 15:37:40'),
-(128, 15, 65, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 13 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:22', '2026-02-04 15:40:37'),
-(129, 15, 65, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 10 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:22', '2026-02-04 15:40:37'),
-(130, 15, 64, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 16 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:25', '2026-02-04 15:40:37'),
-(131, 15, 64, 'Stay Completed ????', 'Thank you for staying with us! Your booking for Room 1 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-04 15:40:25', '2026-02-04 15:40:37'),
-(132, 15, 66, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 13 from February 14, 2026 to February 15, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-02-14 08:18:49', '2026-02-14 08:38:06'),
-(133, 15, 66, 'Payment Received! ?', 'We have received your full payment of ₱2,500.00 for your booking. Thank you for your payment!', 'payment_received', 1, '2026-02-14 08:19:00', '2026-02-14 08:38:06'),
-(134, 15, 66, 'Stay Completed ?', 'Thank you for staying with us! Your booking for Room 13 has been completed. We hope you had a wonderful experience.', '', 1, '2026-02-16 05:46:58', '2026-02-16 05:52:21'),
-(135, 15, 66, 'Stay Completed - Thank You! ????', 'Thank you for staying with us! Your booking for Room 10 (from February 14, 2026 to February 15, 2026) has been automatically completed. We hope you had a wonderful experience and look forward to welcoming you back soon!', '', 1, '2026-02-16 05:46:58', '2026-02-16 05:53:11'),
-(136, 15, 67, 'Booking Confirmed! ✅', 'Great news! Your booking for Room 13 from February 16, 2026 to February 17, 2026 has been confirmed. We look forward to welcoming you!', 'booking_confirmed', 1, '2026-02-16 05:47:06', '2026-02-16 05:53:11');
-
 -- --------------------------------------------------------
 
 --
@@ -310,13 +261,6 @@ CREATE TABLE `orders` (
   `delivered_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_id`, `user_id`, `room_number`, `total_amount`, `order_status`, `payment_status`, `payment_method`, `special_instructions`, `ordered_at`, `delivered_at`) VALUES
-(28, 15, '10', 400.00, 'pending', 'unpaid', 'pay_on_delivery', '', '2026-02-16 06:29:02', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -332,13 +276,6 @@ CREATE TABLE `order_items` (
   `subtotal` decimal(10,2) NOT NULL,
   `notes` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`order_item_id`, `order_id`, `menu_id`, `quantity`, `price`, `subtotal`, `notes`) VALUES
-(25, 28, 8, 1, 400.00, 400.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -378,6 +315,13 @@ CREATE TABLE `restaurant_menu` (
   `image` varchar(500) NOT NULL,
   `price` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `restaurant_menu`
+--
+
+INSERT INTO `restaurant_menu` (`menu_id`, `menu_name`, `menu_description`, `image`, `price`) VALUES
+(15, 'Pizza', 'Hawaiian Pizza, With Pineapple', '6995b7298d692.webp', 1500);
 
 -- --------------------------------------------------------
 
@@ -553,15 +497,6 @@ CREATE TABLE `table_reservations` (
   `status` enum('pending','done','cancelled','confirmed') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `table_reservations`
---
-
-INSERT INTO `table_reservations` (`reservation_id`, `table_id`, `reservation_date`, `time_slot`, `guest_count`, `special_requests`, `user_id`, `status`) VALUES
-(47, 17, '2026-02-06', '07:00:00', 5, '', 15, 'pending'),
-(48, 4, '2026-02-14', '12:00:00', 4, '', 15, 'pending'),
-(49, 3, '2026-02-15', '12:00:00', 6, '', 15, 'pending');
-
 -- --------------------------------------------------------
 
 --
@@ -590,7 +525,7 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `address` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `role` varchar(20) DEFAULT NULL,
   `phone` tinytext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -600,10 +535,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `address`, `email`, `password`, `role`, `phone`) VALUES
-(12, 'admin', 'Rizal, Roxas', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'admin', '639360991034'),
-(14, 'Armando Raguindin', 'Roxas, Isabela', 'raguindin.armando@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'user', '09360991034'),
-(15, 'Mark Lester', 'Roxas, Isabela', 'raguindin.lester20@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'user', '09360991034'),
-(16, 'Armando Raguindin', 'Roxas, Isabela', 'armando@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'user', '09360991034');
+(17, 'admin', 'Rizal, Roxas', 'admin@gmail.com', '$2y$10$gwtBQp7K9OUjvzfBZnW2nOE5Itb5Dxi4G8Df80wCUGlvGZV5VfcVS', 'admin', '09360991034'),
+(18, 'Lester', 'Roxas, Isabela', 'raguindin.lester20@gmail.com', '$2y$10$FGbWFjhR1uUYqN0RiKDCCOnu6Dz1Tl6f0VqgIQ2jq9F1q1zml61.m', 'user', '09360991034');
 
 -- --------------------------------------------------------
 
@@ -625,13 +558,6 @@ CREATE TABLE `user_notifications` (
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `auth_users`
---
-ALTER TABLE `auth_users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `google_id` (`google_id`);
 
 --
 -- Indexes for table `banner`
@@ -783,12 +709,6 @@ ALTER TABLE `user_notifications`
 --
 
 --
--- AUTO_INCREMENT for table `auth_users`
---
-ALTER TABLE `auth_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `banner`
 --
 ALTER TABLE `banner`
@@ -798,7 +718,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `concerns`
@@ -822,19 +742,19 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `restaurant_auth`
@@ -846,7 +766,7 @@ ALTER TABLE `restaurant_auth`
 -- AUTO_INCREMENT for table `restaurant_menu`
 --
 ALTER TABLE `restaurant_menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `restaurant_tables`
@@ -882,7 +802,7 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT for table `special_offers`
 --
 ALTER TABLE `special_offers`
-  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `offers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `staffs`
@@ -906,7 +826,7 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `user_notifications`

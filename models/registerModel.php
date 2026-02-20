@@ -3,10 +3,10 @@
 class registerUser {
     
     /**
-     * Hash password using MD5
+     * Hash password using bcrypt
      */
     public function hashPassword($password) {
-        return md5($password);
+        return password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
     }
 
     public function register($con, $name, $email, $password, $confirmPassword, $phone, $address, $role = 'user') {
@@ -38,7 +38,7 @@ class registerUser {
             }
             $stmt->close();
 
-            // Hash the password using MD5
+            // Hash the password using bcrypt
             $hashedPassword = $this->hashPassword($password);
 
             // Insert user into the database
@@ -49,10 +49,10 @@ class registerUser {
             if (!$stmt->execute()) {
                 throw new Exception('Error adding user: ' . $stmt->error);
             }
-            
+
             $stmt->close();
             return true;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("Error creating account: " . $e->getMessage(), 500);
         }
     }
