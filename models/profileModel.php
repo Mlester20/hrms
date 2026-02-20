@@ -33,13 +33,15 @@ class profileModel {
             $stmt->fetch();
             $stmt->close();
 
-            // Check if password exists
             if ($hashedPassword === null) {
                 throw new Exception("User not found.");
             }
 
-            // Verify password using MD5
-            if (md5($current_password) !== $hashedPassword) {
+            // Try bcrypt first, fallback to MD5 for legacy accounts
+            $isValid = password_verify($current_password, $hashedPassword) 
+                       || md5($current_password) === $hashedPassword;
+
+            if (!$isValid) {
                 throw new Exception("Incorrect current password. Please try again.");
             }
 
@@ -68,18 +70,16 @@ class profileModel {
 
     public function updatePassword($con, $user_id, $new_password, $confirm_password) {
         try {
-            // Check if passwords match
             if ($new_password !== $confirm_password) {
                 throw new Exception("New password and confirm password do not match.");
             }
 
-            // Check password is not empty
             if (empty($new_password)) {
                 throw new Exception("New password cannot be empty.");
             }
 
-            // Hash the new password using MD5
-            $new_hashed_password = md5($new_password);
+            // Hash the new password using bcrypt
+            $new_hashed_password = password_hash($new_password, PASSWORD_BCRYPT, ['cost' => 10]);
             
             $query = "UPDATE users SET password = ? WHERE user_id = ?";
             $stmt = $con->prepare($query);
@@ -96,5 +96,4 @@ class profileModel {
         }
     }
 }
-
 ?>

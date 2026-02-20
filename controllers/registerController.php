@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmPassword = trim($_POST['confirm_password']);
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
-    $role = 'user'; // Default role for registered users
+    $role = 'user';
 
-    try {
+    try {   
         // Call the register method
         if( $registerModel->register($con, $name, $email, $password, $confirmPassword, $phone, $address, $role)){
             setFlash('success', 'Registration successful! You can now log in.');
