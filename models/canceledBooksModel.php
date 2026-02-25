@@ -2,7 +2,13 @@
 
     class canceledBooksModel{
 
-        public function getCanceledBookings($con){
+        private $con;
+
+        public function __construct($con){
+            $this->con = $con;
+        }
+
+        public function getCanceledBookings(){
             try{
                 // Query to fetch only cancelled bookings
                 $query = "SELECT 
@@ -27,7 +33,7 @@
                     ORDER BY b.created_at DESC";
 
                 // Prepare statement
-                $stmt = mysqli_prepare($con, $query);
+                $stmt = $this->con->prepare($query);
                 mysqli_stmt_execute($stmt);
                 $result = mysqli_stmt_get_result($stmt);
                 return $result;

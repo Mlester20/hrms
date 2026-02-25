@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once '../includes/connection.php';
+require_once '../components/connection.php';
 require_once '../models/client/roomsModel.php';
 
 $roomsModel = new roomsModel();

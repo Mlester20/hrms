@@ -5,9 +5,6 @@ if (!empty($f_check_in) && !empty($f_check_out)) {
 }
 ?>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     CHECK AVAILABILITY SECTION
-════════════════════════════════════════════════════════════════════════════ -->
 <section class="availability-section py-5" id="checkAvailability">
     <div class="container">
 
@@ -87,6 +84,11 @@ if (!empty($f_check_in) && !empty($f_check_out)) {
 
                     </div><!-- /.row -->
                 </form>
+                <div id="availabilityResults">
+                    <div class="text-center text-muted py-5">
+                        <p>Enter dates above to check for available rooms.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -191,7 +193,7 @@ if (!empty($f_check_in) && !empty($f_check_out)) {
                                                 <p class="mb-0 fw-bold fs-5 text-primary">₱<?= number_format($total, 2) ?></p>
                                             </div>
                                             <a
-                                                href="booking.php?room_id=<?= urlencode($room_id) ?>&check_in=<?= urlencode($f_check_in) ?>&check_out=<?= urlencode($f_check_out) ?>"
+                                                href="roomBookings.php?room_id=<?= urlencode($room_id) ?>&check_in=<?= urlencode($f_check_in) ?>&check_out=<?= urlencode($f_check_out) ?>"
                                                 class="btn btn-primary rounded-pill px-4"
                                             >
                                                 Book Now <i class="fas fa-arrow-right ms-1"></i>

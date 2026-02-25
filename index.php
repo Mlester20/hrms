@@ -1,6 +1,8 @@
 <?php
+
 require_once 'includes/flash.php';
 session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -55,48 +57,8 @@ session_start();
 
     <?php showFlash(); ?>
 
-    <div class="container">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-4">
-                <div class="card login-card">
-                    <div class="card-body">
-                        
-                        <div class="text-center mb-4">
-                            <span>Be Classical</span>
-                            <hr>
-                        </div>
-                        
-                        <form action="controllers/auth.php" method="POST">
-
-                        <div class="text-center my-3">                            
-                            <div class="mb-3">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input type="email" class="form-control" placeholder="Email" name="email" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                    <input type="password" class="form-control" placeholder="Password" name="password" required>
-                                    <span class="input-group-text"><i class="fas fa-eye"></i></span>
-                                </div>
-                            </div>
-                            
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-get-started">GET STARTED</button>
-                            </div>
-                        </form>
-                        
-                        <div class="text-center mt-3">
-                            <p>Don't have an account? <a href="register.php" class="register-link text-white">Register</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- auth form component -->
+    <?php require_once 'components/authForm.php'; ?>
 
     <!-- scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

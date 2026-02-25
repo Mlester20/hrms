@@ -20,7 +20,7 @@ class roomsModel {
                 WHERE rooms.room_type_id = ?
                 ORDER BY rooms.id DESC";
 
-        $stmt = mysqli_prepare($con, $sql);
+        $stmt = $con->prepare($sql);
         mysqli_stmt_bind_param($stmt, "i", $typeId);
         mysqli_stmt_execute($stmt);
 

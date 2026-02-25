@@ -2,7 +2,7 @@
     
 require_once '../models/canceledBooksModel.php';
 
-    $canceledBooksModel = new canceledBooksModel();
+    $canceledBooksModel = new canceledBooksModel($con);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_booking_id'])) {
         $booking_id = intval($_POST['delete_booking_id']);
