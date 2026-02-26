@@ -1,9 +1,9 @@
 <?php
-session_start();
 
-require '../controllers/descriptionController.php';
+require_once '../includes/flash.php';
+require_once '../controllers/descriptionController.php';
 require_once '../middleware/authMiddleware.php';
-
+requireAdmin();
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +24,8 @@ require_once '../middleware/authMiddleware.php';
 <body>
     <!-- Header admin component -->
     <?php include '../components/header_admin.php'; ?>
+
+    <?php showFlash(); ?>
 
     <div class="container my-4">
         <h4 class="text-center card-title">Description</h4>

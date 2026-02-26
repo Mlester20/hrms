@@ -1,13 +1,22 @@
 <?php
 
-    class descriptionModel{
+    class BaseModel{
+        protected $con;
+
+        public function __construct($con){
+            $this->con = $con;
+        }
+    }
+
+    class descriptionModel extends BaseModel {
+        protected $table = 'description';
         /* =========================
             GET DESCRIPTION
         ========================= */
-        public function getAllDescriptions($con){
+        public function getAllDescriptions(){
             try {
-                $query = "SELECT description_id, description_name FROM description ORDER BY description_id DESC";
-                $stmt = $con->prepare($query);
+                $query = "SELECT description_id, description_name FROM {$this->table} ORDER BY description_id DESC";
+                $stmt = $this->con->prepare($query);
                 $stmt->execute();
                 $result = $stmt->get_result();
     
@@ -52,14 +61,14 @@
         /* =========================
             UPDATE DESCRIPTION
         ========================= */
-        public function updateDescription($con, $description_id, $description){
+        public function updateDescription($description_id, $description){
             try {
-                $stmt = $con->prepare(
-                    "UPDATE description SET description_name = ? WHERE description_id = ?"
+                $stmt = $this->con->prepare(
+                    "UPDATE {$this->table} SET description_name = ? WHERE description_id = ?"
                 );
 
                 if (!$stmt) {
-                    throw new Exception('Prepare failed: ' . $con->error);
+                    throw new Exception('Prepare failed: ' . $this->con->error);
                 }
 
                 $stmt->bind_param('si', $description, $description_id);

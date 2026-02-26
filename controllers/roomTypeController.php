@@ -4,10 +4,11 @@ require_once '../components/connection.php';
 require_once '../models/roomTypeModel.php';
 require_once '../includes/flash.php';
 
-$roomTypeModel = new roomTypeModel();
+$roomTypeModel = new roomTypeModel($con);
+
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;
-$data = $roomTypeModel->getRoomTypes($con, $page, $limit);
+$data = $roomTypeModel->getRoomTypes($page, $limit);
 $roomTypes = $data['roomTypes'];
 $total_pages = $data['total_pages'];
 
@@ -16,7 +17,7 @@ if(isset($_POST['addRoomType'])) {
     $title = $_POST['title'];
     $detail = $_POST['detail'];
     
-    if ($roomTypeModel->addRoomType($con, $title, $detail)) {
+    if ($roomTypeModel->addRoomType($title, $detail)) {
         setFlash('success', 'Room type added successfully!');
     } else {
         setFlash('error', 'Failed to add room type. Please try again.');
@@ -32,7 +33,7 @@ if(isset($_POST['updateRoomType'])) {
     $title = $_POST['title'];
     $detail = $_POST['detail'];
     
-    if ($roomTypeModel->updateRoomType($con, $id, $title, $detail)) {
+    if ($roomTypeModel->updateRoomType($id, $title, $detail)) {
         setFlash('success', 'Room type updated successfully!');
     } else {
         setFlash('error', 'Failed to update room type. Please try again.');
@@ -46,7 +47,7 @@ if(isset($_POST['updateRoomType'])) {
 if(isset($_POST['deleteRoomType'])) {
     $id = $_POST['id'];
     
-    if ($roomTypeModel->deleteRoomType($con, $id) === true) {
+    if ($roomTypeModel->deleteRoomType($id) === true) {
         setFlash('success', 'Room type deleted successfully!');
     } else {
         setFlash('error', 'Failed to delete room type. Please try again.');
