@@ -9,10 +9,10 @@
     }
 
     class DescriptionModel extends BaseModel {
-        public function getDescriptions()
-        {
+        protected $description = 'description';
+        public function getDescriptions(){
             try{
-                $query = "SELECT description_id, description_name FROM description";
+                $query = "SELECT description_id, description_name FROM {$this->description}";
                 $result = mysqli_query($this->con, $query);
 
                 $descriptions = [];
