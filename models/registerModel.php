@@ -9,6 +9,7 @@
     }
 
     class registerUser extends BaseModel {
+        protected $user = 'users';        
 
         /**
          * Hash password using bcrypt
@@ -34,7 +35,7 @@
 
             try {
                 // Check if email already exists
-                $query = "SELECT user_id FROM users WHERE email = ?";
+                $query = "SELECT user_id FROM {$this->user} WHERE email = ?";
                 $stmt = $this->con->prepare($query);
                 $stmt->bind_param('s', $email);
                 $stmt->execute();
@@ -47,7 +48,7 @@
                 
                 $hashedPassword = $this->hashPassword($password);
 
-                $query = "INSERT INTO users (name, address, email, password, role, phone) VALUES (?, ?, ?, ?, ?, ?)";
+                $query = "INSERT INTO {$this->user} (name, address, email, password, role, phone) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $this->con->prepare($query);
                 $stmt->bind_param('ssssss', $name, $address, $email, $hashedPassword, $role, $phone);
 

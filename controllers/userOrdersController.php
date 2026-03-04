@@ -5,12 +5,12 @@ require_once '../models/client/ordersModel.php';
 require_once '../components/connection.php';
 require_once '../includes/flash.php';
 
-$userOrders = new ordersModel();
+$userOrders = new ordersModel($con);
 
     // Default: display orders
     try {
         $user_id = $_SESSION['user_id'];
-        $orders = $userOrders->getUserOrders($con, $user_id);
+        $orders = $userOrders->getUserOrders($user_id);
     } catch(Exception $e) {
         throw new Exception("Error getting Orders ". $e->getMessage(), 500);
     }
@@ -24,7 +24,7 @@ $userOrders = new ordersModel();
             $user_id  = $_SESSION['user_id'];
 
             try {
-                $order = $userOrders->getOrderById($con, $order_id);
+                $order = $userOrders->getOrderById($order_id);
 
                 if (!$order || (int)$order['user_id'] !== (int)$user_id) {
                     http_response_code(403);
@@ -32,7 +32,7 @@ $userOrders = new ordersModel();
                     exit();
                 }
 
-                $items = $userOrders->getOrderItems($con, $order_id);
+                $items = $userOrders->getOrderItems($order_id);
 
                 echo json_encode([
                     'order' => $order,
@@ -52,7 +52,7 @@ $userOrders = new ordersModel();
             $user_id  = $_SESSION['user_id'];
 
             try {
-                $userOrders->cancelOrders($con, $order_id, $user_id);
+                $userOrders->cancelOrders($order_id, $user_id);
                 setFlash("success", "Order Cancelled Successfully!");
                 header("Location: ../views/myOrders.php");
                 exit();

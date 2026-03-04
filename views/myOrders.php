@@ -189,8 +189,8 @@ requireLogin();
                             <i class="fas fa-shopping-bag fa-5x text-muted mb-3"></i>
                             <h3 class="text-muted">No Orders Yet</h3>
                             <p class="text-muted">You haven't placed any orders yet. Start ordering now!</p>
-                            <a href="menu.php" class="btn btn-primary mt-3">
-                                <i class="fas fa-utensils me-2"></i>Browse Menu
+                            <a href="order.php" class="btn btn-primary mt-3">
+                                <i class="fas fa-utensils me-2"></i>Order Now
                             </a>
                         </div>
                     </div>
@@ -317,9 +317,7 @@ requireLogin();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     
-    <!-- Internal Js -->
     <script>
-        // ── Status helpers ──────────────────────────────────────────────────
         const statusColorMap = {
             pending:   'warning',
             preparing: 'info',

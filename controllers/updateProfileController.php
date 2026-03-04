@@ -4,14 +4,7 @@ require_once '../includes/flash.php';
 require_once '../components/connection.php';
 require_once '../models/profileModel.php';
 
-$profileModel = new profileModel();
-
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
-
+$profileModel = new profileModel($con);
 $user_id = $_SESSION['user_id'];
 
 // Handle profile update
@@ -26,15 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $confirm_password = trim($_POST['confirm_password'] ?? '');
 
         // Verify current password
-        $profileModel->verifyPassword($con, $user_id, $current_password);
+        $profileModel->verifyPassword($user_id, $current_password);
 
         // Update basic profile information
-        $profileModel->updateProfile($con, $user_id, $name, $address, $email, $phone);
+        $profileModel->updateProfile($user_id, $name, $address, $email, $phone);
         setFlash('success', 'Profile updated successfully!');
 
         // Handle password change if new password is provided
         if (!empty($new_password) || !empty($confirm_password)) {
-            $profileModel->updatePassword($con, $user_id, $new_password, $confirm_password);
+            $profileModel->updatePassword($user_id, $new_password, $confirm_password);
             setFlash('success', 'Profile and password updated successfully!');
         }
 

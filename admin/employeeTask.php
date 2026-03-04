@@ -1,8 +1,9 @@
 <?php
-session_start();
 
+require_once '../includes/flash.php';
 require_once '../controllers/taskController.php';
 require_once '../middleware/authMiddleware.php';
+requireAdmin();
 
 ?>
 
@@ -25,20 +26,7 @@ require_once '../middleware/authMiddleware.php';
     <?php include '../components/header_admin.php';?>
 
     <div class="container mt-4">
-        <!-- Success/Error Messages -->
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
+        <?php showFlash(); ?>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="card-title text-muted">Employee Tasks</h3>
@@ -165,7 +153,7 @@ require_once '../middleware/authMiddleware.php';
                             <div class="mb-3">
                                 <label>Staff</label>
                                 <select name="staff_id" class="form-control" required>
-                                    <option value="">Select Staff</option>
+                                    <option value="" class="card">Select Staff</option>
                                     <?php 
                                     $staff_result->data_seek(0);
                                     while ($staff = $staff_result->fetch_assoc()): 

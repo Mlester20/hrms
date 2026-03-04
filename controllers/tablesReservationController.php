@@ -5,7 +5,7 @@ require_once '../components/connection.php';
 require_once '../models/tablesReservationModel.php';
 
 try {
-    $tablesModel = new TablesModel();
+    $tablesModel = new TablesModel($con);
     $reservations = $tablesModel->getReservations($con);
 } catch (Exception $e) {
     die('Error: ' . $e->getMessage());

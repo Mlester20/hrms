@@ -1,7 +1,19 @@
 <?php
 
-    class TablesModel {
-        public function getReservations($con) {
+    class BaseModel{
+        protected $con;
+
+        public function __construct($con){
+            $this->con = $con;
+        }
+    }
+
+    class TablesModel extends BaseModel {
+        protected $table_reservations = 'table_reservations';
+        protected $restaurant_tables = 'restaurant_tables';
+        protected $users = 'users';
+
+        public function getReservations() {
             try{
                 $query = "
                     SELECT 
@@ -15,16 +27,16 @@
                         t.capacity,
                         u.name,
                         u.email
-                    FROM table_reservations r
-                    INNER JOIN restaurant_tables t ON r.table_id = t.table_id
-                    INNER JOIN users u ON r.user_id = u.user_id
+                    FROM {$this->table_reservations} r
+                    INNER JOIN {$this->restaurant_tables} t ON r.table_id = t.table_id
+                    INNER JOIN {$this->users} u ON r.user_id = u.user_id
                     ORDER BY r.reservation_date, r.time_slot
                 ";
 
-                $result = mysqli_query($con, $query);
+                $result = mysqli_query($this->con, $query);
 
                 if (!$result) {
-                    die('Error fetching reservations: ' . mysqli_error($con));
+                    die('Error fetching reservations: ' . mysqli_error($this->con));
                 }
 
                 $reservations = [];

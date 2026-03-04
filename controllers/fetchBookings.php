@@ -17,7 +17,7 @@ if (!isset($user_id)) {
 $user_id = $_SESSION['user_id'];
 
 $bookings = new bookingsModel($con);
-$result = $bookings->getUserBookings($con, $user_id);
+$result = $bookings->getUserBookings($user_id);
 
 try{
     // Process booking cancellation if requested

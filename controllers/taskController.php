@@ -1,8 +1,15 @@
 <?php
+session_start();
+
 require_once '../components/connection.php';
 require_once '../models/taskModel.php';
+require_once '../includes/flash.php';
 
-$taskModel = new taskModel();
+
+    $taskModel = new taskModel($con);
+    $tasks = $taskModel->getAllTasks($con);
+    $query = "SELECT staff_id, name FROM staffs ORDER BY name ASC";
+    $staff_result = $con->query($query);
 
     // Handle Add Task
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addTask'])) {
@@ -13,12 +20,12 @@ $taskModel = new taskModel();
             $deadline = $_POST['deadline'];
             $status = $_POST['status'];
 
-            $taskModel->addTask($con, $staff_id, $title, $deadline, $status, $description);
-            $_SESSION['success'] = 'Task added successfully!';
+            $taskModel->addTask($staff_id, $title, $deadline, $status, $description);
+            setFlash('success', 'Task added successfully!');
             header('Location: ../admin/employeeTask.php');
             exit();
         } catch (Exception $e) {
-            $_SESSION['error'] = 'Error adding task: ' . $e->getMessage();
+            setFlash('error', 'Error adding task: ' . $e->getMessage());
             header('Location: ../admin/employeeTask.php');
             exit();
         }
@@ -34,12 +41,12 @@ $taskModel = new taskModel();
             $deadline = $_POST['deadline'];
             $status = $_POST['status'];
 
-            $taskModel->updateTask($con, $task_id, $staff_id, $title, $deadline, $status, $description);
-            $_SESSION['success'] = 'Task updated successfully!';
+            $taskModel->updateTask($task_id, $staff_id, $title, $deadline, $status, $description);
+            setFlash('success', 'Task updated successfully!');
             header('Location: ../admin/employeeTask.php');
             exit();
         } catch (Exception $e) {
-            $_SESSION['error'] = 'Error updating task: ' . $e->getMessage();
+            setFlash('error', 'Error updating task: ' . $e->getMessage());
             header('Location: ../admin/employeeTask.php');
             exit();
         }
@@ -49,24 +56,14 @@ $taskModel = new taskModel();
     if (isset($_GET['deleteTask'])) {
         try {
             $task_id = $_GET['deleteTask'];
-            $taskModel->deleteTask($con, $task_id);
-            $_SESSION['success'] = 'Task deleted successfully!';
+            $taskModel->deleteTask($task_id);
+            setFlash('success', 'Task deleted successfully!');
             header('Location: ../admin/employeeTask.php');
             exit();
         } catch (Exception $e) {
-            $_SESSION['error'] = 'Error deleting task: ' . $e->getMessage();
+            setFlash('error', 'Error deleting task: ' . $e->getMessage());
             header('Location: ../admin/employeeTask.php');
             exit();
         }
     }
-
-
-
-// Get all tasks and staffs for the page
-$tasks = $taskModel->getAllTasks($con);
-
-// Get all staff for dropdown
-$query = "SELECT staff_id, name FROM staffs ORDER BY name ASC";
-$staff_result = $con->query($query);
-
 ?>

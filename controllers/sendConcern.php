@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query = "INSERT INTO concerns (user_id, email, subject, message, created_at) VALUES ('$user_id', '$email' ,'$subject', '$message', NOW())";
     if (mysqli_query($con, $query)) {
         echo "<script type='text/javascript'>alert('Your Concern has been sent successfully!');
-            document.location='../public/contact.php'</script>";  
+            document.location='../views/contact.php'</script>";  
     } else {
         echo "Error: " . mysqli_error($con);
     }

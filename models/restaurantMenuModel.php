@@ -1,14 +1,24 @@
 <?php
 
-class restaurantMenuModel {
-    
+class BaseModel{
+    protected $con;
+
+    public function __construct($con){
+        $this->con = $con;
+    }
+}
+
+class restaurantMenuModel extends BaseModel {
+
+    protected $restaurantMenu = 'restaurant_menu';
+
     /**
      * Get all menu items ordered by ID descending
      */
-    public function getAllMenus($con) {
+    public function getAllMenus() {
         try {
-            $query = "SELECT * FROM restaurant_menu ORDER BY menu_id DESC";
-            $stmt = $con->prepare($query);
+            $query = "SELECT * FROM {$this->restaurantMenu} ORDER BY menu_id DESC";
+            $stmt = $this->con->prepare($query);
             $stmt->execute();
             $result = $stmt->get_result();
             
@@ -26,10 +36,10 @@ class restaurantMenuModel {
     /**
      * Get a single menu item by ID
      */
-    public function getMenuById($con, $menu_id) {
+    public function getMenuById($menu_id) {
         try {
-            $query = "SELECT * FROM restaurant_menu WHERE menu_id = ?";
-            $stmt = $con->prepare($query);
+            $query = "SELECT * FROM {$this->restaurantMenu} WHERE menu_id = ?";
+            $stmt = $this->con->prepare($query);
             $stmt->bind_param("i", $menu_id);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -46,12 +56,12 @@ class restaurantMenuModel {
     /**
      * Add a new menu item
      */
-    public function addMenu($con, $menu_name, $menu_description, $image, $price) {
+    public function addMenu($menu_name, $menu_description, $image, $price) {
         try {
-            $sql = "INSERT INTO restaurant_menu (menu_name, menu_description, image, price) 
+            $sql = "INSERT INTO {$this->restaurantMenu} (menu_name, menu_description, image, price) 
                     VALUES (?, ?, ?, ?)";
             
-            $stmt = $con->prepare($sql);
+            $stmt = $this->con->prepare($sql);
             $stmt->bind_param("sssi", $menu_name, $menu_description, $image, $price);
             
             if($stmt->execute()) {
@@ -67,16 +77,16 @@ class restaurantMenuModel {
     /**
      * Update an existing menu item
      */
-    public function updateMenu($con, $menu_id, $menu_name, $menu_description, $image, $price) {
+    public function updateMenu($menu_id, $menu_name, $menu_description, $image, $price) {
         try {
-            $sql = "UPDATE restaurant_menu 
+            $sql = "UPDATE {$this->restaurantMenu} 
                     SET menu_name = ?, 
                         menu_description = ?, 
                         image = ?, 
                         price = ? 
                     WHERE menu_id = ?";
             
-            $stmt = $con->prepare($sql);
+            $stmt = $this->con->prepare($sql);
             $stmt->bind_param("sssii", $menu_name, $menu_description, $image, $price, $menu_id);
             
             if($stmt->execute()) {
@@ -92,11 +102,11 @@ class restaurantMenuModel {
     /**
      * Delete a menu item
      */
-    public function deleteMenu($con, $menu_id) {
+    public function deleteMenu($menu_id) {
         try {
-            $sql = "DELETE FROM restaurant_menu WHERE menu_id = ?";
+            $sql = "DELETE FROM {$this->restaurantMenu} WHERE menu_id = ?";
             
-            $stmt = $con->prepare($sql);
+            $stmt = $this->con->prepare($sql);
             $stmt->bind_param("i", $menu_id);
             
             if($stmt->execute()) {

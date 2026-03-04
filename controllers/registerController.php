@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once '../includes/flash.php';
 require_once '../components/connection.php';

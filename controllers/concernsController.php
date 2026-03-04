@@ -1,9 +1,11 @@
 <?php
+session_start();
 
 require_once '../components/connection.php';
 require_once '../models/concernsModel.php';
+require_once '../includes/flash.php';
 
-$concernsModel = new concernsModel();
+$concernsModel = new concernsModel($con);
 
 
     // Handle bulk delete
@@ -14,7 +16,7 @@ $concernsModel = new concernsModel();
             
             $delete_query = "DELETE FROM concerns WHERE id IN ($ids)";
             if (mysqli_query($con, $delete_query)) {
-                $_SESSION['success'] = "Selected concerns have been deleted successfully.";
+                setFlash("success", "Concerns Deleted Successfully!");
             } else {
                 throw new Exception("Error deleting concerns: " . mysqli_error($con));
             }

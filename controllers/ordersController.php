@@ -12,7 +12,7 @@ if(isset($_POST['create_order'])) {
     // Clear any output buffers
     ob_start();
     
-    $ordersModel = new ordersModel();
+    $ordersModel = new ordersModel($con);
     
     $user_id = $_SESSION['user_id'];
     $room_number = trim($_POST['room_number']);
@@ -39,12 +39,12 @@ if(isset($_POST['create_order'])) {
         $con->begin_transaction();
         
         // Create order - ✅ Added payment_method parameter
-        $order_id = $ordersModel->createOrder($con, $user_id, $room_number, $payment_method, $special_instructions);
+        $order_id = $ordersModel->createOrder($user_id, $room_number, $payment_method, $special_instructions);
         
         // Add each item to order
         foreach($cart_items as $item) {
             $ordersModel->addOrderItem(
-                $con, 
+                 
                 $order_id, 
                 $item['menu_id'], 
                 $item['quantity'], 
@@ -53,7 +53,7 @@ if(isset($_POST['create_order'])) {
             );
         }
 
-        $ordersModel->updateOrderTotal($con, $order_id);
+        $ordersModel->updateOrderTotal($order_id);
         
         $con->commit();
         
@@ -81,7 +81,7 @@ if(isset($_GET['get_user_orders'])) {
     $user_id = $_SESSION['user_id'];
     
     try {
-        $orders = $ordersModel->getUserOrders($con, $user_id);
+        $orders = $ordersModel->getUserOrders($user_id);
         echo json_encode(['success' => true, 'orders' => $orders]);
     } catch(Exception $e) {
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
@@ -98,8 +98,8 @@ if(isset($_GET['order_id']) && !isset($_POST['create_order'])) {
     $order_id = $_GET['order_id'];
     
     try {
-        $order = $ordersModel->getOrderById($con, $order_id);
-        $items = $ordersModel->getOrderItems($con, $order_id);
+        $order = $ordersModel->getOrderById($order_id);
+        $items = $ordersModel->getOrderItems($order_id);
         
         echo json_encode([
             'success' => true, 

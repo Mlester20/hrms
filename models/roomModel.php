@@ -1,21 +1,26 @@
 <?php
 
-class roomModel {
-    
-    private $con;
-    
-    public function __construct($con) {
+class BaseModel{
+    protected $con;
+
+    public function __construct($con){
         $this->con = $con;
     }
-    
+}
+
+class roomModel extends BaseModel {
+
+    protected $rooms = 'rooms';
+    protected $room_type = 'room_type';
+
     /**
      * Get all rooms with pagination
      */
     public function getRoomsWithPagination($offset, $limit) {
         try {
             $query = "SELECT rooms.id, rooms.title, rooms.room_type_id, rooms.images, rooms.price, rooms.includes, room_type.title AS room_type_title 
-                      FROM rooms 
-                      INNER JOIN room_type ON rooms.room_type_id = room_type.id
+                      FROM {$this->rooms} 
+                      INNER JOIN {$this->room_type} ON rooms.room_type_id = room_type.id
                       LIMIT ?, ?";
             $stmt = $this->con->prepare($query);
             $stmt->bind_param("ii", $offset, $limit);
@@ -33,7 +38,7 @@ class roomModel {
      */
     public function getTotalRoomsCount() {
         try {
-            $query = "SELECT COUNT(*) as total FROM rooms";
+            $query = "SELECT COUNT(*) as total FROM {$this->rooms}";
             $result = $this->con->query($query);
             $row = $result->fetch_assoc();
             return $row['total'];
@@ -47,7 +52,7 @@ class roomModel {
      */
     public function getAllRoomTypes() {
         try {
-            $query = "SELECT id, title FROM room_type";
+            $query = "SELECT id, title FROM {$this->room_type}";
             $result = $this->con->query($query);
             return $result;
         } catch(Exception $e) {
@@ -75,7 +80,7 @@ class roomModel {
             // Convert array of image names to JSON string for storage
             $imagesJson = json_encode($imageNames);
             
-            $query = "INSERT INTO rooms (title, room_type_id, images, price, includes) VALUES (?, ?, ?, ?, ?)";
+            $query = "INSERT INTO {$this->rooms} (title, room_type_id, images, price, includes) VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->con->prepare($query);
             $stmt->bind_param("sisds", $title, $room_type_id, $imagesJson, $price, $package_name);
             
@@ -121,12 +126,12 @@ class roomModel {
                 
                 // Update with new images
                 $imagesJson = json_encode($newImages);
-                $query = "UPDATE rooms SET title = ?, room_type_id = ?, images = ?, price = ? WHERE id = ?";
+                $query = "UPDATE {$this->rooms} SET title = ?, room_type_id = ?, images = ?, price = ? WHERE id = ?";
                 $stmt = $this->con->prepare($query);
                 $stmt->bind_param("sisdi", $title, $room_type_id, $imagesJson, $price, $id);
             } else {
                 // Update without changing images
-                $query = "UPDATE rooms SET title = ?, room_type_id = ?, price = ? WHERE id = ?";
+                $query = "UPDATE {$this->rooms} SET title = ?, room_type_id = ?, price = ? WHERE id = ?";
                 $stmt = $this->con->prepare($query);
                 $stmt->bind_param("sidi", $title, $room_type_id, $price, $id);
             }
@@ -152,7 +157,7 @@ class roomModel {
             $this->deleteImages($images);
             
             // Delete room from database
-            $query = "DELETE FROM rooms WHERE id = ?";
+            $query = "DELETE FROM {$this->rooms} WHERE id = ?";
             $stmt = $this->con->prepare($query);
             $stmt->bind_param("i", $id);
             
@@ -169,7 +174,7 @@ class roomModel {
      * Get room images by room ID
      */
     private function getRoomImages($id) {
-        $query = "SELECT images FROM rooms WHERE id = ?";
+        $query = "SELECT images FROM {$this->rooms} WHERE id = ?";
         $stmt = $this->con->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
