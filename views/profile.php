@@ -7,11 +7,11 @@ require_once '../models/profileModel.php';
 require_once '../middleware/authMiddleware.php';
 requireLogin();
 
-$profileModel = new profileModel();
+$profileModel = new profileModel($con);
 $user_id = $_SESSION['user_id'];
 
 try {
-    $user = $profileModel->getProfile($con, $user_id);
+    $user = $profileModel->getProfile($user_id);
 } catch (Exception $e) {
     $_SESSION['error'] = $e->getMessage();
     header('Location: ../index.php');

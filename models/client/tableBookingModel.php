@@ -1,19 +1,22 @@
 <?php
 
-    class tableBookingModel{
-
-        private $con;
+    class BaseModel{
+        protected $con;
 
         public function __construct($con){
             $this->con = $con;
         }
+    }
+
+    class tableBookingModel extends BaseModel{
+        protected $table = 'restaurant_tables';
 
         public function getTables(){
             try{
-                $query = "SELECT * FROM restaurant_tables ORDER BY table_id ASC";
-                $stmt = $this->con->prepare($query);
-                $stmt->execute();
-                $result = $stmt->get_result();
+                $query = "SELECT * FROM {$this->table} ORDER BY table_id ASC";
+                $stmt = mysqli_prepare($this->con, $query);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
 
                 $tables = [];
                 while($row = mysqli_fetch_assoc($result)){

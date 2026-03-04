@@ -1,16 +1,16 @@
 <?php
 session_start();
 
-require_once '../includes/connection.php';
+require_once '../components/connection.php';
 require_once '../models/client/roomsModel.php';
 
-$roomsModel = new roomsModel();
+$roomsModel = new roomsModel($con);
 
 // Check filter
 if (isset($_GET['type']) && !empty($_GET['type'])) {
-    $rooms = $roomsModel->getRoomsByType($con, $_GET['type']);
+    $rooms = $roomsModel->getRoomsByType($_GET['type']);
 } else {
-    $rooms = $roomsModel->getAllRooms($con);
+    $rooms = $roomsModel->getAllRooms();
 }
 
-$roomTypes = $roomsModel->getRoomTypes($con);
+$roomTypes = $roomsModel->getRoomTypes();

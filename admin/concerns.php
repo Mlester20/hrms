@@ -1,8 +1,9 @@
 <?php
-session_start();
 
+require_once '../includes/flash.php';
 require_once '../controllers/concernsController.php';
 require_once '../middleware/authMiddleware.php';
+requireAdmin();
 
 ?>
 
@@ -22,6 +23,8 @@ require_once '../middleware/authMiddleware.php';
 </head>
 <body>
     <?php include '../components/header_admin.php'; ?>
+
+    <?php showFlash(); ?>
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -53,7 +56,7 @@ require_once '../middleware/authMiddleware.php';
             </div>
         <?php endif; ?>
 
-        <form id="bulkForm" action="../controllers/fetchConcerns.php" method="POST">
+        <form id="bulkForm" action="../controllers/concernsController.php" method="POST">
             <div class="row g-4">
                 <?php if (!empty($concerns)): ?>
                     <?php foreach ($concerns as $concern): ?>

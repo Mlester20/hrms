@@ -2,11 +2,11 @@
 require_once '../models/usersModel.php';
 require_once '../components/connection.php';
 
-$userModel = new usersModel();
+$userModel = new usersModel($con);
 
     try{
         // Fetch all users
-        $result = $userModel->getAllUsers($con);
+        $result = $userModel->getAllUsers();
         $users = $result['users'];
         $total_pages = $result['total_pages'];
         $page = $result['current_page'];

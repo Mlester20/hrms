@@ -1,13 +1,24 @@
 <?php
 
-    class concernsModel{
-        public function getAllConcerns($con){
+    class BaseModel{
+        protected $con;
+
+        public function __construct($con){
+            $this->con = $con;
+        }
+    }
+
+    class concernsModel extends BaseModel {
+        protected $concerns = 'concerns';
+        protected $user = 'users';
+
+        public function getAllConcerns(){
             try {
                 $query = "SELECT c.id, c.subject, c.message, c.created_at, u.name, u.email, u.address 
-                          FROM concerns c
-                          JOIN users u ON c.user_id = u.user_id
+                          FROM {$this->concerns} c
+                          JOIN {$this->user} u ON c.user_id = u.user_id
                           ORDER BY c.created_at DESC";
-                $stmt = $con->prepare($query);
+                $stmt = $this->con->prepare($query);
                 $stmt->execute();
                 $result = $stmt->get_result();
     

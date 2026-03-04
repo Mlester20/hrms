@@ -5,18 +5,18 @@ require_once '../components/connection.php';
 require_once '../models/tablesModel.php';
 require_once '../includes/flash.php';
 
-        $tables = new tablesModel();
-        $allTables = $tables->getAllTables($con);
+        $tables = new tablesModel($con);
+        $allTables = $tables->getAllTables();
 
         // Add new table
         if (isset($_POST['add_table'])) {
-            $table_number = mysqli_real_escape_string($con, $_POST['table_number']);
-            $capacity = mysqli_real_escape_string($con, $_POST['capacity']);
-            $position_x = mysqli_real_escape_string($con, $_POST['position_x']);
-            $position_y = mysqli_real_escape_string($con, $_POST['position_y']);
-            $location = mysqli_real_escape_string($con, $_POST['location']);
+            $table_number = $_POST['table_number'];
+            $capacity = $_POST['capacity'];
+            $position_x = $_POST['position_x'];
+            $position_y = $_POST['position_y'];
+            $location = $_POST['location'];
 
-            $stmt = $tables->addTable($con, $table_number, $capacity, $position_x, $position_y, $location);
+            $stmt = $tables->addTable($table_number, $capacity, $position_x, $position_y, $location);
             
             if ($stmt) {
                 setFlash("Table added successfully!", "success");
@@ -29,14 +29,14 @@ require_once '../includes/flash.php';
 
         // Update table
         if (isset($_POST['update_table'])) {
-            $table_id = mysqli_real_escape_string($con, $_POST['table_id']);
-            $table_number = mysqli_real_escape_string($con, $_POST['table_number']);
-            $capacity = mysqli_real_escape_string($con, $_POST['capacity']);
-            $position_x = mysqli_real_escape_string($con, $_POST['position_x']);
-            $position_y = mysqli_real_escape_string($con, $_POST['position_y']);
-            $location = mysqli_real_escape_string($con, $_POST['location']);
+            $table_id = $_POST['table_id'];
+            $table_number = $_POST['table_number'];
+            $capacity = $_POST['capacity'];
+            $position_x = $_POST['position_x'];
+            $position_y = $_POST['position_y'];
+            $location = $_POST['location'];
 
-            $stmt = $tables->updateTable($con, $table_id, $table_number, $capacity, $position_x, $position_y, $location);
+            $stmt = $tables->updateTable($table_id, $table_number, $capacity, $position_x, $position_y, $location);
             
             if ($stmt) {
                 setFlash("Table updated successfully!", "success");
@@ -49,9 +49,9 @@ require_once '../includes/flash.php';
 
         // Delete table
         if (isset($_POST['delete_table'])) {
-            $table_id = mysqli_real_escape_string($con, $_POST['table_id']);
+            $table_id = $_POST['table_id'];
             
-            $stmt = $tables->deleteTable($con, $table_id);
+            $stmt = $tables->deleteTable($table_id);
             
             if ($stmt) {
                 setFlash("Table deleted successfully!", "success");

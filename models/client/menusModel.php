@@ -1,10 +1,19 @@
 <?php
 
-    class menusModel{
-        public function getMenus($con){
+    class BaseModel{
+        protected $con;
+
+        public function __construct($con){
+            $this->con = $con;
+        }
+    }
+
+    class menusModel extends BaseModel{
+        protected $menus = 'menus';
+        public function getMenus(){
             try{
-                $query = "SELECT * FROM menus WHERE status = 'available' ORDER BY menu_id DESC";
-                $stmt = $con->prepare($query);
+                $query = "SELECT * FROM {$this->menus} WHERE status = 'available' ORDER BY menu_id DESC";
+                $stmt = $this->con->prepare($query);
                 $stmt->execute();
                 $result = $stmt->get_result();
 

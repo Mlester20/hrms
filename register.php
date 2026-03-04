@@ -1,5 +1,7 @@
 <?php
+
 require_once 'includes/flash.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

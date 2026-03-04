@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../components/config.php'; // Make sure this path is correct
+require_once '../components/config.php';
 
 header('Content-Type: application/json');
 

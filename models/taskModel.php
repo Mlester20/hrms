@@ -1,13 +1,24 @@
 <?php
 
-    class taskModel{
-        public function getAllTasks($con){
+    class BaseModel{
+        protected $con;
+
+        public function __construct($con){
+            $this->con = $con;
+        }
+    }
+
+    class taskModel extends BaseModel {
+        protected $tasks = 'tasks';
+        protected $staffs = 'staffs';
+
+        public function getAllTasks(){
             try {
                 $query = "SELECT t.*, s.name as staff_name 
-                FROM tasks t 
-                LEFT JOIN staffs s ON t.staff_id = s.staff_id 
+                FROM {$this->tasks} t 
+                LEFT JOIN {$this->staffs} s ON t.staff_id = s.staff_id 
                 ORDER BY t.created_at DESC";
-                $stmt = $con->prepare($query);
+                $stmt = $this->con->prepare($query);
                 $stmt->execute();
                 $result = $stmt->get_result();
     
@@ -23,11 +34,11 @@
             }
         }
 
-        public function addTask($con, $staff_id, $title, $deadline, $status ,$description){
+        public function addTask($staff_id, $title, $deadline, $status ,$description){
             try {
-                $query = "INSERT INTO tasks (staff_id, title, deadline, status, description, created_at) 
+                $query = "INSERT INTO {$this->tasks} (staff_id, title, deadline, status, description, created_at) 
                           VALUES (?, ?, ?, ?, ?, NOW())";
-                $stmt = $con->prepare($query);
+                $stmt = $this->con->prepare($query);
                 $stmt->bind_param("issss", $staff_id, $title, $deadline, $status, $description);
                 $stmt->execute();
                 $stmt->close();
@@ -36,12 +47,12 @@
             }
         }
 
-        public function updateTask($con, $task_id, $staff_id, $title, $deadline, $status ,$description){
+        public function updateTask($task_id, $staff_id, $title, $deadline, $status ,$description){
             try {
-                $query = "UPDATE tasks 
+                $query = "UPDATE {$this->tasks} 
                           SET staff_id = ?, title = ?, deadline = ?, status = ?, description = ? 
                           WHERE id = ?";
-                $stmt = $con->prepare($query);
+                $stmt = $this->con->prepare($query);
                 $stmt->bind_param("issssi", $staff_id, $title, $deadline, $status, $description, $task_id);
                 $stmt->execute();
                 $stmt->close();
@@ -50,10 +61,10 @@
             }
         }
 
-        public function deleteTask($con, $task_id){
+        public function deleteTask($task_id){
             try {
-                $query = "DELETE FROM tasks WHERE id = ?";
-                $stmt = $con->prepare($query);
+                $query = "DELETE FROM {$this->tasks} WHERE id = ?";
+                $stmt = $this->con->prepare($query);
                 $stmt->bind_param("i", $task_id);
                 $stmt->execute();
                 $stmt->close();

@@ -1,13 +1,15 @@
 <?php
+session_start();
 
 require_once '../components/connection.php';
 require_once '../models/descriptionModel.php';
+require_once '../includes/flash.php';
 
     /* =========================
         GET DESCRIPTION
     ========================= */
-    $descriptionModel = new descriptionModel();
-    $result = $descriptionModel->getAllDescriptions($con);
+    $descriptionModel = new descriptionModel($con);
+    $result = $descriptionModel->getAllDescriptions();
     
 
     /* =========================
@@ -18,7 +20,8 @@ require_once '../models/descriptionModel.php';
         $description_name = $_POST['description_name'];
 
         try {
-            $descriptionModel->updateDescription($con, $description_id, $description_name);
+            $descriptionModel->updateDescription($description_id, $description_name);
+            setFlash('success', "Description Updated Successfully!");
             header('Location: ../admin/description.php?success=Description updated successfully');
             exit();
         } catch (Exception $e) {

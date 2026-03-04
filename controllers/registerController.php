@@ -1,10 +1,11 @@
 <?php
+
 session_start();
 require_once '../includes/flash.php';
 require_once '../components/connection.php';
 require_once '../models/registerModel.php';
 
-$registerModel = new registerUser();
+$registerModel = new registerUser($con);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve form data
@@ -17,8 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = 'user';
 
     try {   
-        // Call the register method
-        if( $registerModel->register($con, $name, $email, $password, $confirmPassword, $phone, $address, $role)){
+        if( $registerModel->register($name, $email, $password, $confirmPassword, $phone, $address, $role)){
             setFlash('success', 'Registration successful! You can now log in.');
             header('Location: ../index.php');
             exit();

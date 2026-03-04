@@ -1,93 +1,98 @@
 <?php
 
-class SpecialOffersModel {
-    private $con;
-    
-    public function __construct($connection) {
-        $this->con = $connection;
-    }
+    class BaseModel{
+        protected $con;
 
-    public function getAllOffers() {
-        try {
-            $query = "SELECT * FROM special_offers ORDER BY offers_id DESC";
-            $stmt = $this->con->prepare($query);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            
-            $offers = [];
-            while ($row = $result->fetch_assoc()) {
-                $offers[] = $row;
-            }
-            $stmt->close();
-            return $offers;
-        } catch(Exception $e) {
-            throw new Exception("Error fetching offers: " . $e->getMessage());
+        public function __construct($con) {
+            $this->con = $con;
         }
     }
 
-    public function getOfferById($id) {
-        try {
-            $query = "SELECT * FROM special_offers WHERE offers_id = ?";
-            $stmt = $this->con->prepare($query);
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            
-            $offer = $result->fetch_assoc();
-            $stmt->close();
-            return $offer ?? null;
-        } catch(Exception $e) {
-            throw new Exception("Error fetching offer by ID: " . $e->getMessage());
-        }
-    }
+    class SpecialOffersModel extends BaseModel {
 
-    public function insertOffer($title, $description, $image_name, $price) {
-        try {
-            $query = "INSERT INTO special_offers (title, description, image, price) VALUES (?, ?, ?, ?)";
-            $stmt = $this->con->prepare($query);
-            $stmt->bind_param("sssi", $title, $description, $image_name, $price);
-            
-            if ($stmt->execute()) {
+        protected $special_offers = "special_offers";
+
+        public function getAllOffers() {
+            try {
+                $query = "SELECT * FROM " . $this->special_offers . " ORDER BY offers_id DESC";
+                $stmt = $this->con->prepare($query);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                $offers = [];
+                while ($row = $result->fetch_assoc()) {
+                    $offers[] = $row;
+                }
                 $stmt->close();
-                return true;
+                return $offers;
+            } catch(Exception $e) {
+                throw new Exception("Error fetching offers: " . $e->getMessage());
             }
-            throw new Exception("Failed to execute query");
-        } catch(Exception $e) {
-            throw new Exception("Error inserting offer: " . $e->getMessage());
         }
-    }
 
-    public function updateOfferData($id, $title, $description, $image_name, $price) {
-        try {
-            $query = "UPDATE special_offers SET title = ?, description = ?, image = ?, price = ? WHERE offers_id = ?";
-            $stmt = $this->con->prepare($query);
-            $stmt->bind_param("sssii", $title, $description, $image_name, $price, $id);
-            
-            if ($stmt->execute()) {
+        public function getOfferById($id) {
+            try {
+                $query = "SELECT * FROM " . $this->special_offers . " WHERE offers_id = ?";
+                $stmt = $this->con->prepare($query);
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                $offer = $result->fetch_assoc();
                 $stmt->close();
-                return true;
+                return $offer ?? null;
+            } catch(Exception $e) {
+                throw new Exception("Error fetching offer by ID: " . $e->getMessage());
             }
-            throw new Exception("Failed to execute query");
-        } catch(Exception $e) {
-            throw new Exception("Error updating offer: " . $e->getMessage());
         }
-    }
 
-    public function deleteOfferData($id) {
-        try {
-            $query = "DELETE FROM special_offers WHERE offers_id = ?";
-            $stmt = $this->con->prepare($query);
-            $stmt->bind_param("i", $id);
-            
-            if ($stmt->execute()) {
-                $stmt->close();
-                return true;
+        public function insertOffer($title, $description, $image_name, $price) {
+            try {
+                $query = "INSERT INTO " . $this->special_offers . " (title, description, image, price) VALUES (?, ?, ?, ?)";
+                $stmt = $this->con->prepare($query);
+                $stmt->bind_param("sssi", $title, $description, $image_name, $price);
+                
+                if ($stmt->execute()) {
+                    $stmt->close();
+                    return true;
+                }
+                throw new Exception("Failed to execute query");
+            } catch(Exception $e) {
+                throw new Exception("Error inserting offer: " . $e->getMessage());
             }
-            throw new Exception("Failed to execute query");
-        } catch(Exception $e) {
-            throw new Exception("Error deleting offer: " . $e->getMessage());
+        }
+
+        public function updateOfferData($id, $title, $description, $image_name, $price) {
+            try {
+                $query = "UPDATE " . $this->special_offers . " SET title = ?, description = ?, image = ?, price = ? WHERE offers_id = ?";
+                $stmt = $this->con->prepare($query);
+                $stmt->bind_param("sssii", $title, $description, $image_name, $price, $id);
+                
+                if ($stmt->execute()) {
+                    $stmt->close();
+                    return true;
+                }
+                throw new Exception("Failed to execute query");
+            } catch(Exception $e) {
+                throw new Exception("Error updating offer: " . $e->getMessage());
+            }
+        }
+
+        public function deleteOfferData($id) {
+            try {
+                $query = "DELETE FROM " . $this->special_offers . " WHERE offers_id = ?";
+                $stmt = $this->con->prepare($query);
+                $stmt->bind_param("i", $id);
+                
+                if ($stmt->execute()) {
+                    $stmt->close();
+                    return true;
+                }
+                throw new Exception("Failed to execute query");
+            } catch(Exception $e) {
+                throw new Exception("Error deleting offer: " . $e->getMessage());
+            }
         }
     }
-}
 
 ?>

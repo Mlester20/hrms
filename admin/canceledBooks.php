@@ -1,10 +1,11 @@
 <?php
-session_start();
 
+require_once '../includes/flash.php';
 require_once '../components/connection.php';
 require_once '../controllers/canceledBooksController.php';
 require_once '../middleware/authMiddleware.php';
 requireAdmin();
+
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +25,10 @@ requireAdmin();
 <body>
     <?php include '../components/header_admin.php'; ?>
 
+    <?php showFlash(); ?>
+
     <div class="container mt-4">
-        <h3 class="mt-4 mb-4 text-center">Canceled Bookings</h3>
+        <h3 class="mt-4 mb-4 text-center">Cancelled Bookings</h3>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead class="table">
@@ -42,7 +45,7 @@ requireAdmin();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($canceledBookings as $booking) { ?>
+                    <?php foreach ($cancelledBookings as $booking) { ?>
                         <tr>
                             <td>#<?php echo $booking['booking_id']; ?></td>
                             <td><?php echo $booking['guest_name']; ?></td>
@@ -51,13 +54,12 @@ requireAdmin();
                             <td><?php echo date('M d, Y', strtotime($booking['check_out_date'])); ?></td>
                             <td>₱<?php echo number_format($booking['total_price'], 2); ?></td>
                             <td>
-                                <span class="badge <?php echo getPaymentBadgeClass($booking['payment_status']); ?>">
-                                    <?php echo ucfirst($booking['payment_status']); ?>
+                                <span class="badge <?php echo $model->getPaymentBadgeClass($booking['payment_status'] ?? 'unknown'); ?>">
                                 </span>
                             </td>
                             <td><?php echo date('M d, Y', strtotime($booking['created_at'])); ?></td>
                             <td>
-                                <form method="post" action="../controllers/canceledBooks.php" onsubmit="return confirm('Are you sure you want to delete this canceled booking?');">
+                                <form method="post" action="../controllers/canceledBooksController.php" onsubmit="return confirm('Are you sure you want to delete this canceled booking?');">
                                     <input type="hidden" name="delete_booking_id" value="<?php echo $booking['booking_id']; ?>">
                                     <button type="submit" class="btn btn-sm btn-danger">
                                         <i class="fas fa-trash"></i> 

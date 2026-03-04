@@ -6,7 +6,7 @@ require_once '../models/staffsModel.php';
 require_once '../includes/flash.php';
 
 $staffsModel = new staffsModel($con);
-$staffs =$staffsModel->getAllStaffs($con);
+$staffs = $staffsModel->getAllStaffs();
 
 // Handle Add Staff
 if (isset($_POST['addStaff'])) {

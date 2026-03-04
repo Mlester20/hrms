@@ -8,7 +8,7 @@ require_once '../models/client/menusModel.php';
     /* =========================
         GET Menus
     ========================= */
-    $menusModel = new menusModel();
-    $menus = $menusModel->getMenus($con);
+    $menusModel = new menusModel($con);
+    $menus = $menusModel->getMenus();
 
 ?>
