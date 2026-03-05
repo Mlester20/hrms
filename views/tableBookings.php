@@ -69,7 +69,7 @@ $bookings = getTableBookings($con, $user_id);
     </style>
 </head>
 <body>
-    <?php require_once '../components/header.php'; ?>
+    <?php require_once 'layout/header.php'; ?>
 
     <div class="container mt-5">
         <h2 class="mb-4 mt-4 text-center card-title text-muted">My Table Bookings</h2>

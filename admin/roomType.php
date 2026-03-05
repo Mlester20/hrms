@@ -25,7 +25,7 @@ requireAdmin();
 </head>
 <body>
     <!-- Header admin component -->
-    <?php include '../components/header_admin.php'; ?>
+    <?php include 'layout/header_admin.php'; ?>
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">

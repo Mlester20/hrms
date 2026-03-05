@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../components/config.php';
+require_once '../components/connection.php';
 
 // Your OpenRouter API key
 $OPENROUTER_API_KEY = "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";

@@ -25,7 +25,7 @@ requireAdmin();
 <body>
     
     <!-- header -->
-    <?php include '../components/header_admin.php'; ?>
+    <?php include 'layout/header_admin.php'; ?>
 
     <!-- Main Content -->
     <div class="container mt-5">

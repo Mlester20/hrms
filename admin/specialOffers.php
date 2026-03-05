@@ -31,7 +31,7 @@ $offers = $controller->getAllOffers();
 </head>
 <body>
     
-    <?php include '../components/header_admin.php'; ?>
+    <?php include 'layout/header_admin.php'; ?>
 
     <div class="container py-4">
         <div class="d-flex align-items-center mb-4 card p-3">

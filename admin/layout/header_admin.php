@@ -37,7 +37,7 @@
                 <!-- dropdown for reservations -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="entriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-calendar"></i> Bookings
+                        <i class="fas fa-calendar"></i> Reservations
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="entriesDropdown">
                         <li><a class="dropdown-item" href="room_reservations.php"><i class="fas fa-door-open"></i> Room Bookings</a></li>

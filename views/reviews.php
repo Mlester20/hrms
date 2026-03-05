@@ -54,7 +54,7 @@ if (!$result) {
     <link rel="stylesheet" href="../css/modal.css">
 </head>
 <body>
-    <?php include '../components/header.php'; ?>
+    <?php include 'layout/header.php'; ?>
 
     <div class="container mt-5">
         <!-- Button to trigger modal -->

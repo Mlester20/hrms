@@ -22,7 +22,7 @@ requireAdmin();
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <?php include '../components/header_admin.php'; ?>
+    <?php include 'layout/header_admin.php'; ?>
 
     <?php showFlash(); ?>
 

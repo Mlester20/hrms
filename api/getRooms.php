@@ -6,7 +6,7 @@ ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
 // Include database connection
-include '../components/config.php';
+include '../components/connection.php';
 
 // Check for database connection
 if (!isset($con) || $con->connect_error) {

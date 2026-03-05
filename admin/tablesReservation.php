@@ -23,7 +23,7 @@ requireAdmin(); // Ensure the user is an admin
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <?php require_once '../components/header_admin.php'; ?>
+    <?php require_once 'layout/header_admin.php'; ?>
 
     <div class="container mt-5">
         <div class="text-end col-md-4 mb-3">

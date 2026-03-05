@@ -23,7 +23,7 @@ requireAdmin();
 </head>
 <body>
     <!-- Header admin component -->
-    <?php include '../components/header_admin.php'; ?>
+    <?php include 'layout/header_admin.php'; ?>
 
     <?php showFlash(); ?>
 

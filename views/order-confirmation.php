@@ -84,7 +84,7 @@ try {
 </head>
 <body>
 
-    <?php require_once '../components/header.php'; ?>
+    <?php require_once 'layout/header.php'; ?>
 
     <div class="container mt-5 mb-5">
         

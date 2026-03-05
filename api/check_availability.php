@@ -4,7 +4,7 @@ require_once '../models/client/checkAvailabilityModel.php';
 
 header('Content-Type: application/json');
 
-$availabilityModel = new CheckAvailabilityModel();
+$availabilityModel = new CheckAvailabilityModel($con);
 $today    = date('Y-m-d');
 $tomorrow = date('Y-m-d', strtotime('+1 day'));
 
@@ -27,7 +27,6 @@ if ($f_check_out <= $f_check_in) {
 }
 
 $rooms = $availabilityModel->getAvailableRooms(
-    $con,
     $f_check_in,
     $f_check_out,
     !empty($f_room_type) ? $f_room_type : null

@@ -22,7 +22,8 @@ requireLogin();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
-    <?php include '../components/header.php'; ?>
+    
+    <?php include 'layout/header.php'; ?>
 
     <div class="container mt-5">
         <div class="row mb-4">
@@ -234,7 +235,7 @@ requireLogin();
         </div>
     </div>
 
-    <?php include '../components/footer.php'; ?>
+    <?php include 'layout/footer.php'; ?>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

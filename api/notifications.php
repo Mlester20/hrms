@@ -1,9 +1,8 @@
 <?php
 ob_start();
 
-include '../components/config.php';
+include '../components/connection.php';
 
-// Error handling to prevent HTML errors in JSON response
 try {
     // Query with joins to get full booking context, including recent status changes
     $query = "SELECT 

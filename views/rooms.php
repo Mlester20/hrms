@@ -23,7 +23,7 @@ requireLogin();
 </head>
 <body>
     
-    <?php require_once '../components/header.php'; ?>
+    <?php require_once 'layout/header.php'; ?>
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">Our Rooms</h2>
@@ -95,7 +95,7 @@ requireLogin();
     </div>
 
 
-    <?php require '../components/footer.php'; ?>
+    <?php require 'layout/footer.php'; ?>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

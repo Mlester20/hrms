@@ -35,8 +35,8 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <!-- Header admin component -->
-    <?php include '../components/header_admin.php'; ?>
+
+    <?php include 'layout/header_admin.php'; ?>
 
     <div class="container mt-4">
         <!-- Display Flash Messages -->

@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 
 header('Content-Type: application/json');
 

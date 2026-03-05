@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 session_start();
-include '../components/config.php';
+include '../components/connection.php';
 
 // Set default response
 $response = [

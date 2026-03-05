@@ -23,7 +23,7 @@ requireAdmin();
 </head>
 <body>
 
-    <?php require_once '../components/header_admin.php'; ?>
+    <?php require_once 'layout/header_admin.php'; ?>
 
     <div class="container-fluid main-content">
         <!-- Header Section -->

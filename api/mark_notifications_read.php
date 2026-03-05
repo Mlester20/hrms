@@ -1,8 +1,7 @@
 <?php
-include '../components/config.php';
+include '../components/connection.php';
 
 if (isset($_POST['id'])) {
-    // Use prepared statement to prevent SQL injection
     $id = intval($_POST['id']);
     $stmt = $con->prepare("UPDATE bookings SET is_read = 1 WHERE booking_id = ?");
     $stmt->bind_param("i", $id);

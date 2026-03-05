@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: application/json');
-include '../components/config.php';
+include '../components/connection.php';
 
 // Get all menu items
 $query = "SELECT * FROM restaurant_menu ORDER BY menu_id DESC LIMIT 3";

@@ -33,7 +33,7 @@ try {
 </head>
 <body>
     <!-- Header admin component -->
-    <?php include '../components/header.php'; ?>
+    <?php include 'layout/header.php'; ?>
 
     <div class="container mt-4">
         <?php showFlash(); ?>

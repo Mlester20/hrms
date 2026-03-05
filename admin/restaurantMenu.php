@@ -23,7 +23,7 @@ requireAdmin();
 </head>
 <body>
     
-    <?php include '../components/header_admin.php'; ?>
+    <?php include 'layout/header_admin.php'; ?>
 
     <div class="container mt-4">
         <div class="row">

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../components/config.php';
+require_once '../components/connection.php';
 
 header('Content-Type: application/json');
 
@@ -16,10 +16,9 @@ $staff_id = $_SESSION['staff_id'];
 
 // Set error handling for debugging
 ini_set('display_errors', 0); // Don't print errors in the response
-ini_set('log_errors', 1);     // Log errors to your server logs
-error_reporting(E_ALL);       // Report all errors
+ini_set('log_errors', 1);     
+error_reporting(E_ALL); 
 
-// Perform query to fetch tasks
 try {
     $query = "SELECT t.*, s.name as staff_name 
               FROM tasks t

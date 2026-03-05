@@ -27,7 +27,7 @@ $con = $db->getConnection();
 </head>
 <body>
     
-    <?php include '../components/header.php'; ?>
+    <?php include 'layout/header.php'; ?>
 
     <div class="container mt-4">
         <div class="row justify-content-center">
@@ -189,7 +189,7 @@ $con = $db->getConnection();
     </style>
 
     <!-- Footer Section -->
-    <?php include '../components/footer.php'; ?>
+    <?php include 'layout/footer.php'; ?>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -204,277 +204,277 @@ $con = $db->getConnection();
     <script src="../js/fetchClientNotifications.js"></script>
     
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const chatContainer = document.getElementById('chatContainer');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const quickQuestions = document.querySelectorAll('.quick-question');
-        
-        // Store chat history
-        let chatHistory = [{
-            role: 'system',
-            content: 'You are a helpful hotel customer service assistant.'
-        }];
-        
-        // Request queue for rate limiting
-        let requestQueue = [];
-        let isProcessing = false;
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chatContainer');
+            const userInput = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const quickQuestions = document.querySelectorAll('.quick-question');
+            
+            // Store chat history
+            let chatHistory = [{
+                role: 'system',
+                content: 'You are a helpful hotel customer service assistant.'
+            }];
+            
+            // Request queue for rate limiting
+            let requestQueue = [];
+            let isProcessing = false;
 
-        // Function to add a message to the chat
-        function addMessage(message, isUser = false, isFallback = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'system-message'}`;
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            
-            // Add icon
-            const iconDiv = document.createElement('div');
-            iconDiv.className = 'message-icon';
-            iconDiv.innerHTML = `<i class="fas ${isUser ? 'fa-user' : 'fa-robot'}"></i>`;
-            
-            // Add fallback indicator if needed
-            if (isFallback) {
-                iconDiv.style.background = '#ff9800';
-                iconDiv.setAttribute('title', 'Fallback response due to high demand');
-            }
-            
-            contentDiv.appendChild(iconDiv);
-            
-            // Add message text
-            const textDiv = document.createElement('div');
-            textDiv.className = 'message-text';
-            textDiv.innerHTML = message.replace(/\n/g, '<br>');
-            contentDiv.appendChild(textDiv);
-            
-            messageDiv.appendChild(contentDiv);
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            
-            return messageDiv;
-        }
-
-        // Function to show loading indicator
-        function showLoading() {
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'message system-message loading-message';
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            
-            const iconDiv = document.createElement('div');
-            iconDiv.className = 'message-icon';
-            iconDiv.innerHTML = '<i class="fas fa-robot"></i>';
-            contentDiv.appendChild(iconDiv);
-            
-            const textDiv = document.createElement('div');
-            textDiv.className = 'message-text';
-            textDiv.innerHTML = 'Thinking<span class="loading-dots"></span>';
-            contentDiv.appendChild(textDiv);
-            
-            loadingDiv.appendChild(contentDiv);
-            chatContainer.appendChild(loadingDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            return loadingDiv;
-        }
-
-        // Function to show error message with retry option
-        function showErrorWithRetry(originalMessage, error) {
-            const errorDiv = addMessage(
-                `I apologize, but I'm experiencing some technical difficulties. ${error} <br><br>` +
-                `<button class="btn btn-sm btn-outline-primary retry-btn" data-message="${encodeURIComponent(originalMessage)}">` +
-                `<i class="fas fa-redo"></i> Try Again</button>`, 
-                false
-            );
-            
-            // Add retry functionality
-            const retryBtn = errorDiv.querySelector('.retry-btn');
-            if (retryBtn) {
-                retryBtn.addEventListener('click', function() {
-                    const message = decodeURIComponent(this.dataset.message);
-                    errorDiv.remove();
-                    handleChat(message);
-                });
-            }
-        }
-
-        // Function to process request queue
-        async function processQueue() {
-            if (isProcessing || requestQueue.length === 0) return;
-            
-            isProcessing = true;
-            const { userMessage, loadingDiv, resolve, reject } = requestQueue.shift();
-            
-            try {
-                const res = await fetch("../api/chat_bot.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ 
-                        message: userMessage,
-                        history: chatHistory
-                    })
-                });
-
-                const data = await res.json();
+            // Function to add a message to the chat
+            function addMessage(message, isUser = false, isFallback = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user-message' : 'system-message'}`;
                 
-                // Remove loading indicator
-                if (loadingDiv && loadingDiv.parentNode) {
-                    loadingDiv.remove();
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                
+                // Add icon
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'message-icon';
+                iconDiv.innerHTML = `<i class="fas ${isUser ? 'fa-user' : 'fa-robot'}"></i>`;
+                
+                // Add fallback indicator if needed
+                if (isFallback) {
+                    iconDiv.style.background = '#ff9800';
+                    iconDiv.setAttribute('title', 'Fallback response due to high demand');
                 }
                 
-                if (data.success) {
-                    // Add AI response to chat history
-                    chatHistory.push({
-                        role: 'assistant',
-                        content: data.message
+                contentDiv.appendChild(iconDiv);
+                
+                // Add message text
+                const textDiv = document.createElement('div');
+                textDiv.className = 'message-text';
+                textDiv.innerHTML = message.replace(/\n/g, '<br>');
+                contentDiv.appendChild(textDiv);
+                
+                messageDiv.appendChild(contentDiv);
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                return messageDiv;
+            }
+
+            // Function to show loading indicator
+            function showLoading() {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'message system-message loading-message';
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'message-icon';
+                iconDiv.innerHTML = '<i class="fas fa-robot"></i>';
+                contentDiv.appendChild(iconDiv);
+                
+                const textDiv = document.createElement('div');
+                textDiv.className = 'message-text';
+                textDiv.innerHTML = 'Thinking<span class="loading-dots"></span>';
+                contentDiv.appendChild(textDiv);
+                
+                loadingDiv.appendChild(contentDiv);
+                chatContainer.appendChild(loadingDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                return loadingDiv;
+            }
+
+            // Function to show error message with retry option
+            function showErrorWithRetry(originalMessage, error) {
+                const errorDiv = addMessage(
+                    `I apologize, but I'm experiencing some technical difficulties. ${error} <br><br>` +
+                    `<button class="btn btn-sm btn-outline-primary retry-btn" data-message="${encodeURIComponent(originalMessage)}">` +
+                    `<i class="fas fa-redo"></i> Try Again</button>`, 
+                    false
+                );
+                
+                // Add retry functionality
+                const retryBtn = errorDiv.querySelector('.retry-btn');
+                if (retryBtn) {
+                    retryBtn.addEventListener('click', function() {
+                        const message = decodeURIComponent(this.dataset.message);
+                        errorDiv.remove();
+                        handleChat(message);
                     });
+                }
+            }
+
+            // Function to process request queue
+            async function processQueue() {
+                if (isProcessing || requestQueue.length === 0) return;
+                
+                isProcessing = true;
+                const { userMessage, loadingDiv, resolve, reject } = requestQueue.shift();
+                
+                try {
+                    const res = await fetch("../api/chat_bot.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ 
+                            message: userMessage,
+                            history: chatHistory
+                        })
+                    });
+
+                    const data = await res.json();
                     
-                    // Show AI response with fallback indicator if needed
-                    addMessage(data.message, false, data.fallback || false);
-                    
-                    // Show note if it's a fallback response
-                    if (data.fallback && data.note) {
-                        setTimeout(() => {
-                            addMessage(`<small><em>${data.note}</em></small>`, false);
-                        }, 500);
+                    // Remove loading indicator
+                    if (loadingDiv && loadingDiv.parentNode) {
+                        loadingDiv.remove();
                     }
                     
-                    resolve(data);
-                } else {
-                    throw new Error(data.error || 'Failed to get response');
+                    if (data.success) {
+                        // Add AI response to chat history
+                        chatHistory.push({
+                            role: 'assistant',
+                            content: data.message
+                        });
+                        
+                        // Show AI response with fallback indicator if needed
+                        addMessage(data.message, false, data.fallback || false);
+                        
+                        // Show note if it's a fallback response
+                        if (data.fallback && data.note) {
+                            setTimeout(() => {
+                                addMessage(`<small><em>${data.note}</em></small>`, false);
+                            }, 500);
+                        }
+                        
+                        resolve(data);
+                    } else {
+                        throw new Error(data.error || 'Failed to get response');
+                    }
+                    
+                } catch (error) {
+                    if (loadingDiv && loadingDiv.parentNode) {
+                        loadingDiv.remove();
+                    }
+                    
+                    let errorMessage = 'Please try again in a moment.';
+                    
+                    if (error.message.includes('429') || error.message.includes('rate limit')) {
+                        errorMessage = 'I\'m currently experiencing high demand. Please wait a moment before trying again.';
+                    } else if (error.message.includes('network') || error.message.includes('fetch')) {
+                        errorMessage = 'There seems to be a connection issue. Please check your internet connection.';
+                    }
+                    
+                    showErrorWithRetry(userMessage, errorMessage);
+                    reject(error);
+                } finally {
+                    isProcessing = false;
+                    // Process next item in queue after a short delay
+                    setTimeout(processQueue, 1000);
                 }
-                
-            } catch (error) {
-                if (loadingDiv && loadingDiv.parentNode) {
-                    loadingDiv.remove();
-                }
-                
-                let errorMessage = 'Please try again in a moment.';
-                
-                if (error.message.includes('429') || error.message.includes('rate limit')) {
-                    errorMessage = 'I\'m currently experiencing high demand. Please wait a moment before trying again.';
-                } else if (error.message.includes('network') || error.message.includes('fetch')) {
-                    errorMessage = 'There seems to be a connection issue. Please check your internet connection.';
-                }
-                
-                showErrorWithRetry(userMessage, errorMessage);
-                reject(error);
-            } finally {
-                isProcessing = false;
-                // Process next item in queue after a short delay
-                setTimeout(processQueue, 1000);
             }
-        }
 
-        // Function to handle the chat interaction
-        async function handleChat(userMessage) {
-            // Disable send button temporarily
-            sendBtn.disabled = true;
-            sendBtn.innerHTML = '<i class="fas fa-hourglass-half"></i> Sending...';
-            
-            // Show user message
-            addMessage(userMessage, true);
-            
-            // Add to chat history
-            chatHistory.push({
-                role: 'user',
-                content: userMessage
-            });
-            
-            // Show loading
-            const loadingDiv = showLoading();
-
-            // Add to queue
-            return new Promise((resolve, reject) => {
-                requestQueue.push({
-                    userMessage,
-                    loadingDiv,
-                    resolve,
-                    reject
+            // Function to handle the chat interaction
+            async function handleChat(userMessage) {
+                // Disable send button temporarily
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<i class="fas fa-hourglass-half"></i> Sending...';
+                
+                // Show user message
+                addMessage(userMessage, true);
+                
+                // Add to chat history
+                chatHistory.push({
+                    role: 'user',
+                    content: userMessage
                 });
                 
-                processQueue();
-            }).finally(() => {
-                // Re-enable send button
-                sendBtn.disabled = false;
-                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send';
-                
-                // Clear input
-                userInput.value = '';
-            });
-        }
+                // Show loading
+                const loadingDiv = showLoading();
 
-        // Debounce function to prevent spam clicking
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // Debounced chat handler
-        const debouncedHandleChat = debounce(handleChat, 500);
-
-        // Handle send button click
-        sendBtn.addEventListener('click', () => {
-            const message = userInput.value.trim();
-            if (message && !sendBtn.disabled) {
-                debouncedHandleChat(message);
+                // Add to queue
+                return new Promise((resolve, reject) => {
+                    requestQueue.push({
+                        userMessage,
+                        loadingDiv,
+                        resolve,
+                        reject
+                    });
+                    
+                    processQueue();
+                }).finally(() => {
+                    // Re-enable send button
+                    sendBtn.disabled = false;
+                    sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send';
+                    
+                    // Clear input
+                    userInput.value = '';
+                });
             }
-        });
 
-        // Handle quick questions
-        quickQuestions.forEach(button => {
-            button.addEventListener('click', function() {
-                if (sendBtn.disabled) return;
-                
-                const question = this.textContent.trim();
-                debouncedHandleChat(question);
-            });
-        });
+            // Debounce function to prevent spam clicking
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
 
-        // Handle Enter key
-        userInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
+            // Debounced chat handler
+            const debouncedHandleChat = debounce(handleChat, 500);
+
+            // Handle send button click
+            sendBtn.addEventListener('click', () => {
                 const message = userInput.value.trim();
                 if (message && !sendBtn.disabled) {
                     debouncedHandleChat(message);
                 }
-            }
-        });
+            });
 
-        // Add some additional CSS for error handling
-        const style = document.createElement('style');
-        style.textContent = `
-            .retry-btn {
-                margin-top: 0.5rem;
-                font-size: 0.85rem;
-            }
-            
-            .message-icon[title] {
-                position: relative;
-                cursor: help;
-            }
-            
-            .loading-message {
-                opacity: 0.8;
-            }
-            
-            .btn:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-            }
-        `;
-        document.head.appendChild(style);
-    });
+            // Handle quick questions
+            quickQuestions.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (sendBtn.disabled) return;
+                    
+                    const question = this.textContent.trim();
+                    debouncedHandleChat(question);
+                });
+            });
+
+            // Handle Enter key
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    const message = userInput.value.trim();
+                    if (message && !sendBtn.disabled) {
+                        debouncedHandleChat(message);
+                    }
+                }
+            });
+
+            // Add some additional CSS for error handling
+            const style = document.createElement('style');
+            style.textContent = `
+                .retry-btn {
+                    margin-top: 0.5rem;
+                    font-size: 0.85rem;
+                }
+                
+                .message-icon[title] {
+                    position: relative;
+                    cursor: help;
+                }
+                
+                .loading-message {
+                    opacity: 0.8;
+                }
+                
+                .btn:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
+            `;
+            document.head.appendChild(style);
+        });
     </script>
 </body>
 </html>

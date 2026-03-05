@@ -24,7 +24,7 @@ requireAdmin();
 </head>
 <body>
     <!-- Header admin component -->
-    <?php include '../components/header_admin.php'; ?>
+    <?php include 'layout/header_admin.php'; ?>
 
     <div class="container-fluid mt-4" id="mainContent">
         

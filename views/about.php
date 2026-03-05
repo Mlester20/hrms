@@ -22,7 +22,7 @@ requireLogin();
 <body>
     
 
-    <?php include '../components/header.php'; ?>
+    <?php include 'layout/header.php'; ?>
 
 
     <!-- About Us Section -->
@@ -55,7 +55,7 @@ requireLogin();
 
 
     <!-- footer -->
-    <?php include '../components/footer.php'; ?>
+    <?php include 'layout/footer.php'; ?>
 
 
    <!-- Scripts -->

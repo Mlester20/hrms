@@ -3,10 +3,10 @@
 require_once '../components/connection.php'; 
 require_once '../models/client/checkAvailabilityModel.php';
 
-$availabilityModel = new CheckAvailabilityModel();
+$availabilityModel = new CheckAvailabilityModel($con);
 
 $availableRooms  = [];
-$roomTypes       = $availabilityModel->getRoomTypes($con);
+$roomTypes       = $availabilityModel->getRoomTypes();
 $searchPerformed = false;
 $availError      = '';
 
@@ -38,7 +38,6 @@ if (isset($_GET['check_availability'])) {
     } else {
         $searchPerformed = true;
         $availableRooms  = $availabilityModel->getAvailableRooms(
-            $con,
             $f_check_in,
             $f_check_out,
             !empty($f_room_type) ? $f_room_type : null

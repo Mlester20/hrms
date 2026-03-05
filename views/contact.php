@@ -67,7 +67,8 @@ requireLogin();
     </style>
 </head>
 <body>
-    <?php include '../components/header.php'; ?>
+
+    <?php include 'layout/header.php'; ?>
 
     <!-- Contact Us Section -->
     <section class="contact-us py-5">
@@ -98,7 +99,7 @@ requireLogin();
         </div>
     </section>
 
-    <?php include '../components/footer.php'; ?>
+    <?php include 'layout/footer.php'; ?>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

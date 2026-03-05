@@ -86,7 +86,7 @@ requireLogin();
 </head>
 <body>
 
-    <?php require_once '../components/header.php'; ?>
+    <?php require_once 'layout/header.php'; ?>
 
     <div class="container my-5">
         <!-- Page Header -->
@@ -200,10 +200,6 @@ requireLogin();
         
     </div>
 
-
-    <!-- ═══════════════════════════════════════════════════════
-         ORDER DETAILS MODAL
-    ════════════════════════════════════════════════════════ -->
     <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
@@ -307,7 +303,7 @@ requireLogin();
             </div>
         </div>
     </div>
-    <!-- ═══════════════════════════════════════════════════════ -->
+    
 
 
     <!-- External JS -->

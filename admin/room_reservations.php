@@ -63,7 +63,7 @@ function getStatusColor($status) {
     </style>
 </head>
 <body>
-    <?php include '../components/header_admin.php'; ?>
+    <?php include 'layout/header_admin.php'; ?>
 
     <div class="container-fluid py-4">
         <div class="text-end col-md-4 mb-3">
